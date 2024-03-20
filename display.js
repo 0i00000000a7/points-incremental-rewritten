@@ -7,7 +7,6 @@ function changeHTML(id, str) {
 }
 
 function updateDisplay() {
-  changeHTML('pts', getPointDisplay())
   formatDims()
   updateTitle()
   format_page(1)
@@ -15,6 +14,7 @@ function updateDisplay() {
   format_page(3)
   format_subpage('option_subtabs', 2, 3)
   formatEndgame()
+  formatAuthorProgress()
 }
 
 function getPointDisplay() {
@@ -26,9 +26,9 @@ function formatDim(dim) {
   amount = 'd' + dim + '-amount'
   mult = 'd' + dim + '-mult'
   button = 'd' + dim + '-button'
-  changeTextContent(amount, formatWhole(player.dims[dim].real))
-  changeTextContent(mult, '×' + format(player.dims[dim].mult))
-  changeTextContent(button, '价格：' + formatWhole(player.dims[dim].cost))
+  changeTextContent(amount, formatWhole(player.dims[dim][5]))
+  changeTextContent(mult, '×' + format(player.dims[dim][2]))
+  changeTextContent(button, '价格：' + formatWhole(player.dims[dim][1]))
 }
 
 function formatDims() {
@@ -100,5 +100,16 @@ function formatEndgame() {
   const endgameText = "当前Endgame：" + colorText('h3', x, '1.000e80') + " 点数"
   changeHTML('endgame', endgameText)
 }
+function formatAuthorProgress() {
+  const x = getUndulatingColor()
+  const endgameText = "作者进度：" + colorText('h3', x, '1.000e125') + " 点数"
+  changeHTML('author-progress', endgameText)
+}
+
+function updatePoints() {
+  changeHTML('pts', getPointDisplay())
+  changeHTML('pts-getting', '你正在每秒获取 '+formatWhole(player.ptgain)+' 点数')
+}
 
 setInterval(updateDisplay, 30)
+setInterval(updatePoints, 30)

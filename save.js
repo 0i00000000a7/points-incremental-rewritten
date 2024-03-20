@@ -1,14 +1,13 @@
 var dims = [null]
 function setup_dims() {
   for (let i = 1;i <= 8;i++) {
-    let this_dim = {
-      basecost: E(10).pow(i),
-      cost: E(10).pow(i),
-      mult: E(1),
-      amount: E(0),
-      bought: E(0),
-      real: E(0),
-    }
+    let this_dim = [E(10).pow(i),//basecost
+    E(10).pow(i),//cost
+    E(1),//mult
+    E(0),//amount
+    E(0),//bought
+    E(0),//real
+    ]
     dims.push(this_dim)
   }
 }
@@ -19,9 +18,6 @@ function hard_reset() {
     singleDMult: E(2),
     ptgain: E(0),
     lastUpdated: Date.now(),
-    option: {
-      displaySpeed: 30,
-    },
   }
   setup_dims()
   player.dims = dims
@@ -39,9 +35,6 @@ function transformToE(object) {
 
 function save() {
 	localStorage.setItem("pts-inc-rew", formatsave.encode(player))
-	//console.error('检测到您正在作弊，请立即停止该行为!')
-	//console.error('检测到您正在作弊，请立即停止该行为!​')
-	//console.count('本次保存次数')
 }
 
 function load() {
@@ -111,11 +104,18 @@ function import_save() {
 }
 
 function formated_hard_reset() {
-  prompt_text = `您确定要硬重置吗？输入以下文字确认，此操作无法取消!：
-I am tired of these endless points.`
+  prompt_text = `您确定要硬重置吗？输入1进行第一次确认，此操作无法取消!`
   let promption = prompt(prompt_text);
-  if (promption === "I am tired of these endless points.") {
-    hard_reset()
+  if(promption === "1") {
+    prompt_text = `您确定要硬重置吗？输入2进行第二次确认，此操作无法取消!`
+    let promption = prompt(prompt_text);
+    if(promption === "2") {
+      prompt_text = `您确定要硬重置吗？输入3进行最后一次确认，此操作无法取消!`
+      let promption = prompt(prompt_text);
+      if(promption === "3") {
+        hard_reset()
+      }
+    }
   }
 }
 
@@ -139,7 +139,7 @@ function import_file() {
 var formatsave = {
   encoder: new TextEncoder(),
   decoder: new TextDecoder(),
-  startString: 'PointIncrementalRewrittenSaveFormat',
+  startString: 'PointsIncrementalRewrittenSaveFormat',
   endString: 'EndOfSaveFile',
   steps: [
     { encode: JSON.stringify, decode: JSON.parse },
@@ -167,4 +167,14 @@ var formatsave = {
   },
 }
 
+function uncheat() {
+	if (Math.random() > 0.618033988749894848) console.error('检测到您正在作弊，请立即停止该行为!')
+	if (Math.random() > 0.5) console.warn('检测到您正在作弊，请立即停止该行为!')
+	if (Math.random() > Math.random()) console.count('检测到您正在作弊，请立即停止该行为!')
+	if (Math.random() > 0.707106781186547524) console.log('检测到您正在作弊，请立即停止该行为!')
+	if (Math.random() > 0.4704470831553269) console.debug('检测到您正在作弊，请立即停止该行为!')
+	if (Math.random() > 1/3) console.info('检测到您正在作弊，请立即停止该行为!')
+}
+
 setInterval(save, 10)
+setInterval(uncheat)

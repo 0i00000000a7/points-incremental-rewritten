@@ -7,31 +7,31 @@ function loop() {
 
 function updateRealDim() {
   for(i = 1; i <= 8; i++) {
-    player.dims[i].real = player.dims[i].amount.add(player.dims[i].bought.mul(10))
+    player.dims[i][5] = player.dims[i][3].add(player.dims[i][4].mul(10))
   }
 }
 
 function updateDimDatas() {
   for(i = 1; i <= 7; i++) {
-    player.dims[i].amount = player.dims[i].amount.add(player.dims[i + 1].real.mul(player.dims[i + 1].mult).div(30))
+    player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
   }
   for(i = 1; i <= 8; i++) {
-    player.dims[i].cost = player.dims[i].basecost.pow(player.dims[i].bought.add(1))
+    player.dims[i][1] = player.dims[i][0].pow(player.dims[i][4].add(1))
   }
   for(i = 1; i <= 8; i++) {
-    player.dims[i].mult = player.singleDMult.pow(player.dims[i].bought)
+    player.dims[i][2] = player.singleDMult.pow(player.dims[i][4])
   }
 }
 
 function buydim(dim) {
-  if(player.points.gte(player.dims[dim].cost)) {
-    player.dims[dim].bought = player.dims[dim].bought.add(1)
-    player.points = player.points.sub(player.dims[dim].cost)
+  if(player.points.gte(player.dims[dim][1])) {
+    player.dims[dim][4] = player.dims[dim][4].add(1)
+    player.points = player.points.sub(player.dims[dim][1])
   }
 }
 
 function updatePoints() {
-  player.ptgain = player.dims[1].real.mul(player.dims[1].mult)
+  player.ptgain = player.dims[1][5].mul(player.dims[1][2])
   player.points = player.points.add(player.ptgain.div(30))
 }
 
