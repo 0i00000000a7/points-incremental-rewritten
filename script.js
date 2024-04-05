@@ -3,6 +3,8 @@ function loop() {
   updateRealDim()
   updateDimDatas()
   updatePoints()
+  checkUnlocks()
+  replicateSqrtPoints()
 }
 
 function updateRealDim() {
@@ -19,7 +21,7 @@ function updateDimDatas() {
     player.dims[i][1] = player.dims[i][0].pow(player.dims[i][4].add(1))
   }
   for(i = 1; i <= 8; i++) {
-    player.dims[i][2] = player.singleDMult.pow(player.dims[i][4])
+    player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
   }
 }
 
@@ -43,4 +45,14 @@ function updateLastUpdateTime() {
   player.lastUpdated = Date.now()
 }
 
-setInterval(loop, 1000 / 30)
+function checkUnlocks() {
+  if (player.points.gte(1e80)) player.sqrt.unl = true
+}
+
+function replicateSqrtPoints() {
+  if (player.sqrt.unl) player.sqrt.points = player.sqrt.points.mul(E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1/30))
+}
+
+function galaxy() {
+  alert('5小时后更新......')
+}

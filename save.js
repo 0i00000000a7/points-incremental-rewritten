@@ -18,6 +18,11 @@ function hard_reset() {
     singleDMult: E(2),
     ptgain: E(0),
     lastUpdated: Date.now(),
+    sqrt: {
+      unl: false,
+      points: E(1),
+      galaxies: E(0),
+    }
   }
   setup_dims()
   player.dims = dims
@@ -167,8 +172,40 @@ var formatsave = {
   },
 }
 
+// 检查类型
+let checkType = data => {
+// typeof无法分辨出Object和Array，常使用Object.prototype.toString方法来判断
+// toString.call(data),将data作为参数传进去判断，会返回一个数组[Object Array]，数组里面包含data的类型
+// 使用slice方法切割掉[Object ,所以是从8开始；-1将]切割掉
+    return Object.prototype.toString.call(data).slice(8, -1)
+}
+checkType({})
+
+let deepClone = target => {
+    let targetType = checkType(target)
+    let result
+    if (targetType === 'Object') {
+        result = {}
+    } else if (targetType === 'Array') {
+        result = []
+    } else {
+        return target
+    }
+    for (let i in target) {
+        let value = target[i]
+        let valueType = checkType(value)
+        if (valueType === 'Object' || valueType === 'Array') {
+            result[i] = deepClone(value) // 递归
+        } else {
+            result[i] = value
+        }
+    }
+    return result
+}
+
+
 function uncheat() {
-	if (Math.random() > 0.618033988749894848) console.error('检测到您正在作弊，请立即停止该行为!')
+	if (Math.random() > 0.618033988749894848) throw new Error('检测到您正在作弊，请立即停止该行为!')
 	if (Math.random() > 0.5) console.warn('检测到您正在作弊，请立即停止该行为!')
 	if (Math.random() > Math.random()) console.count('检测到您正在作弊，请立即停止该行为!')
 	if (Math.random() > 0.707106781186547524) console.log('检测到您正在作弊，请立即停止该行为!')
@@ -176,5 +213,8 @@ function uncheat() {
 	if (Math.random() > 1/3) console.info('检测到您正在作弊，请立即停止该行为!')
 }
 
+
 setInterval(save, 10)
-setInterval(uncheat)
+setInterval(uncheat,30)
+setInterval(loop, 1000 / 30)
+setInterval(updateDisplay, 30)

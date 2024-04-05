@@ -12,9 +12,15 @@ function updateDisplay() {
   format_page(1)
   format_page(2)
   format_page(3)
+  format_page(4)
   format_subpage('option_subtabs', 2, 3)
+  format_subpage('main_subtabs', 1, 4)
   formatEndgame()
   formatAuthorProgress()
+  update_sqrt()
+  
+  changeHTML('pts', getPointDisplay())
+  changeHTML('pts-getting', '你正在每秒获取 '+formatWhole(player.ptgain)+' 点数')
 }
 
 function getPointDisplay() {
@@ -29,6 +35,8 @@ function formatDim(dim) {
   changeTextContent(amount, formatWhole(player.dims[dim][5]))
   changeTextContent(mult, '×' + format(player.dims[dim][2]))
   changeTextContent(button, '价格：' + formatWhole(player.dims[dim][1]))
+  if (player.points.gte(player.dims[dim][1])) document.getElementById(button).disabled = false
+  else document.getElementById(button).disabled = true
 }
 
 function formatDims() {
@@ -97,19 +105,19 @@ function colorText(elem, color, text) {
 
 function formatEndgame() {
   const x = getUndulatingColor()
-  const endgameText = "当前Endgame：" + colorText('h3', x, '1.000e80') + " 点数"
+  const endgameText = "当前Endgame：" + colorText('h3', x, '1.000e225') + " 点数"
   changeHTML('endgame', endgameText)
 }
 function formatAuthorProgress() {
   const x = getUndulatingColor()
-  const endgameText = "作者进度：" + colorText('h3', x, '1.000e125') + " 点数"
+  const endgameText = "作者进度：" + colorText('h3', x, '1.798e308') + " 点数，你能超过作者吗?"
   changeHTML('author-progress', endgameText)
 }
 
-function updatePoints() {
-  changeHTML('pts', getPointDisplay())
-  changeHTML('pts-getting', '你正在每秒获取 '+formatWhole(player.ptgain)+' 点数')
+function update_sqrt() {
+  changeHTML('sqrt_pts', format(player.sqrt.points))
+  changeHTML('sqrt_eff', format(tmp.sqrt.dim_eff))
+  document.getElementById('do_gal').disabled = player.sqrt.points.lt(tmp.sqrt.galCost)
+  if (!player.sqrt.unl) document.getElementById('sqrt_require-tooltip').style.display = 'block'
+  else document.getElementById('sqrt_require-tooltip').style.display = 'none'
 }
-
-setInterval(updateDisplay, 30)
-setInterval(updatePoints, 30)

@@ -308,4 +308,7 @@ a {
 
 h3 {
   display: inline-block;
+  white-space: nowrap;
+  line-height: 0;
 }
+
