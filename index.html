@@ -108,6 +108,11 @@
         <a href="https://dlsdl.github.io/wind_spirit_creation" target="_blank">风灵作成</a>
         <h1>-----更新日志-----</h1>
         <div>
+          <h3>v0.1.1 请枚举100位变量名</h3><br>
+            - 修复在F12中输入player可以看见游戏数据并修改的bug<br>
+            - 移除控制台反作弊提示，降低性能损耗<br>
+        </div>
+        <div>
           <h3>v0.1.0 开平方</h3><br>
             - 添加√点数<br>
             - 画大饼(星系)<br>
@@ -120,8 +125,8 @@
     <div id="page4" align="center">
       你有<span id="sqrt_pts"></span>√点数，所有维度因此×<span id="sqrt_eff"></span>
       <div id="sqrt_require-tooltip">达到1.000e80点数后，你的√点数将开始自我复制!</div>
-      <div><br>√星系(<span id="galaxies">???</span>)</div>
-      <button class="btn" id="do_gal" onclick="galaxy()">重置你的√点数，但获得一个星系<br>要求: <span id="gal-cost">1.000e100 √点数</span></button>
+      <div><br>√星系(<span id="galaxies">0</span>)</div>
+      <button class="btn" id="do_gal" onclick="galaxy()">重置你的√点数，但获得一个星系<span id="gal-eff"></span><br>要求: <span id="gal-cost">1.000e100 √点数</span></button>
     </div>
 </body>
 </html>
