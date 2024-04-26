@@ -1,1 +1,0 @@
-function checkBitValue(e,t){if(!Number.isInteger(e)||e<=0)throw new Error("bitIndex must be a positive integer");return 0!=(t>>>0&1<<e-1)}function toggleBitAtPosition(e,t){if(!Number.isInteger(t)||t<=0)throw new Error("position must be a positive integer");return e^1<<t-1}
