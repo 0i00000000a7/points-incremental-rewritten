@@ -7,13 +7,22 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="icon.png">
     
-    <script src="ExpantaNum.js"></script>
-    <script src="format-expantanum.js"></script>
-    <script src="pako.js"></script>
-    <script src="main.js"></script>
+    <script src="HackTimer.js"></script>
+    <script src="jquery-3.7.1.js"></script>
+    <script src="ExpantaNum.js" defer></script>
+    <script src="format-expantanum.js" defer></script>
+    <script src="pako.js" defer></script>
+    <script src="display.js" defer></script>
+    <script src="temp.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="save.js" defer></script>
 </head>
-<body onload="load()">
-    <div align="center">
+<body>
+  <div id="loader-overlay">  
+    <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span></div>
+</div>
+    <div align="center" id="game" style="display: none">
+      <div id="notify" class="hide"></div>
       <div align="center" id="pts"></div>
       <div align="center" id="pts-getting"></div>
     <div align="center">
@@ -36,48 +45,56 @@
             <span id="d1-amount"></span>
             <span id="d1-mult"></span>
             <button id="d1-button" class="btn" onclick="buydim(1)"></button>
+            <button id="d1-max-button" class="btn" onclick="buyMaxDim(1)">最大</button>
           </div>
           <div>
             <span>第二维度</span>
             <span id="d2-amount"></span>
             <span id="d2-mult"></span>
             <button id="d2-button" class="btn" onclick="buydim(2)"></button>
+            <button id="d2-max-button" class="btn" onclick="buyMaxDim(2)">最大</button>
           </div>
           <div>
             <span>第三维度</span>
             <span id="d3-amount"></span>
             <span id="d3-mult"></span>
             <button id="d3-button" class="btn" onclick="buydim(3)"></button>
+            <button id="d3-max-button" class="btn" onclick="buyMaxDim(3)">最大</button>
           </div>
           <div>
             <span>第四维度</span>
             <span id="d4-amount"></span>
             <span id="d4-mult"></span>
             <button id="d4-button" class="btn" onclick="buydim(4)"></button>
+            <button id="d4-max-button" class="btn" onclick="buyMaxDim(4)">最大</button>
           </div>
           <div>
             <span>第五维度</span>
             <span id="d5-amount"></span>
             <span id="d5-mult"></span>
             <button id="d5-button" class="btn" onclick="buydim(5)"></button>
+            <button id="d5-max-button" class="btn" onclick="buyMaxDim(5)">最大</button>
           </div>
           <div>
             <span>第六维度</span>
             <span id="d6-amount"></span>
             <span id="d6-mult"></span>
             <button id="d6-button" class="btn" onclick="buydim(6)"></button>
+            <button id="d6-max-button" class="btn" onclick="buyMaxDim(6)">最大</button>
           </div>
           <div>
             <span>第七维度</span>
             <span id="d7-amount"></span>
             <span id="d7-mult"></span>
             <button id="d7-button" class="btn" onclick="buydim(7)"></button>
+            <button id="d7-max-button" class="btn" onclick="buyMaxDim(7)">最大</button>
           </div>
           <div>
             <span>第八维度</span>
             <span id="d8-amount"></span>
             <span id="d8-mult"></span>
             <button id="d8-button" class="btn" onclick="buydim(8)"></button>
+            <button id="d8-max-button" class="btn" onclick="buyMaxDim(8)">最大</button>
           </div>
         </div>
       </div>
@@ -105,6 +122,15 @@
         <a href="https://dlsdl.github.io/wind_spirit_creation" target="_blank">风灵作成</a>
         <h1>-----更新日志-----</h1>
         <div>
+          <h3>v0.1.2 游戏体验似乎好点了?</h3><br>
+            - 添加最大购买按钮<br>
+            - 添加√点数软上限(只不过在软上限开始的地方还有一个硬上限)<br>
+            - 修改星系重置按钮<br>
+            - 添加游戏加载提示<br>
+            - 修复了chromium浏览器在切换页面5分钟后会导致游戏主循环计算变得及其缓慢的bug<br>
+            - 修复了计时器掌控者等恶意脚本可以干扰游戏运行的bug<br>
+        </div>
+        <div>
           <h3>v0.1.1 请枚举100位变量名</h3><br>
             - 修复在F12中输入player可以看见游戏数据并修改的bug<br>
             - 移除控制台反作弊提示，降低性能损耗<br>
@@ -120,10 +146,12 @@
         </div>
       </div>
     <div id="page4" align="center">
-      你有<span id="sqrt_pts"></span>√点数，所有维度因此×<span id="sqrt_eff"></span>
+      你有<span id="sqrt_pts"></span>√点数，所有维度乘数因此×<span id="sqrt_eff"></span>
       <div id="sqrt_require-tooltip">达到1.000e80点数后，你的√点数将开始自我复制!</div>
       <div><br>√星系(<span id="galaxies">0</span>)</div>
-      <button class="btn" id="do_gal" onclick="galaxy()">重置你的√点数，但获得一个星系<span id="gal-eff"></span><br>要求: <span id="gal-cost">1.000e100 √点数</span></button>
+      <button class="galaxyReset" id="do_gal" onclick="galaxy()">获得一个星系<br>但重置你的点数和√点数<br><span id="gal-eff">在1星系，<span id="coming_soon"></span></span><br>要求: <span id="gal-cost"><span id="galCost">1.000e100</span> √点数</span></button><br>
+      <div style="color: red" id="replicant_hardcap">在1.000e100√点数后，√点数将受到硬上限限制!</div>
+    </div>
     </div>
 </body>
 </html>
