@@ -27,6 +27,7 @@ function updateDisplay() {
   formatEndgame()
   update_sqrt()
   format_cap()
+  update_square()
   
   
   changeHTML('pts', getPointDisplay())
@@ -194,4 +195,9 @@ function getGalRewardText() {
   if (x.gte(galaxy_rewards[1].req)) return `在${formatWhole(galaxy_rewards[2].req)}星系，`+galaxy_rewards[2].desc
   if (x.gte(galaxy_rewards[0].req)) return `在${formatWhole(galaxy_rewards[1].req)}星系，`+galaxy_rewards[1].desc
   return `在${formatWhole(galaxy_rewards[0].req)}星系，`+galaxy_rewards[0].desc
+}
+
+function update_square() {
+  if (window[map+1].player.square.unl || window[map+1].player.sqrt.galaxies.gte(3)) document.getElementById('resets').style.display = ''
+  else document.getElementById('resets').style.display = 'none'
 }
