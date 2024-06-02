@@ -12,8 +12,8 @@ function galaxy() {
   window[map+1].player.sqrt.galaxies = window[map+1].player.sqrt.galaxies.add(1)
 }
 function galaxy_reset() {
-  window[map+1].player.dims = dims
   window[map+1].player.points = E(10)
+  window[map+1].player.dims = dims
   window[map+1].player.sqrt.points = E(1)
 }
 
