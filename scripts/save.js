@@ -17,14 +17,12 @@ function wordShift(len) {
   }
   return result;
 }
-
-class cheatError extends Error {  
-  constructor(message) {  
-    super(message);  
-    this.name = 'CheatError';  
-  }  
+class cheatError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'CheatError';
+  }
 }
-
 var dims = [null]
 
 function setup_dims() {
@@ -94,17 +92,17 @@ function load() {
     window[map + 1].player = Object.assign(window[map + 1].player, loadplayer)
     fixOldSave()
   }
-  setInterval(save, 10)
+  saveVal = setInterval(save, 10)
   //removed: setInterval(uncheat,30)
-  setInterval(loop, 1000 / 30)
-  setInterval(updateDisplay, 30)
+  loopVal = setInterval(loop, 1000 / 30)
+  displayVal = setInterval(updateDisplay, 30)
   document.getElementById('loader-overlay').style.display = 'none'
   document.getElementById('game').style.display = 'block'
   throw new cheatError('Cheater\'s mother is not defined')
 }
 
 function export_copy() {
-  return navigator.clipboard.writeText(formatsave.encode(window[map + 1].player))
+  return copyToClipboard(formatsave.encode(window[map + 1].player))
 }
 
 function export_file() {
@@ -119,7 +117,18 @@ function export_file() {
   a.click()
 }
 
-function getCurrentBeijingTime(){const t=new Date,e=t.getUTCFullYear(),r=String(t.getUTCMonth()+1).padStart(2,"0"),a=String(t.getUTCDate()).padStart(2,"0"),n=t.getUTCHours(),g=t.getUTCMinutes(),i=t.getUTCSeconds(),S=t.getUTCMilliseconds();let o=(n+8)%24;return o<0&&(t.setUTCDate(t.getUTCDate()+1),o+=24),`${e}-${r}-${a} ${o.toString().padStart(2,"0")}:${g.toString().padStart(2,"0")}:${i.toString().padStart(2,"0")}.${S.toString().padStart(3,"0")}`}
+function getCurrentBeijingTime() {
+  const t = new Date,
+    e = t.getUTCFullYear(),
+    r = String(t.getUTCMonth() + 1).padStart(2, "0"),
+    a = String(t.getUTCDate()).padStart(2, "0"),
+    n = t.getUTCHours(),
+    g = t.getUTCMinutes(),
+    i = t.getUTCSeconds(),
+    S = t.getUTCMilliseconds();
+  let o = (n + 8) % 24;
+  return o < 0 && (t.setUTCDate(t.getUTCDate() + 1), o += 24), `${e}-${r}-${a} ${o.toString().padStart(2,"0")}:${g.toString().padStart(2,"0")}:${i.toString().padStart(2,"0")}.${S.toString().padStart(3,"0")}`
+}
 
 function import_save() {
   save = prompt('请输入您的存档');
@@ -203,7 +212,32 @@ var formatsave = {
 function fixOldSave() {
   //nothing here......
 }
-
-$ ( document ).ready(function() {
+$(document).ready(function() {
   load()
 })
+// 复制文本内容方法
+function copyToClipboard(textToCopy) {
+  if(document.execCommand('copy')) {
+    // 创建textarea
+    var textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    // 使textarea不在viewport，同时设置不可见
+    textArea.style.position = "fixed";
+    textArea.style.opacity = 0;
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((res, rej) => {
+      // 执行复制命令并移除文本框
+      document.execCommand('copy') ? res() : rej();
+      textArea.remove();
+    });
+  } else if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    // navigator clipboard 向剪贴板写文本
+    return navigator.clipboard.writeText(textToCopy);
+  }
+  addNotify("复制失败")
+}
+

@@ -334,7 +334,7 @@ h3 {
 .galaxyReset {
   border-radius: 20px;
   display: block;
-  width: 50%;
+  width: 300px;
   margin: auto;
   margin-top: 30px;
   height: 300px;
@@ -345,8 +345,8 @@ h3 {
   background-size: cover;
   cursor: pointer;
   transition-duration: 0.2s;
-  border: solid #0000FF 5px;
-  text-shadow: 6px 6px 6px #0000FF;
+  border: solid #00007f 2px;
+  text-shadow: 6px 6px 6px #00007F;
 }
 
 .galaxyReset:hover {

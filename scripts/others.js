@@ -1,5 +1,3 @@
-function checkBitValue(e,t){if(!Number.isInteger(e)||e<=0)throw new Error("bitIndex must be a positive integer");return 0!=(t>>>0&1<<e-1)}function toggleBitAtPosition(e,t){if(!Number.isInteger(t)||t<=0)throw new Error("position must be a positive integer");return e^1<<t-1}
-function hasUpgrade(r,e){for(let i=0;i<e.length;i++){let a=e[i];if(Array.isArray(a)){if(r>=a[0]&&r<=a[1])return!0}else if(r===a)return!0}return!1}function addUpgrade(r,e){let i=!1;for(let a=0;a<e.length;a++){let f=e[a];if(Array.isArray(f)){if(r===f[0]-1){e[a]=[r,f[1]],i=!0;break}if(r===f[1]+1){e[a]=[f[0],r],i=!0;break}if(r>f[0]&&r<f[1])return e}else{if(r===f+1){e[a]=[f,r],i=!0;break}if(r===f-1){e.splice(a,0,[r,f]),i=!0;break}}}if(!i){let i=e.findIndex(e=>Array.isArray(e)?r>e[1]:r>e);if(-1===i)e.push(r);else{let a=e[i-1];if(Array.isArray(a)&&r===a[1]+1)a[1]=r;else{let f=e[i];Array.isArray(f)&&r===f[0]-1?e.splice(i,0,[a[1]+1,r]):e.splice(i,0,r)}}}return e}
 class timeSpan {
   constructor(miliseconds) {
     this._ms = E(miliseconds)
