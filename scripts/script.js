@@ -30,6 +30,7 @@ function updateDimDatas() {
 }
 
 function buydim(dim) {
+  if (window[map+1].player.sqrt.galaxies.gte(1)) return
   if(window[map+1].player.points.gte(window[map+1].player.dims[dim][1]) && tmp.canBuyDim(dim)) {
     window[map+1].player.dims[dim][4] = window[map+1].player.dims[dim][4].add(1)
     if (window[map+1].player.sqrt.galaxies.lt(1)) window[map+1].player.points = window[map+1].player.points.sub(window[map+1].player.dims[dim][1])

@@ -31,7 +31,7 @@ function updateDisplay() {
   
   
   changeHTML('pts', getPointDisplay())
-  changeTextContent('coming_soon', wordShift(8))
+  changeHTML('hotkeys', getHotkeyText())
   changeHTML('pts-getting', '你正在每秒获取 '+formatWhole(window[map+1].player.ptgain)+' 点数')
 }
 
@@ -207,4 +207,14 @@ function getGalRewardText() {
 function update_square() {
   if (window[map+1].player.square.unl || window[map+1].player.sqrt.galaxies.gte(3)) document.getElementById('resets').style.display = ''
   else document.getElementById('resets').style.display = 'none'
+}
+
+function getHotkeyText() {
+  let hotkey = "快捷键："
+  hotkey += "按1~8可最大对应的维度"
+  hotkey += "按shift+1~8可购买一次对应的维度"
+  hotkey += "按m可全部购买最大"
+  hotkey += "按g可进行星系重置"
+  if (window[map+1].player.sqrt.galaxies.gte(3) || window[map+1].player.square.unl) hotkey += "按s可进行平方重置"
+  return hotkey
 }

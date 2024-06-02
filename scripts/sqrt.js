@@ -4,10 +4,10 @@ function replicateSqrtPoints() {
 }
 
 function galaxy() {
+  if (window[map+1].player.sqrt.points.lt(tmp.sqrt.galCost)) return
   if (window[map+1].player.sqrt.galaxies.lt(1)) {
     if (!confirm('你真的要重置吗?')) return
   }
-  if (window[map+1].player.sqrt.points.lt(tmp.sqrt.galCost)) return
   galaxy_reset()
   window[map+1].player.sqrt.galaxies = window[map+1].player.sqrt.galaxies.add(1)
 }
