@@ -17,10 +17,11 @@ const tmp = {
     get replicatePerTick() {
       let mult = E(1).add(E(0.25).mul(window[map+1].player.points.add(1).log10().div(80).max(1))).pow(1/30)
       let debuff = window[map+1].player.sqrt.points.div(1e100).log10().mul(0.01).add(1).max(1)
+      debuff = debuff.add(window[map+1].player.sqrt.points.div("1e400").log10().mul(0.3).max(0))
       return mult.root(debuff)
     },
     get galaxyEffect() {
-      return window[map+1].player.sqrt.galaxies.mul(1/2)
+      return window[map+1].player.sqrt.points.log10().div(200).min(window[map+1].player.sqrt.galaxies.mul(1/2))
     },
   },
   canBuyDim(dim) {

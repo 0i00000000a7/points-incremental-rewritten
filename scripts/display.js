@@ -45,10 +45,12 @@ function formatDim(dim) {
   let mult = 'd' + dim + '-mult'
   let button = 'd' + dim + '-button'
   let maxbutton = 'd' + dim + '-max-button'
+  let autobutton = 'd' + dim + '-auto-button'
   changeTextContent(amount, formatWhole(window[map+1].player.dims[dim][5]))
   changeTextContent(mult, '×' + format(window[map+1].player.dims[dim][2]))
   this.costDisplay = (tmp.canBuyDim(dim))? '价格：' + formatWhole(window[map+1].player.dims[dim][1]) : '已达硬上限'
   changeTextContent(button, costDisplay)
+  changeTextContent(autobutton, `自动：${window[map+1].player.autodims[dim-1]? "开" : "关"}`)
   if ((window[map+1].player.points.gte(window[map+1].player.dims[dim][1]) && tmp.canBuyDim(dim)) || window[map+1].player.sqrt.galaxies.gte(1)) {
       document.getElementById(button).disabled = false
       document.getElementById(maxbutton).disabled = false
@@ -62,6 +64,11 @@ function formatDim(dim) {
   } else {
     document.getElementById(button).style.display = 'none'
     changeTextContent(maxbutton, `购买次数：${format(window[map+1].player.dims[dim][4])} ➜ ${format(tmp.pointsToDims(dim))}`)
+  }
+  if (window[map+1].player.canautodim) {
+    document.getElementById(autobutton).style.display = 'inline-block'
+  } else {
+    document.getElementById(autobutton).style.display = 'none'
   }
 }
 
@@ -143,7 +150,7 @@ function update_sqrt() {
   changeTextContent('galCost', format(tmp.sqrt.galCost))
   changeTextContent('galaxies', formatWhole(window[map+1].player.sqrt.galaxies))
   changeHTML('gal-eff', getGalRewardText())
-  changeTextContent('gal_eff1', tmp.sqrt.galaxyEffect.format())
+  changeTextContent('gal_eff1', tmp.sqrt.galaxyEffect.format(3))
   if (!window[map+1].player.sqrt.unl) {
     document.getElementById('sqrt_require-tooltip').style.display = 'block'
     document.getElementById('sqrt_full_gain').style.display = 'none'

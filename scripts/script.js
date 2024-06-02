@@ -5,7 +5,8 @@ function loop() {
   updatePoints()
   checkUnlocks()
   replicateSqrtPoints()
-  if (window[map+1].player.sqrt.galaxies.gte(2)) buyall()
+  updateSquare()
+  autoDim()
 }
 
 function updateRealDim() {
@@ -25,6 +26,7 @@ function updateDimDatas() {
     window[map+1].player.dims[i][2] = window[map+1].player.singleDMult.pow(window[map+1].player.dims[i][4]).mul(tmp.sqrt.dim_eff)
   }
   window[map+1].player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)
+  if (window[map+1].player.sqrt.galaxies.gte(2)) window[map+1].player.canautodim = true
 }
 
 function buydim(dim) {
@@ -65,3 +67,12 @@ function checkUnlocks() {
   if (window[map+1].player.points.gte(1e80)) window[map+1].player.sqrt.unl = true
 }
 
+function changeAuto(dim) {
+  window[map+1].player.autodims[dim-1] = window[map+1].player.autodims[dim-1]? false : true
+}
+
+function autoDim() {
+  for (let i = 1;i <= 8;i++) {
+    if (window[map+1].player.autodims[i-1]) buyMaxDim(i)
+  }
+}

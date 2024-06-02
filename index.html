@@ -54,6 +54,7 @@
             <span id="d1-mult"></span>
             <button id="d1-button" class="btn" onclick="buydim(1)"></button>
             <button id="d1-max-button" class="btn" onclick="buyMaxDim(1)">最大</button>
+            <button id="d1-auto-button" class="btn" onclick="changeAuto(1)"></button>
           </div>
           <div>
             <span>第二维度</span>
@@ -61,6 +62,7 @@
             <span id="d2-mult"></span>
             <button id="d2-button" class="btn" onclick="buydim(2)"></button>
             <button id="d2-max-button" class="btn" onclick="buyMaxDim(2)">最大</button>
+            <button id="d2-auto-button" class="btn" onclick="changeAuto(2)"></button>
           </div>
           <div>
             <span>第三维度</span>
@@ -68,6 +70,7 @@
             <span id="d3-mult"></span>
             <button id="d3-button" class="btn" onclick="buydim(3)"></button>
             <button id="d3-max-button" class="btn" onclick="buyMaxDim(3)">最大</button>
+            <button id="d3-auto-button" class="btn" onclick="changeAuto(3)"></button>
           </div>
           <div>
             <span>第四维度</span>
@@ -75,6 +78,7 @@
             <span id="d4-mult"></span>
             <button id="d4-button" class="btn" onclick="buydim(4)"></button>
             <button id="d4-max-button" class="btn" onclick="buyMaxDim(4)">最大</button>
+            <button id="d4-auto-button" class="btn" onclick="changeAuto(4)"></button>
           </div>
           <div>
             <span>第五维度</span>
@@ -82,6 +86,7 @@
             <span id="d5-mult"></span>
             <button id="d5-button" class="btn" onclick="buydim(5)"></button>
             <button id="d5-max-button" class="btn" onclick="buyMaxDim(5)">最大</button>
+            <button id="d5-auto-button" class="btn" onclick="changeAuto(5)"></button>
           </div>
           <div>
             <span>第六维度</span>
@@ -89,6 +94,7 @@
             <span id="d6-mult"></span>
             <button id="d6-button" class="btn" onclick="buydim(6)"></button>
             <button id="d6-max-button" class="btn" onclick="buyMaxDim(6)">最大</button>
+            <button id="d6-auto-button" class="btn" onclick="changeAuto(6)"></button>
           </div>
           <div>
             <span>第七维度</span>
@@ -96,6 +102,7 @@
             <span id="d7-mult"></span>
             <button id="d7-button" class="btn" onclick="buydim(7)"></button>
             <button id="d7-max-button" class="btn" onclick="buyMaxDim(7)">最大</button>
+            <button id="d7-auto-button" class="btn" onclick="changeAuto(7)"></button>
           </div>
           <div>
             <span>第八维度</span>
@@ -103,6 +110,7 @@
             <span id="d8-mult"></span>
             <button id="d8-button" class="btn" onclick="buydim(8)"></button>
             <button id="d8-max-button" class="btn" onclick="buyMaxDim(8)">最大</button>
+            <button id="d8-auto-button" class="btn" onclick="changeAuto(8)"></button>
           </div>
         </div>
       </div>
@@ -117,7 +125,7 @@
       </div>
       <div id="page3" align="center">
         <span id="endgame"></span><br>
-        当前版本：v0.1.3<br>
+        当前版本：v0.1.4<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
@@ -130,7 +138,11 @@
         <a href="https://seanxlx.github.io/" target="_blank">数据增量重制版</a>
         <h1>-----更新日志-----</h1>
         <div>
-          <h3>v1.1.3</h3><br>
+          <h3>v0.1.4</h3><br>
+          - 修改<spoiler>星系</spoiler>增益公式<br>
+        </div>
+        <div>
+          <h3>v0.1.3</h3><br>
           - 添加<spoiler>星系</spoiler>重置<br>
           - Endgame增长至1.000e785点数<br>
         </div>
@@ -163,7 +175,7 @@
         <div id="sqrt_require-tooltip" class="sqrt_text">达到1.000e80点数后，你的√点数将开始自我复制!</div>
         <div class="sqrt_text"><br>√星系(<span id="galaxies">0</span>)</div>
         <button class="galaxyReset" id="do_gal" onclick="galaxy()">获得一个星系<br>但重置之前的一切<br><span id="gal-eff"></span><br>要求: <span id="gal-cost"><span id="galCost">1.000e100</span> √点数</span></button><br>
-        同时，你的星系还使购买10个的倍率+<span id="gal_eff1"></span><br>
+        同时，你的√点数和星系还使购买10个的倍率+<span id="gal_eff1"></span><br>
         <div style="color: red" id="replicant_hardcap">在1.000e100√点数后，√点数将受到<span id="cap_or_soft"></span>上限限制!</div>
       </div>
       <div id="page5">

@@ -59,7 +59,9 @@ function hard_reset() {
         total: E(0),
         times: E(0),
         best: E(0),
-      }
+      },
+      autodims: Array(8).fill(false),
+      canautodim: false
     }
   }
   setup_dims()
