@@ -23,20 +23,18 @@ class cheatError extends Error {
     this.name = 'CheatError';
   }
 }
-var dims = [null]
+const dims = [null,
+[E(10),E(10),E(1),E(0),E(0),E(0)],
+[E(100),E(100),E(1),E(0),E(0),E(0)],
+[E(1e3),E(1e3),E(1),E(0),E(0),E(0)],
+[E(1e4),E(1e4),E(1),E(0),E(0),E(0)],
+[E(1e5),E(1e5),E(1),E(0),E(0),E(0)],
+[E(1e6),E(1e6),E(1),E(0),E(0),E(0)],
+[E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
+[E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
+]
+//[basecost,cost,mult,amount,bought,real]
 
-function setup_dims() {
-  for(let i = 1; i <= 8; i++) {
-    let this_dim = [E(10).pow(i), //basecost
-      E(10).pow(i), //cost
-      E(1), //mult
-      E(0), //amount
-      E(0), //bought
-      E(0), //real
-    ]
-    dims.push(this_dim)
-  }
-}
 
 function hard_reset() {
   window[map + 1] = {
@@ -62,7 +60,6 @@ function hard_reset() {
       canautodim: false
     }
   }
-  setup_dims()
   window[map + 1].player.dims = dims
 }
 

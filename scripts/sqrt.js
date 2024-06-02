@@ -12,9 +12,19 @@ function galaxy() {
   window[map+1].player.sqrt.galaxies = window[map+1].player.sqrt.galaxies.add(1)
 }
 function galaxy_reset() {
+  const dims = [null,
+    [E(10),E(10),E(1),E(0),E(0),E(0)],
+    [E(100),E(100),E(1),E(0),E(0),E(0)],
+    [E(1e3),E(1e3),E(1),E(0),E(0),E(0)],
+    [E(1e4),E(1e4),E(1),E(0),E(0),E(0)],
+    [E(1e5),E(1e5),E(1),E(0),E(0),E(0)],
+    [E(1e6),E(1e6),E(1),E(0),E(0),E(0)],
+    [E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
+    [E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
+  ]
+  window[map+1].player.sqrt.points = E(1)
   window[map+1].player.points = E(10)
   window[map+1].player.dims = dims
-  window[map+1].player.sqrt.points = E(1)
 }
 
 const galaxy_rewards = [
