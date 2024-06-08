@@ -1,146 +1,87 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>点数增量重制版</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icon.png">
-    
-    <script src="scripts/technical/jquery.js"></script>
-    <script src="scripts/technical/ExpantaNum.js" defer></script>
-    <script src="scripts/technical/format-expantanum.js" defer></script>
-    <script src="scripts/technical/pako.js" defer></script>
-    <script src="scripts/display.js" defer></script>
-    <script src="scripts/temp.js" defer></script>
-    <script src="scripts/script.js" defer></script>
-    <script src="scripts/sqrt.js" defer></script>
-    <script src="scripts/square.js" defer></script>
-    <script src="scripts/others.js" defer></script>
-    <script src="scripts/newsticker.js" defer></script>
-    <script src="scripts/save.js" defer></script>
-    <script src="scripts/hotkey.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>点数增量重制版</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="icon.png">
+
+  <script src="scripts/technical/vue.js"></script>
+  <script src="scripts/technical/ExpantaNum.js" defer></script>
+  <script src="scripts/technical/format-expantanum.js" defer></script>
+  <script src="scripts/technical/pako.js" defer></script>
+  <script src="scripts/display.js" defer></script>
+  <script src="scripts/temp.js" defer></script>
+  <script src="scripts/script.js" defer></script>
+  <script src="scripts/sqrt.js" defer></script>
+  <script src="scripts/square.js" defer></script>
+  <script src="scripts/others.js" defer></script>
+  <script src="scripts/newsticker.js" defer></script>
+  <script src="scripts/save.js" defer></script>
+  <script src="scripts/hotkey.js" defer></script>
+  <script src="scripts/components.js" defer></script>
 </head>
+
 <body>
-  <noscript>本游戏无法运行于无javacript的环境下！</noscript>
-  <div id="app">
-  <div id="loader-overlay">  
-    <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
-</div>
-    <div align="center" id="game" style="display: none">
-      <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank" style="display: none" id="uncheat"></a>
-      <div id="news"><p id="newsText" class="newsContent"></p></div>
-      <div id="notify" class="hide"></div>
-      <div align="center" id="pts"></div>
-      <div align="center" id="pts-getting"></div>
-    <div align="center">
-      <button onclick="switchpage(1)" class="btn" id="main">主要</button>
-      <button onclick="switchpage(5)" class="btn" id="resets">重置</button>
-      <button onclick="switchpage(2)" class="btn" id="options">选项</button><br><br>
-      <div id="option_subtabs">
-        <button onclick="switchpage(2)" class="btn" id="options2">选项</button>
-        <button onclick="switchpage(3)" class="btn" id="about">关于</button>
-      </div>
-      <div id="main_subtabs">
-        <button onclick="switchpage(1)" class="btn" id="dimensions">维度</button>
-        <button onclick="switchpage(4)" class="btn" id="sqrt">√点数</button>
-      </div>
+  <div align="center">
+    <div id="news">
+      <p id="newsText" class="newsContent"></p>
+    </div>
+    <div id="notify" class="hide"></div>
+  </div>
+  <div id="app" align="center">
+    <div id="loader-overlay" v-if="!hasLoaded.status">
+      <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
+    </div>
+    <div v-if="hasLoaded.status">
+      <div v-html="getPointDisplay()"></div>
+      <div v-html="getPointGain()"></div>
+      <div>
+        <button @click="switchpage(1)" class="btn" :disabled="[1,4].includes(player.currentPage)">主要</button>
+        <button @click="switchpage(5)" class="btn" :disabled="[5].includes(player.currentPage)">重置</button>
+        <button @click="switchpage(6)" class="btn" :disabled="[6].includes(player.currentPage)">统计</button>
+        <button @click="switchpage(2)" class="btn" :disabled="[2,3].includes(player.currentPage)">选项</button>
       </div><br>
-      <div id="page1">
-        <div align="center">
-          <button onclick="buyall()" class="btn">购买最大</button><br>
-          <div>
-            <span id="dimscal1"></span>
-            <span>第一维度</span>
-            <span id="d1-amount"></span>
-            <span id="d1-mult"></span>
-            <button id="d1-button" class="btn" onclick="buydim(1)"></button>
-            <button id="d1-max-button" class="btn" onclick="buyMaxDim(1)">最大</button>
-            <button id="d1-auto-button" class="btn" onclick="changeAuto(1)"></button>
+      <div>
+        <button @click="switchpage(1)" class="btn" v-if="[1,4].includes(player.currentPage)" :disabled="player.currentPage == 1">维度</button>
+        <button @click="switchpage(4)" class="btn" v-if="[1,4].includes(player.currentPage)" :disabled="player.currentPage == 4">√点数</button>
+        <button @click="switchpage(2)" class="btn" v-if="[2,3].includes(player.currentPage)" :disabled="player.currentPage == 2">选项</button>
+        <button @click="switchpage(3)" class="btn" v-if="[2,3].includes(player.currentPage)" :disabled="player.currentPage == 3">关于</button>
+      </div><br>
+      <div v-if="player.currentPage == 1">
+        <template>
+          <div v-for="dim in dimensions" :key="dim.id">
+            <span v-if="player.dims[dim.id][1].gte(Number.MAX_VALUE)" style="color:red" display="inline-block">超级折算</span><span>{{ dim.label }}</span>
+            <span>{{ formatWhole(player.dims[dim.id][5]) }}</span>
+            <span>×{{ format(player.dims[dim.id][2]) }}</span>
+            <button class="btn" @click="buydim(dim.id)" v-if="player.sqrt.galaxies.lt(1)">{{ getDimCostDisplay(dim.id) }}</button>
+            <button class="btn" @click="buyMaxDim(dim.id)">{{ getMaxBtnText(dim.id) }}</button>
+            <button class="btn" @click="changeAuto(dim.id)" v-if="player.canautodim">自动：{{ player.autodims[dim.id-1]? "开" : "关" }}</button>
           </div>
-          <div>
-            <span id="dimscal2"></span>
-            <span>第二维度</span>
-            <span id="d2-amount"></span>
-            <span id="d2-mult"></span>
-            <button id="d2-button" class="btn" onclick="buydim(2)"></button>
-            <button id="d2-max-button" class="btn" onclick="buyMaxDim(2)">最大</button>
-            <button id="d2-auto-button" class="btn" onclick="changeAuto(2)"></button>
-          </div>
-          <div>
-            <span id="dimscal3"></span>
-            <span>第三维度</span>
-            <span id="d3-amount"></span>
-            <span id="d3-mult"></span>
-            <button id="d3-button" class="btn" onclick="buydim(3)"></button>
-            <button id="d3-max-button" class="btn" onclick="buyMaxDim(3)">最大</button>
-            <button id="d3-auto-button" class="btn" onclick="changeAuto(3)"></button>
-          </div>
-          <div>
-            <span id="dimscal4"></span>
-            <span>第四维度</span>
-            <span id="d4-amount"></span>
-            <span id="d4-mult"></span>
-            <button id="d4-button" class="btn" onclick="buydim(4)"></button>
-            <button id="d4-max-button" class="btn" onclick="buyMaxDim(4)">最大</button>
-            <button id="d4-auto-button" class="btn" onclick="changeAuto(4)"></button>
-          </div>
-          <div>
-            <span id="dimscal5"></span>
-            <span>第五维度</span>
-            <span id="d5-amount"></span>
-            <span id="d5-mult"></span>
-            <button id="d5-button" class="btn" onclick="buydim(5)"></button>
-            <button id="d5-max-button" class="btn" onclick="buyMaxDim(5)">最大</button>
-            <button id="d5-auto-button" class="btn" onclick="changeAuto(5)"></button>
-          </div>
-          <div>
-            <span id="dimscal6"></span>
-            <span>第六维度</span>
-            <span id="d6-amount"></span>
-            <span id="d6-mult"></span>
-            <button id="d6-button" class="btn" onclick="buydim(6)"></button>
-            <button id="d6-max-button" class="btn" onclick="buyMaxDim(6)">最大</button>
-            <button id="d6-auto-button" class="btn" onclick="changeAuto(6)"></button>
-          </div>
-          <div>
-            <span id="dimscal7"></span>
-            <span>第七维度</span>
-            <span id="d7-amount"></span>
-            <span id="d7-mult"></span>
-            <button id="d7-button" class="btn" onclick="buydim(7)"></button>
-            <button id="d7-max-button" class="btn" onclick="buyMaxDim(7)">最大</button>
-            <button id="d7-auto-button" class="btn" onclick="changeAuto(7)"></button>
-          </div>
-          <div>
-            <span id="dimscal8"></span>
-            <span>第八维度</span>
-            <span id="d8-amount"></span>
-            <span id="d8-mult"></span>
-            <button id="d8-button" class="btn" onclick="buydim(8)"></button>
-            <button id="d8-max-button" class="btn" onclick="buyMaxDim(8)">最大</button>
-            <button id="d8-auto-button" class="btn" onclick="changeAuto(8)"></button>
-          </div>
-        </div>
+        </template>
       </div>
-      <div id="page2">
-        <div align="center">
-        <button class="btn" onclick="formated_hard_reset()">硬重置</button>
-        <button class="btn" onclick="export_copy()">导出</button>
-        <button class="btn" onclick="export_file()">导出为文件</button>
-        <button class="btn" onclick="import_save()">导入</button>
-        <button class="btn" onclick="import_file()">以文件导入</button>
+      <div v-if="player.currentPage == 2">
+        <button class="btn" @click="formatted_hard_reset()">硬重置</button>
+        <button class="btn" @click="export_copy()">导出</button>
+        <button class="btn" @click="export_file()">导出为文件</button>
+        <button class="btn" @click="import_save()">导入</button>
+        <button class="btn" @click="import_file()">以文件导入</button>
       </div>
-      </div>
-      <div id="page3" align="center">
-        <span id="endgame"></span><br>
-        <span id="hotkeys" style="color: red"></span><br>
-        当前版本：v0.1.5.2<br>
+      <div v-if="player.currentPage == 3">
+        <span v-html="formatEndgame()"></span><br>
+        <span id="hotkeys" style="color: red">{{ getHotkeyText() }}</span><br>
+        当前版本：v0.1.6<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
+        <div>
+          <h3>v0.1.6</h3><br>
+          - 使用vue.js重构游戏界面<br>
+        </div>
         <div>
           <h3>v0.1.5.1</h3><br>
           - 修复部分三叠纪时期的手机无法导出至剪贴板的bug<br>
@@ -177,11 +118,6 @@
             - 修复了计时器掌控者等恶意脚本可以干扰游戏运行的bug<br>
         </div>
         <div>
-          <h4>v0.1.1 请枚举100位变量名</h4>
-            - 修复在F12中输入player可以看见游戏数据并修改的bug<br>
-            - 移除控制台反作弊提示，降低性能损耗<br>
-        </div>
-        <div>
           <h3>v0.1 开平方</h3><br>
             - 添加<spoiler>√点数</spoiler><br>
             - 画大饼(<spoiler>星系</spoiler>)<br>
@@ -191,16 +127,20 @@
             - 添加<spoiler>维度1~8</spoiler><br>
         </div>
       </div>
-      <div id="page4" align="center">
-        <div class="sqrt_text">你有<span id="sqrt_pts"></span>√点数<span id="sqrt_full_gain">(+<span id="sqrt_gain"></span>数量级/s)</span>，所有维度乘数因此×<span id="sqrt_eff"></span></div>
-        <div id="sqrt_require-tooltip" class="sqrt_text">达到1.000e80点数后，你的√点数将开始自我复制!</div>
-        <div class="sqrt_text"><br>√星系(<span id="galaxies">0</span>)</div>
-        <button class="galaxyReset" id="do_gal" onclick="galaxy()">获得一个星系<br>但重置之前的一切<br><span id="gal-eff"></span><br>要求: <span id="gal-cost"><span id="galCost">1.000e100</span> √点数</span></button><br>
-        同时，你的√点数和星系还使购买10个的倍率+<span id="gal_eff1"></span><br>
-        <div style="color: red" id="replicant_hardcap">在1.000e100√点数后，√点数将受到<span id="cap_or_soft"></span>上限限制!</div>
+      <div v-if="player.currentPage == 4">
+        <div class="sqrt_text">你有{{ player.sqrt.points.format() }}√点数<span v-if="player.sqrt.unl">(+{{ format(tmp.sqrt.replicatePerTick.log10().mul(30)) }}数量级/s)</span>，因此所有维度乘数×{{ format(tmp.sqrt.dim_eff) }}</div>
+        <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
+        <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
+        <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br>{{ getGalRewardText() }}<br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
+        <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
+        <div style="color: red" v-if="tmp.sqrt.isSofted">在1.000e100√点数后，√点数将受到{{ tmp.sqrt.isCapped ? '硬' : '软' }}上限限制!</div>
       </div>
-      <div id="page5">
-        <button id="square_reset_button" class="square" onclick="alert('Coming S∞n!')">重置之前的所有内容，但获取<span id="sqP_gain"></span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+      <div v-if="player.currentPage == 5">
+        <button id="square_reset_button" class="square" @click="alert('Coming S∞n!')">重置之前的所有内容，但获取{{ tmp.square.gain }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+      </div>
+      <div v-if="player.currentPage == 6">
+        你总共制造了{{ formatWhole(player.total) }}点数<br>
+        {{ get_pts_volume(player.points) }}
       </div>
     </div>
   </div>

@@ -1,24 +1,24 @@
-class timeSpan {
+class formatTime {
   constructor(miliseconds) {
     this._ms = E(miliseconds)
   }
   static fromYears(years) {
-    return new timeSpan(E(years).mul(31536e6))
+    return new formatTime(E(years).mul(31536e6))
   }
   static fromDays(days) {
-    return new timeSpan(E(days).mul(864e5))
+    return new formatTime(E(days).mul(864e5))
   }
   static fromHours(hours) {
-    return new timeSpan(E(hours).mul(36e5))
+    return new formatTime(E(hours).mul(36e5))
   }
   static fromMinutes(minutes) {
-    return new timeSpan(E(minutes).mul(6e4))
+    return new formatTime(E(minutes).mul(6e4))
   }
   static fromSeconds(seconds) {
-    return new timeSpan(E(seconds).mul(1e3))
+    return new formatTime(E(seconds).mul(1e3))
   }
   static fromMilliseconds(milliseconds) {
-    return new TimeSpan(milliseconds)
+    return new formatTime(milliseconds)
   }
   copyFrom(other) {
     this._ms = other._ms
@@ -69,5 +69,8 @@ class timeSpan {
     if (this.seconds.neq(0) && this.years.lt(1e9)) string = string + (formatWhole(this.seconds) + '秒')
     if (this.milliseconds.neq(0) &&  this.years.lt(4e7)) string = string + (formatWhole(this.milliseconds) + '毫秒')
     return string
+  }
+  toJSON() {
+    return this.toString()
   }
 }

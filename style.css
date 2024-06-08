@@ -21,15 +21,7 @@ body {
   white-space: nowrap;
 }
 
-button {
-  border: solid 4px #444;
-  background-color: #1b1b1b;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  transition-property: background-color, border, transform, box-shadow;
-  transition-duration: 0.15s;
-}
+
 
 .corrupted {
   animation: corrupted_text 4s cubic-bezier(0.37, 0, 0.63, 1) infinite
@@ -211,19 +203,7 @@ button {
   display: inline-block;
 }
 
-.upg_bought {
-  width: 184px;
-  height: 120px;
-  background-color: #00ff80;
-  color: #000;
-  border: 4px solid #550;
-  border-radius: 8px;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
+
 
 .P1_5_upg {
   width: 184px;
@@ -347,6 +327,7 @@ h3 {
   transition-duration: 0.2s;
   border: solid #00007f 2px;
   text-shadow: 6px 6px 6px #00007F;
+  color: white;
 }
 
 .galaxyReset:hover {
@@ -596,3 +577,5 @@ spoiler {
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-timing-function: linear;
   }
+  
+

@@ -1,15 +1,15 @@
 function replicateSqrtPoints() {
-  if (window[map+1].player.sqrt.unl) window[map+1].player.sqrt.points = window[map+1].player.sqrt.points.mul(tmp.sqrt.replicatePerTick)
-  if (tmp.sqrt.isCapped) window[map+1].player.sqrt.points = E(1e100)
+  if (player.sqrt.unl) player.sqrt.points = player.sqrt.points.mul(tmp.sqrt.replicatePerTick)
+  if (tmp.sqrt.isCapped) player.sqrt.points = E(1e100)
 }
 
 function galaxy() {
-  if (window[map+1].player.sqrt.points.lt(tmp.sqrt.galCost)) return
-  if (window[map+1].player.sqrt.galaxies.lt(1)) {
+  if (player.sqrt.points.lt(tmp.sqrt.galCost)) return
+  if (player.sqrt.galaxies.lt(1)) {
     if (!confirm('你真的要重置吗?')) return
   }
   galaxy_reset()
-  window[map+1].player.sqrt.galaxies = window[map+1].player.sqrt.galaxies.add(1)
+  player.sqrt.galaxies = player.sqrt.galaxies.add(1)
 }
 function galaxy_reset() {
   const dims = [null,
@@ -22,9 +22,9 @@ function galaxy_reset() {
     [E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
     [E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
   ]
-  window[map+1].player.sqrt.points = E(1)
-  window[map+1].player.points = E(10)
-  window[map+1].player.dims = dims
+  player.sqrt.points = E(1)
+  player.points = E(10)
+  player.dims = dims
 }
 
 const galaxy_rewards = [

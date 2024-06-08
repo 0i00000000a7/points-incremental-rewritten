@@ -63,7 +63,7 @@ var texts = {
   },
   '19': {
     get text() {
-      return `${format(window[map+1].player.points)}点数?弱爆了`
+      return `${format(player.points)}点数?弱爆了`
     }
   },
   '20': {
@@ -79,7 +79,7 @@ var texts = {
     text: '点此获取1点数(仅点数获取高于1e25时可用)'
   },
   '23': {
-    text: '更新进度：4.99999999/5小时'
+    text: '更新进度：4.99999999小时/5小时'
   },
   '24': {
     text: '错误404：未找到新闻'
@@ -92,7 +92,7 @@ var texts = {
   },
   '27': {
     get text() {
-      return `大数据分析显示，您现在拥有${format(window[map+1].player.points)}点数`
+      return `大数据分析显示，您现在拥有${format(player.points)}点数`
     }
   },
   '28': {
@@ -178,9 +178,13 @@ function addClicks() {
   window.clicks++
   sp_new_clicks.innerHTML = clicks
 }
-$(document).ready(function() {
-  setTimeout(updatenews, 1000)
-})
+
+ document.addEventListener('DOMContentLoaded', (event) => {  
+    // 你的代码或函数调用  
+    setTimeout(updatenews,100);  
+});  
+
+
 
 function checkRand(rand) {
   if(texts[rand].unlocked === undefined) return false

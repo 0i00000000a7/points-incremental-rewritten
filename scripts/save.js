@@ -1,3 +1,6 @@
+hasLoaded = {
+  status: false
+}
 function generateRandomString() {
   const characters = 'BCDFGHIJKMNOQSTUVWXZbcdfghijkmnoqstuvwxz';
   let result = '';
@@ -24,26 +27,28 @@ class cheatError extends Error {
   }
 }
 const dims = [null,
-[E(10),E(10),E(1),E(0),E(0),E(0)],
-[E(100),E(100),E(1),E(0),E(0),E(0)],
-[E(1e3),E(1e3),E(1),E(0),E(0),E(0)],
-[E(1e4),E(1e4),E(1),E(0),E(0),E(0)],
-[E(1e5),E(1e5),E(1),E(0),E(0),E(0)],
-[E(1e6),E(1e6),E(1),E(0),E(0),E(0)],
-[E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
-[E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
+  [E(10),E(10),E(1),E(0),E(0),E(0)],
+  [E(100),E(100),E(1),E(0),E(0),E(0)],
+  [E(1e3),E(1e3),E(1),E(0),E(0),E(0)],
+  [E(1e4),E(1e4),E(1),E(0),E(0),E(0)],
+  [E(1e5),E(1e5),E(1),E(0),E(0),E(0)],
+  [E(1e6),E(1e6),E(1),E(0),E(0),E(0)],
+  [E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
+  [E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
 ]
 //[basecost,cost,mult,amount,bought,real]
 
 
 function hard_reset() {
-  window[map + 1] = {
-    player: {
+  player = {
       points: E(10),
+      total: E(10),
+      best: E(10),
       currentPage: 1,
       singleDMult: E(2),
       ptgain: E(0),
       lastUpdated: Date.now(),
+      dims: dims,
       sqrt: {
         unl: false,
         points: E(1),
@@ -59,8 +64,6 @@ function hard_reset() {
       autodims: Array(8).fill(false),
       canautodim: false
     }
-  }
-  window[map + 1].player.dims = dims
 }
 
 function transformToE(object) {
@@ -75,8 +78,27 @@ function transformToE(object) {
 }
 
 function save() {
-  localStorage.setItem("pts-inc-rew", formatsave.encode(window[map + 1].player))
+  localStorage.setItem("pts-inc-rew", formatsave.encode(player))
   //debugger
+}
+
+function deepCopyProps(source,target) {
+  for (let key in source) {  
+        if (source.hasOwnProperty(key)) {  
+            // 如果源对象的属性是对象或数组，则递归复制  
+            if ((typeof source[key] === 'object' && !source[key] instanceof ExpantaNum) && source[key] !== null) {  
+                // 如果目标对象没有这个属性，或者属性是null，则创建一个新的  
+                if (!target.hasOwnProperty(key) || target[key] == null || Array.isArray(source[key]) !== Array.isArray(target[key])) {  
+                    target[key] = Array.isArray(source[key]) ? [] : {};  
+                }  
+                // 递归复制属性  
+                deepCopyProps(source[key], target[key]);  
+            } else {  
+                // 如果属性不是对象或数组，则直接复制  
+                target[key] = source[key];  
+            }  
+        }  
+    }  
 }
 
 function load() {
@@ -86,24 +108,23 @@ function load() {
   if(loadplayer != null) {
     let loadplayer = formatsave.decode(localStorage.getItem("pts-inc-rew"));
     transformToE(loadplayer);
-    window[map + 1].player = Object.assign(window[map + 1].player, loadplayer)
+    deepCopyProps(loadplayer, player)
     fixOldSave()
   }
   saveVal = setInterval(save, 10)
   //removed: setInterval(uncheat,30)
   loopVal = setInterval(loop, 1000 / 30)
-  displayVal = setInterval(updateDisplay, 30)
-  document.getElementById('loader-overlay').style.display = 'none'
-  document.getElementById('game').style.display = 'block'
-  throw new cheatError('Cheater\'s mother is not defined')
+  console.error(new cheatError('Cheater\'s mother is not defined'))
+  loadVue()
+  hasLoaded.status = true
 }
 
 function export_copy() {
-  return copyToClipboard(formatsave.encode(window[map + 1].player))
+  return copyToClipboard(formatsave.encode(player))
 }
 
 function export_file() {
-  let str = formatsave.encode(window[map + 1].player)
+  let str = formatsave.encode(player)
   let file = new Blob([str], {
     type: "text/plain"
   })
@@ -131,11 +152,11 @@ function import_save() {
   save = prompt('请输入您的存档');
   importing_player = formatsave.decode(save)
   transformToE(importing_player);
-  Object.assign(window[map + 1].player, importing_player)
+  Object.assign(player, importing_player)
   console.clear()
 }
 
-function formated_hard_reset() {
+function formatted_hard_reset() {
   confirms = 3
   for(let i = 1; i < 3; i++) {
     let promption = prompt(`请输入${i}以进行第${i}/${confirms}次确认，此操作无法还原!`)
@@ -145,7 +166,6 @@ function formated_hard_reset() {
   if(promption != String(confirms)) return
   hard_reset()
   save()
-  location.reload()
 }
 
 function import_file() {
@@ -158,7 +178,7 @@ function import_file() {
       let save = fr.result
       importing_player = formatsave.decode(save)
       transformToE(importing_player);
-      Object.assign(window[map + 1].player, importing_player)
+      Object.assign(player, importing_player)
       console.clear()
     }
     fr.readAsText(a.files[0]);
@@ -209,9 +229,11 @@ var formatsave = {
 function fixOldSave() {
   //nothing here......
 }
-$(document).ready(function() {
-  load()
-})
+document.addEventListener('DOMContentLoaded', (event) => {  
+    // 你的代码或函数调用  
+    load();  
+});  
+
 // 复制文本内容方法
 function copyToClipboard(textToCopy) {
   if(document.execCommand('copy')) {

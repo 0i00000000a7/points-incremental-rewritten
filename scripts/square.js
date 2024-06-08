@@ -1,16 +1,26 @@
 function square_reset() {
   galaxy_reset()
-  window[map + 1].player.sqrt.galaxies = E(1)
+  player.sqrt.galaxies = E(1)
 }
 
 function square() {
-  if(window[map + 1].player.points.lt("1e785")) return
-  window[map + 1].player.square.points = window[map + 1].player.square.points.add(tmp.square.gain)
-  window[map + 1].player.square.total = window[map + 1].player.square.total.add(tmp.square.gain)
+  if(player.points.lt("1e785")) return
+  player.square.points = player.square.points.add(tmp.square.gain)
+  player.square.total = player.square.total.add(tmp.square.gain)
   square_reset()
-  window[map + 1].player.square.unl = true
+  player.square.unl = true
 }
 
 function updateSquare() {
-  if(window[map + 1].player.square.best.lt(window[map + 1].player.points)) window[map + 1].player.square.best = window[map + 1].player.square.points
+  if(player.square.best.lt(player.points)) player.square.best = player.square.points
 }
+
+const sq_upgs = [
+  {
+    desc: "复制器速率基于复制器而增加",
+    get effect() {
+      return player.sqrt.points.log10().add(1).pow(0.2)
+    },
+    cost: 'square_points',
+  },
+]
