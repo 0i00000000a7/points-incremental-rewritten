@@ -11,7 +11,6 @@ document.addEventListener('keydown', function(e) {
     galaxy();  
   }  
   if (e.key === "s") {  
-    //square();  
-    alert("Coming s∞n!")
+    square();
   }  
 });

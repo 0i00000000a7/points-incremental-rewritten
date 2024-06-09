@@ -203,64 +203,6 @@ body {
   display: inline-block;
 }
 
-
-
-.P1_5_upg {
-  width: 184px;
-  height: 120px;
-  background-color: #000;
-  color: #fff;
-  border: 4px solid #CD86F0;
-  border-radius: 8px;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.P1_5_upg_bought {
-  width: 184px;
-  height: 120px;
-  background-color: #00ff80;
-  color: #000;
-  border: 4px solid #CD86F0;
-  border-radius: 8px;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.big_upg {
-  width: 184px;
-  height: 120px;
-  background-color: #000;
-  color: #fff;
-  border: 4px solid #550;
-  border-radius: 8px;
-  font-family: 'Courier New', sans-serif;
-  font-size: 12px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.big_upg_bought {
-  width: 184px;
-  height: 120px;
-  background-color: #00ff80;
-  color: #000;
-  border: 4px solid #550;
-  border-radius: 8px;
-  font-family: 'Courier New', sans-serif;
-  font-size: 12px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
-
 .chal {
   width: 248px;
   height: 184px;
@@ -579,3 +521,54 @@ spoiler {
   }
   
 
+.popup {
+	position: fixed;
+	left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+	color: white;
+	border: solid 2px #222;
+	background-color: #171717;
+	padding: 7px 25px;
+	pointer-events: auto;
+	max-width: 75%;
+	max-height: 75%;
+	overflow: auto;
+	font-size: 16px;
+	z-index: 114514;
+}
+
+.popup > input {
+	width: 300px;
+	margin-bottom: 10px;
+}
+
+.sq_upg,.sq_upg_bought,.sq_upg_buyable {  
+  width: 40px;  
+  height: 40px;  
+  border: solid 2px #770;  
+  display: flex; /* 使用Flexbox */  
+  justify-content: center; /* 水平居中 */  
+  align-items: center; /* 垂直居中 */  
+  /* 如果你想让文本垂直和水平都居中，并且是单行文本，可以加上 */  
+  text-align: center; /* 水平居中（对于文本） */  
+}  
+.sq_upg_bought {  
+   background: #550;
+}  
+.sq_upg_buyable {
+  background: #333;
+}
+.sq_upg:hover {
+  transform: scale(1.2);
+}
+.sq_upg_bought:hover {
+  transform: scale(1.2);
+}
+
+.sky {
+  color: skyblue;
+}
+.green {
+  color: green;
+}

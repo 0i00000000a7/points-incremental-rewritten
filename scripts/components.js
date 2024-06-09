@@ -13,7 +13,24 @@ function loadVue() {
       { id: 6, label: '第六维度' },
       { id: 7, label: '第七维度' },
       { id: 8, label: '第八维度' },
-    ]
-  }
+    ],
+    currentPopupText: ``,
+    isShowingPopup: 0,
+    save: "",
+    hover_upg: 0,
+    sq_upgs: chunkArrayIntoGroupsOfTen(sq_upgs),
+    squpgs2: sq_upgs,
+  },
+    computed: {
+      
+  },  
+  methods: {  
+    
+  },  
 })
+}
+
+
+function openPopup(option) {
+  app.isShowingPopup = option
 }

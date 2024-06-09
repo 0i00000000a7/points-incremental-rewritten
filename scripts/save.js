@@ -60,6 +60,7 @@ function hard_reset() {
         total: E(0),
         times: E(0),
         best: E(0),
+        upgrades: [],
       },
       autodims: Array(8).fill(false),
       canautodim: false
@@ -149,11 +150,20 @@ function getCurrentBeijingTime() {
 }
 
 function import_save() {
-  save = prompt('请输入您的存档');
-  importing_player = formatsave.decode(save)
-  transformToE(importing_player);
-  Object.assign(player, importing_player)
-  console.clear()
+  openPopup(1)
+}
+
+function importFromApp() {
+  try {
+    importing_player = formatsave.decode(app.save)
+    transformToE(importing_player);
+    deepCopyProps(importing_player, player)
+    console.clear()
+  } catch(e) {
+    addNotify("导入失败")
+  } finally {
+    app.isShowingPopup = 0
+  }
 }
 
 function formatted_hard_reset() {
@@ -166,6 +176,7 @@ function formatted_hard_reset() {
   if(promption != String(confirms)) return
   hard_reset()
   save()
+  location.reload()
 }
 
 function import_file() {
@@ -178,7 +189,7 @@ function import_file() {
       let save = fr.result
       importing_player = formatsave.decode(save)
       transformToE(importing_player);
-      Object.assign(player, importing_player)
+      deepCopyProps(importing_player, player)
       console.clear()
     }
     fr.readAsText(a.files[0]);
@@ -228,6 +239,7 @@ var formatsave = {
 
 function fixOldSave() {
   //nothing here......
+  if (player.square.upgrades == void 0) player.square.upgrades = []
 }
 document.addEventListener('DOMContentLoaded', (event) => {  
     // 你的代码或函数调用  

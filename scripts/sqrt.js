@@ -39,5 +39,9 @@ const galaxy_rewards = [
   {
     req: E(3),
     desc: "解锁点数<sup>2</sup>",
-  }
+  },
+  {
+    req: E(6),
+    desc: "基于星系数量增益√点数复制速度",
+  },
 ]

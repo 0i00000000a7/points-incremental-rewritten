@@ -74,3 +74,19 @@ class formatTime {
     return this.toString()
   }
 }
+function chunkArrayIntoGroupsOfTen(arr) {  
+    const chunkSize = 10;  
+    const result = [];  
+    for (let i in arr) {
+      arr[i].id = Number(i)+1
+    }
+    for (let i = 0; i < arr.length; i += chunkSize) {  
+        // 使用slice方法获取当前组的元素  
+        const chunk = arr.slice(i, i + chunkSize);  
+        result.push(chunk);  
+    }  
+    for (let i in result) {
+      result[i].id = i
+    }
+    return result;  
+}  

@@ -91,3 +91,7 @@ function detectTimerHooker() {
     showNotify("请先关闭宁的计时器掌控者")
   }
 }
+
+function capPoints() {
+  if (player.points.gt(E(10).expansion(1e40))) player.points = E(10).expansion(1e40)
+}

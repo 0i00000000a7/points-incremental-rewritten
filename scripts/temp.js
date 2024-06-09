@@ -1,7 +1,11 @@
 const tmp = {
   sqrt: {
     get dim_eff() {
-      return player.sqrt.points.add(1).log10().add(1).pow(2)
+      let eff = player.sqrt.points.add(1).log10().add(1).pow(2)
+      if (hasSqUpg(3)) {
+        eff = eff.mul(player.sqrt.points.add(1).pow(0.01))
+      }
+      return eff
     },
     get galCost() {
       return E(100).pow(player.sqrt.galaxies.mul(50).add(50))
@@ -18,7 +22,11 @@ const tmp = {
       let mult = E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1 / 30)
       let debuff = player.sqrt.points.div(1e100).log10().mul(0.01).add(1).max(1)
       debuff = debuff.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(0.0075).max(0)).sub(0))
-      return mult.root(debuff).pow(tmp.square.effect)
+      buff = E(1)
+      buff = buff.mul(tmp.square.effect)
+      if (hasSqUpg(1)) buff = buff.mul(sq_upgs[0].effect)
+      if (player.sqrt.galaxies.gte(6)) buff = buff.mul(player.sqrt.galaxies)
+      return mult.root(debuff).pow(buff)
     },
     get galaxyEffect() {
       return player.sqrt.points.log10().div(200).min(player.sqrt.galaxies.mul(1 / 2))
@@ -32,8 +40,13 @@ const tmp = {
   get dimsSoftStart1() {
     return E(2).pow(1024)
   },
+  get dimsSoftPower1() {
+    let a = E(0.5)
+    if (hasSqUpg(2)) a = a.pow(0.8)
+    return a
+  },
   pointsToDims(dim) {
-    var x = player.points.overflow(tmp.dimsSoftStart1, 0.5)
+    var x = player.points.overflow(tmp.dimsSoftStart1, tmp.dimsSoftPower1)
     return x.log10().div(dim)
   },
   square: {
