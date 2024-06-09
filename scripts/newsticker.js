@@ -114,7 +114,7 @@ var texts = {
     text: '增量的反义词是减魖'
   },
   '33': {
-    text: '1+1=3，这显然是错的'
+    text: '1+1=3'
   },
   '34': {
     text: "<span style='background: yellow;color: black'>要警惕新黄色新闻</span>"
@@ -151,6 +151,19 @@ var texts = {
   },
   '45': {
     text: 'ExpantaNum最大支持10{{1}}9e15那么大的数，本游戏使用了ExpantaNum，那么本游戏的数值上限为10{{1}}1e40也很正常吧'
+  },
+  '46': {
+    text: '这游戏到底还有多少bug'
+  },
+  '47': {
+    text: '如果你翻了代码，你就会发现新闻和提示都没有被vue重写，原因可以首先排除我不会'
+  },
+  '48': {
+    text: '这个超级折算也太离谱了',
+    get unlocked() {return player.total.gte(Number.MAX_VALUE)}
+  },
+  '49': {
+    text: `| '0'''''1'''''2'''''3'''''4'''''4'''''4'''''4'''''4'''''4'''''4 | 是的，这也是一把尺子，但<span class="soft">(受硬上限限制)</soft>`
   },
 }
 textslength = Object.keys(texts).length

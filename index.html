@@ -39,7 +39,7 @@
       <div class="popup" v-if="app.isShowingPopup == 1">请输入存档<br><input v-model="save" placeholder="在此处键入存档"><br><button @click="importFromApp()" class="btn">导入</button></div>
       <div v-html="getPointDisplay()"></div>
       <div>{{ getPointGain() }}</div>
-      <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points }}点数，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
+      <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
       <div>
         <button @click="switchpage(1)" class="btn" :disabled="[1,4].includes(player.currentPage)">主要</button>
         <button @click="switchpage(5)" class="btn" :disabled="[5].includes(player.currentPage)" v-if="player.square.unl || player.sqrt.galaxies.gte(3)">重置</button>
@@ -78,12 +78,16 @@
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2<br>
+        当前版本：v0.2.1<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
+        <div>
+          <h3>v0.2.1</h3><br>
+          - 修复电脑无法查看<spoiler>平方</spoiler>升级内容的bug<br>
+        </div>
         <div>
           <h3>v0.2</h3><br>
           - 添加<spoiler>平方</spoiler>重置<br>
@@ -148,7 +152,7 @@
         <div style="color: rgb(121, 0, 0)" v-if="player.sqrt.points.gte('1e400')">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>
       <div v-if="player.currentPage == 5">
-        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format() }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
       </div>
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
@@ -163,7 +167,7 @@
             <table>
               <tr v-for="row in sq_upgs" key="row.id">
                 <td v-for="upg in sq_upgs[row.id]" key="upg.id">
-                  <div :class="'sq_upg' + (hasSqUpg(upg.id)? '_bought' : '') + (player.square.points.gte(app.squpgs2[upg.id-1].cost) && !hasSqUpg(upg.id)? '_buyable' : '')" @onmouseover="hover_upg = upg.id" @onmouseleave="hover_upg = 0" @touchstart="hover_upg = upg.id" @touchend="hover_upg = 0" @click="buySqUpg(upg.id)"><span>{{ upg.id }}</span></div>
+                  <div :class="'sq_upg' + (hasSqUpg(upg.id)? '_bought' : '') + (player.square.points.gte(app.squpgs2[upg.id-1].cost) && !hasSqUpg(upg.id)? '_buyable' : '')" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @touchstart="hover_upg = upg.id" @touchend="hover_upg = 0" @click="buySqUpg(upg.id)"><span>{{ upg.id }}</span></div>
                 </td>
               </tr>
             </table>
