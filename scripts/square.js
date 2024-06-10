@@ -15,7 +15,7 @@ function updateSquare() {
   if(player.square.best.lt(player.points)) player.square.best = player.square.points
 }
 
-sq_upgs = [
+const sq_upgs = [
   {
     desc: "复制器速率基于复制器而增加",
     get effect() {
@@ -48,3 +48,11 @@ function buySqUpg(upg) {
   player.square.points = player.square.points.sub(sq_upgs[upg-1].cost)
   player.square.upgrades.push(upg)
 }
+const sq_chal = [{
+  id: 1,
+  title: "挑战1 - 递归地狱",
+  desc: "你的前一维度不能超过后一维度的数量平方(第八维度除外)<br>点数不能超过√点数的平方<br>但开始拥有一个第8维度",
+  goal: E(2).pow(1024),
+  reward: "奖励：前一维度的倍率×log<sub>2</sub>(后一维度倍率)，但前提是后一维度倍率达到至少1024倍；√点数获取速度×slg(点数)，前提是点数达到1.000e10；所有维度的价格^0.8",
+},
+]

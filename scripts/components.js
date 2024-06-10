@@ -18,6 +18,7 @@ function loadVue() {
     isShowingPopup: 0,
     save: "",
     hover_upg: 0,
+    choosed_chal: 0,
     sq_upgs: chunkArrayIntoGroupsOfTen(sq_upgs),
     squpgs2: sq_upgs,
   },

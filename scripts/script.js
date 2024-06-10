@@ -8,11 +8,13 @@ function loop() {
   updateSquare()
   autoDim()
   detectTimerHooker()
+  updateChal()
 }
 
 function updateRealDim() {
   for(i = 1; i <= 8; i++) {
     player.dims[i][5] = player.dims[i][3].add(player.dims[i][4].mul(10))
+    if (player.chal == 1 && i<=7) player.dims[i][5] = player.dims[i][5].min(player.dims[i+1][5].pow(2))
   }
 }
 
@@ -25,6 +27,7 @@ function updateDimDatas() {
   }
   for(i = 1; i <= 8; i++) {
     player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
+    if (player.square.chals.includes(1) && i<8 && player.dims[i][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
   }
   player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)
   if(player.sqrt.galaxies.gte(2)) player.canautodim = true
@@ -58,6 +61,7 @@ function buyMaxDimAfterGal1(dim) {
 function updatePoints() {
   player.ptgain = player.dims[1][5].mul(player.dims[1][2])
   player.points = player.points.add(player.ptgain.div(30))
+  if (player.chal == 1) player.points = player.points.min(player.sqrt.points.pow(2))
   player.total = player.total.add(player.ptgain.div(30))
   if (player.best.lt(player.points)) player.best = player.points
 }

@@ -8,10 +8,11 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icon.png">
 
-  <script src="scripts/technical/vue.js"></script>
+  <script src="scripts/technical/vue.js" defer></script>
   <script src="scripts/technical/ExpantaNum.js" defer></script>
   <script src="scripts/technical/format-expantanum.js" defer></script>
   <script src="scripts/technical/pako.js" defer></script>
+  <script src="scripts/technical/hotkeys.js" defer></script>
   <script src="scripts/display.js" defer></script>
   <script src="scripts/temp.js" defer></script>
   <script src="scripts/script.js" defer></script>
@@ -21,6 +22,7 @@
   <script src="scripts/newsticker.js" defer></script>
   <script src="scripts/save.js" defer></script>
   <script src="scripts/hotkey.js" defer></script>
+  <script src="scripts/challenges.js" defer></script>
   <script src="scripts/components.js" defer></script>
 </head>
 
@@ -78,12 +80,20 @@
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2.1<br>
+        当前版本：v0.2.3<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
+        <div>
+          <h3>v0.2.3</h3><br>
+          - 添加一个<spoiler>平方</spoiler>挑战<br>
+        </div>
+        <div>
+          <h3>v0.2.2</h3><br>
+          - 修复查看<spoiler>平方</spoiler>升级内容时升级会偏移的bug<br>
+        </div>
         <div>
           <h3>v0.2.1</h3><br>
           - 修复电脑无法查看<spoiler>平方</spoiler>升级内容的bug<br>
@@ -161,13 +171,13 @@
         你总共拥有{{ player.square.total }}点数<sup>2</sup></div>
       </div>
       <div v-if="player.currentPage == 7">
-        <span v-html="get_sq_upg_text()"></span><br>
+        <div class="upg_text_box"><span v-html="get_sq_upg_text()"></span></div><br>
         <template>
           <div>
             <table>
               <tr v-for="row in sq_upgs" key="row.id">
                 <td v-for="upg in sq_upgs[row.id]" key="upg.id">
-                  <div :class="'sq_upg' + (hasSqUpg(upg.id)? '_bought' : '') + (player.square.points.gte(app.squpgs2[upg.id-1].cost) && !hasSqUpg(upg.id)? '_buyable' : '')" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @touchstart="hover_upg = upg.id" @touchend="hover_upg = 0" @click="buySqUpg(upg.id)"><span>{{ upg.id }}</span></div>
+                  <div :class="'sq_upg' + (hasSqUpg(upg.id)? '_bought' : '') + (player.square.points.gte(app.squpgs2[upg.id-1].cost) && !hasSqUpg(upg.id)? '_buyable' : '')" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @click="buySqUpg(upg.id)"><span>{{ upg.id }}</span></div>
                 </td>
               </tr>
             </table>
@@ -175,7 +185,12 @@
         </template>
       </div>
       <div v-if="player.currentPage == 8">
-        Coming S∞n!
+        <template>
+          <button :class="player.chal == chal.id? 'inchal' : (player.square.chals.includes(chal.id)? 'chalcomp' : 'chal')" v-for="chal in sq_chal" :key="chal.id" @click="handleChalButtonClick(chal.id)">
+            C{{ chal.id }}
+          </button>
+        </template><br><br>
+        <span v-html="get_sq_chal_text()"></span>
       </div>
     </div>
   </div>

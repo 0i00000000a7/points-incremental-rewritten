@@ -226,6 +226,20 @@ function numberToStringWithoutSeparators(t) {
     }
     return x
   }
+  P.getFinalElementalFromPeriod = function() {
+    var x = this.clone()
+    let three_sub_x_div_2_ceil = ExpantaNum(3).sub(x).div(2).ceil()
+    let half_x_floor = x.div(2).floor()
+    let a = three_sub_x_div_2_ceil.pow(3).mul(-2/3)
+    let b = three_sub_x_div_2_ceil.pow(2).mul(5)
+    let c = three_sub_x_div_2_ceil.mul(31).div(3)
+    let d = half_x_floor.pow(3).mul(2).div(3)
+    let e = half_x_floor.pow(2).mul(3)
+    let f = half_x_floor.mul(7).div(3)
+    let g = x.mul(2)
+    let h = 6
+    return a.add(b).sub(c).add(d).add(e).add(f).add(g).add(h)
+  }
   P.format = function(precision) {
     var x = this.clone()
     return format(x,precision)

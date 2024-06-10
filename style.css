@@ -189,23 +189,11 @@ body {
   display: inline-block;
 }
 
-.upg {
-  width: 184px;
-  height: 120px;
-  background-color: #000;
-  color: #fff;
-  border: 4px solid #550;
-  border-radius: 8px;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
 
-.chal {
-  width: 248px;
-  height: 184px;
+
+.chal,.inchal,.chalcomp {
+  width: 70px;
+  height: 70px;
   background-color: #000000;
   color: #ffffff;
   border: 4px solid #555500;
@@ -216,27 +204,12 @@ body {
 }
 
 .inchal {
-  width: 248px;
-  height: 184px;
   background-color: #008080;
-  color: #ffffff;
-  border: 4px solid #555500;
-  font-family: 'Courier New', sans-serif;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .chalcomp {
-  width: 248px;
-  height: 184px;
   background-color: #00ff80;
   color: #000000;
-  border: 4px solid #555500;
-  font-family: 'Courier New', sans-serif;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 a {
@@ -571,4 +544,8 @@ spoiler {
 }
 .green {
   color: green;
+}
+.upg_text_box {
+  width: 100%;
+  height: 100px;
 }

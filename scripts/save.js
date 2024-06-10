@@ -61,9 +61,11 @@ function hard_reset() {
         times: E(0),
         best: E(0),
         upgrades: [],
+        chals: []
       },
       autodims: Array(8).fill(false),
-      canautodim: false
+      canautodim: false,
+      chal: 0,
     }
 }
 
@@ -240,6 +242,7 @@ var formatsave = {
 function fixOldSave() {
   //nothing here......
   if (player.square.upgrades == void 0) player.square.upgrades = []
+  if (player.square.chals == void 0) player.square.chals = []
 }
 document.addEventListener('DOMContentLoaded', (event) => {  
     // 你的代码或函数调用  

@@ -26,6 +26,7 @@ const tmp = {
       buff = buff.mul(tmp.square.effect)
       if (hasSqUpg(1)) buff = buff.mul(sq_upgs[0].effect)
       if (player.sqrt.galaxies.gte(6)) buff = buff.mul(player.sqrt.galaxies)
+      if (player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
       return mult.root(debuff).pow(buff)
     },
     get galaxyEffect() {
@@ -46,7 +47,9 @@ const tmp = {
     return a
   },
   pointsToDims(dim) {
-    var x = player.points.overflow(tmp.dimsSoftStart1, tmp.dimsSoftPower1)
+    let costPow = E(1)
+    if (player.square.chals.includes(1)) costPow = costPow.mul(0.8)
+    var x = player.points.root(costPow).overflow(tmp.dimsSoftStart1, tmp.dimsSoftPower1)
     return x.log10().div(dim)
   },
   square: {
