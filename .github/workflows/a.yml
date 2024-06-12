@@ -1,0 +1,42 @@
+name: Deploy to gh-pages  
+  
+on:  
+  push:  
+    branches:  
+      - main  
+  
+jobs:  
+  build-and-deploy:  
+    runs-on: ubuntu-latest  
+    steps:  
+      - name: Checkout  
+        uses: actions/checkout@v3  
+        with:  
+          ref: main  
+  
+      - name: Setup Node.js  
+        uses: actions/setup-node@v3  
+        with:  
+          node-version: '16' # 你可以根据需要更改Node.js版本  
+  
+      - name: Install Terser globally  
+        run: npm install terser -g  
+  
+      - name: Compress JavaScript files  
+        run: |  
+          for file in ./**/*.js; do  
+            if [[ -f "$file" ]]; then  
+              compressed_file="${file%.js}.min.js"  
+              # 如果已存在.min.js文件，则跳过压缩  
+              if [[ ! -f "$compressed_file" ]]; then  
+                npx terser "$file" -o "$compressed_file" --compress --mangle  
+              fi  
+            fi  
+          done  
+  
+      - name: Deploy to gh-pages  
+        uses: JamesIves/github-pages-deploy-action@v4.3.3  
+        with:  
+          branch: gh-pages  
+          folder: . # 假设你的压缩后的文件在根目录下，如果不在，请更改此路径  
+          clean: true # 在部署前清理gh-pages分支
