@@ -12,7 +12,7 @@ function exitChal() {
 }
 function updateChal() {
   if (player.chal == 1) {
-    player.dims[8][4] = E(1).max(player.dims[8][4])
+    player.dims[8][4] = E(0.1).max(player.dims[8][4]).min(tmp.square.chal1cap)
   }
 }
 function completeChal() {

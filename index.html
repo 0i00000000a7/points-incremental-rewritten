@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>点数增量重制版</title>
+  <title>点数增量重制版：{{ player.points.format() }} 点数</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icon.png">
 
@@ -28,9 +28,6 @@
 
 <body>
   <div align="center">
-    <div id="news">
-      <p id="newsText" class="newsContent"></p>
-    </div>
     <div id="notify" class="hide"></div>
   </div>
   <div id="app" align="center">
@@ -38,24 +35,27 @@
       <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
     </div>
     <div v-if="hasLoaded.status">
+      <div id="news" v-show="player.options.showNewsTicker">
+      <p id="newsText" class="newsContent"></p>
+    </div>
       <div class="popup" v-if="app.isShowingPopup == 1">请输入存档<br><input v-model="save" placeholder="在此处键入存档"><br><button @click="importFromApp()" class="btn">导入</button></div>
       <div v-html="getPointDisplay()"></div>
       <div>{{ getPointGain() }}</div>
       <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
       <div>
-        <button @click="switchpage(1)" class="btn" :disabled="[1,4].includes(player.currentPage)">主要</button>
-        <button @click="switchpage(5)" class="btn" :disabled="[5].includes(player.currentPage)" v-if="player.square.unl || player.sqrt.galaxies.gte(3)">重置</button>
-        <button @click="switchpage(7)" class="square" :disabled="[7].includes(player.currentPage)" v-if="player.square.unl">平方</button>
-        <button @click="switchpage(6)" class="btn" :disabled="[6].includes(player.currentPage)">统计</button>
-        <button @click="switchpage(2)" class="btn" :disabled="[2,3].includes(player.currentPage)">选项</button>
+        <button @click="switchpage(1)" class="btn" :disabled="tabshow.main.inTab">主要</button>
+        <button @click="switchpage(5)" class="btn" :disabled="tabshow.resets.inTab" v-if="tabshow.resets.unlocked">重置</button>
+        <button @click="switchpage(7)" class="square" :disabled="tabshow.square.inTab" v-if="tabshow.square.unlocked">平方</button>
+        <button @click="switchpage(6)" class="btn" :disabled="tabshow.stats.inTab">统计</button>
+        <button @click="switchpage(2)" class="btn" :disabled="tabshow.options.inTab">选项</button>
       </div><br>
       <div>
-        <button @click="switchpage(1)" class="btn" v-if="[1,4].includes(player.currentPage)" :disabled="player.currentPage == 1">维度</button>
-        <button @click="switchpage(4)" class="btn" v-if="[1,4].includes(player.currentPage)" :disabled="player.currentPage == 4">√点数</button>
-        <button @click="switchpage(2)" class="btn" v-if="[2,3].includes(player.currentPage)" :disabled="player.currentPage == 2">选项</button>
-        <button @click="switchpage(3)" class="btn" v-if="[2,3].includes(player.currentPage)" :disabled="player.currentPage == 3">关于</button>
-        <button @click="switchpage(7)" class="square" v-if="[7,8].includes(player.currentPage)" :disabled="player.currentPage == 7">升级</button>
-        <button @click="switchpage(8)" class="square" v-if="[7,8].includes(player.currentPage) && hasSqUpg(4)" :disabled="player.currentPage == 8">挑战</button>
+        <button @click="switchpage(1)" class="btn" v-if="tabshow.main.dimensions.unlocked" :disabled="tabshow.main.dimensions.inTab">维度</button>
+        <button @click="switchpage(4)" class="btn" v-if="tabshow.main.sqrt.unlocked" :disabled="tabshow.main.sqrt.inTab">√点数</button>
+        <button @click="switchpage(2)" class="btn" v-if="tabshow.options.options.unlocked" :disabled="tabshow.options.options.inTab">选项</button>
+        <button @click="switchpage(3)" class="btn" v-if="tabshow.options.about.unlocked" :disabled="tabshow.options.about.inTab">关于</button>
+        <button @click="switchpage(7)" class="square" v-if="tabshow.square.upgrades.unlocked" :disabled="tabshow.square.upgrades.inTab">升级</button>
+        <button @click="switchpage(8)" class="square" v-if="tabshow.square.challenges.unlocked" :disabled="tabshow.square.challenges.inTab">挑战</button>
       </div><br>
       <div v-if="player.currentPage == 1">
         <button @click="buyall()" class="btn">购买最大</button>
@@ -64,9 +64,9 @@
             <span v-if="player.dims[dim.id][1].gte(Number.MAX_VALUE)" style="color:red" display="inline-block">超级折算</span><span>{{ dim.label }}</span>
             <span>{{ formatWhole(player.dims[dim.id][5]) }}</span>
             <span>×{{ format(player.dims[dim.id][2]) }}</span>
-            <button class="btn" @click="buydim(dim.id)" v-if="player.sqrt.galaxies.lt(1)">{{ getDimCostDisplay(dim.id) }}</button>
+            <button class="btn" @click="buydim(dim.id)" v-if="player.sqrt.galaxies.lt(1)" :disabled="player.points.lt(player.dims[dim.id][1])">{{ getDimCostDisplay(dim.id) }}</button>
             <button class="btn" @click="buyMaxDim(dim.id)">{{ getMaxBtnText(dim.id) }}</button>
-            <button class="btn" @click="changeAuto(dim.id)" v-if="player.canautodim">自动：{{ player.autodims[dim.id-1]? "开" : "关" }}</button>
+            <button class="btn" @click="changeAuto(dim.id)" v-if="player.canautodim">自动：{{ getDimAutoText(dim.id) }}</button>
           </div>
         </template>
       </div>
@@ -76,19 +76,25 @@
         <button class="btn" @click="export_file()">导出为文件</button>
         <button class="btn" @click="import_save()">导入</button>
         <button class="btn" @click="import_file()">以文件导入</button>
+        <br><br>
+        <button class="btn" @click="changeNewsTickerShown()">{{ newsTickerShownButtonText() }}</button>
       </div>
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2.3<br>
+        当前版本：v0.2.3.1<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
         <div>
+          <h3>v0.2.3.1</h3><br>
+          - 重新平衡<spoiler>平方挑战1</spoiler><br>
+        </div>
+        <div>
           <h3>v0.2.3</h3><br>
-          - 添加一个<spoiler>平方</spoiler>挑战<br>
+          - 添加<spoiler>一个平方挑战</spoiler><br>
         </div>
         <div>
           <h3>v0.2.2</h3><br>
@@ -162,13 +168,13 @@
         <div style="color: rgb(121, 0, 0)" v-if="player.sqrt.points.gte('1e400')">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>
       <div v-if="player.currentPage == 5">
-        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format() }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
       </div>
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
         {{ get_pts_volume(player.points) }}<br><br>
         <div v-if="player.square.unl"><h2>点数<sup>2</sup></h2>
-        你总共拥有{{ player.square.total }}点数<sup>2</sup></div>
+        你总共拥有{{ player.square.total.format(0) }}点数<sup>2</sup></div>
       </div>
       <div v-if="player.currentPage == 7">
         <div class="upg_text_box"><span v-html="get_sq_upg_text()"></span></div><br>

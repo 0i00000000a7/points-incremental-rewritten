@@ -1,6 +1,7 @@
 function square_reset() {
   galaxy_reset()
   player.sqrt.galaxies = E(1)
+  player.square.resetTime = E(0)
 }
 
 function square() {
@@ -51,8 +52,8 @@ function buySqUpg(upg) {
 const sq_chal = [{
   id: 1,
   title: "挑战1 - 递归地狱",
-  desc: "你的前一维度不能超过后一维度的数量平方(第八维度除外)<br>点数不能超过√点数的平方<br>但开始拥有一个第8维度",
+  desc: "你的前一维度不能超过后一维度的数量平方(第八维度除外)<br>点数不能超过√点数的平方<br>开始拥有一个第8维度<br>第8维度上限100个，且此上限每秒×0.99",
   goal: E(2).pow(1024),
-  reward: "奖励：前一维度的倍率×log<sub>2</sub>(后一维度倍率)，但前提是后一维度倍率达到至少1024倍；√点数获取速度×slg(点数)，前提是点数达到1.000e10；所有维度的价格^0.8",
+  reward: "奖励：前一维度的倍率×log<sub>2</sub>(后一维度倍率)，但前提是后一维度倍率达到至少1024倍<br>√点数获取速度×slg(点数)，前提是点数达到1.000e10<br>所有维度的价格^0.8",
 },
 ]

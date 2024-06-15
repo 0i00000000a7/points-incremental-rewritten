@@ -27,7 +27,7 @@ const tmp = {
       if (hasSqUpg(1)) buff = buff.mul(sq_upgs[0].effect)
       if (player.sqrt.galaxies.gte(6)) buff = buff.mul(player.sqrt.galaxies)
       if (player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
-      return mult.root(debuff).pow(buff)
+      return mult.root(debuff).pow(buff).min("1e10")
     },
     get galaxyEffect() {
       return player.sqrt.points.log10().div(200).min(player.sqrt.galaxies.mul(1 / 2))
@@ -58,6 +58,9 @@ const tmp = {
     },
     get effect() {
       return player.square.total.add(1).logBase(2).add(1)
+    },
+    get chal1cap() {
+      return E(10).mul(E(0.99).pow(player.square.resetTime))
     }
   }
 }

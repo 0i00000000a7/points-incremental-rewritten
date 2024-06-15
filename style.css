@@ -476,7 +476,6 @@ spoiler {
 	font-size: 18px;
 	color: #000;
 	max-width: 700px;
-	background: rgba(255,253,160,1);
 	background: -webkit-linear-gradient( left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100% ) repeat;
 	border-color: -webkit-linear-gradient( left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100% ) repeat;
 	-webkit-background-clip: text;

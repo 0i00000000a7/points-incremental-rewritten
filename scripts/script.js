@@ -9,6 +9,7 @@ function loop() {
   autoDim()
   detectTimerHooker()
   updateChal()
+  updateResetTime()
 }
 
 function updateRealDim() {
@@ -27,7 +28,7 @@ function updateDimDatas() {
   }
   for(i = 1; i <= 8; i++) {
     player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
-    if (player.square.chals.includes(1) && i<8 && player.dims[i][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
+    if (player.square.chals.includes(1) && i<8 && player.dims[i+1][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
   }
   player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)
   if(player.sqrt.galaxies.gte(2)) player.canautodim = true
@@ -98,4 +99,12 @@ function detectTimerHooker() {
 
 function capPoints() {
   if (player.points.gt(E(10).expansion(1e40))) player.points = E(10).expansion(1e40)
+}
+
+function changeNewsTickerShown() {
+  if (player.options.showNewsTicker) player.options.showNewsTicker = false
+  else player.options.showNewsTicker = true
+}
+function updateResetTime() {
+  player.square.resetTime = player.square.resetTime.add(1/30)
 }

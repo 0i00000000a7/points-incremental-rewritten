@@ -29,6 +29,9 @@ function loadVue() {
     
   },  
 })
+  window.title = new Vue({
+    el: "title",
+  })
 }
 
 

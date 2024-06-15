@@ -50,7 +50,7 @@ function colorText(elem, color, text) {
 
 function formatEndgame() {
   const x = getUndulatingColor()
-  const endgameText = "当前Endgame：" + colorText('h3', x, '1.00e1850') + " 点数"
+  const endgameText = "当前Endgame：" + colorText('h3', x, '1.00e2750') + " 点数"
   return endgameText
 }
 var notify = document.getElementById('notify');
@@ -146,4 +146,94 @@ function get_sq_upg_text() {
 function get_sq_chal_text() {
   if(app.choosed_chal == 0) return
   return `<button class="btn" onclick="${player.chal == app.choosed_chal? (player.points.gte(sq_chal[app.choosed_chal-1].goal)? "completeChal()" : "exitChal()") : "enterChal(app.choosed_chal)"}">${player.chal == app.choosed_chal? (player.points.gte(sq_chal[app.choosed_chal-1].goal)? "完成" : "退出") : "进入"}挑战</button><h4>${sq_chal[app.choosed_chal-1].title}</h4><span style="color: red">${sq_chal[app.choosed_chal-1].desc}</span><br>价格：${sq_chal[app.choosed_chal-1].goal.format()}点数<br><span class="green">${sq_chal[app.choosed_chal-1].reward}</span>`
+}
+tabshow = {
+  main: {
+    get inTab() {
+      return [1,4].includes(player.currentPage)
+    },
+    dimensions: {
+      get inTab() {
+        return player.currentPage == 1
+      },
+      get unlocked() {
+        return [1,4].includes(player.currentPage)
+      },
+    },
+    sqrt: {
+      get inTab() {
+        return player.currentPage == 4
+      },
+      get unlocked() {
+        return [1,4].includes(player.currentPage)
+      },
+    },
+  },
+  resets: {
+    get inTab() {
+      return [5].includes(player.currentPage)
+    },
+    get unlocked() {
+      return player.square.unl || player.sqrt.galaxies.gte(3)
+    },
+  },
+  square: {
+    get inTab() {
+      return [7].includes(player.currentPage)
+    },
+    get unlocked() {
+      return player.square.unl
+    },
+    upgrades: {
+      get inTab() {
+        return player.currentPage == 7
+      },
+      get unlocked() {
+        return [7,8].includes(player.currentPage)
+      },
+    },
+    challenges: {
+      get inTab() {
+        return player.currentPage == 8
+      },
+      get unlocked() {
+        return [7,8].includes(player.currentPage) && hasSqUpg(4)
+      },
+    },
+  },
+  stats: {
+    get inTab() {
+      return [6].includes(player.currentPage)
+    },
+  },
+  options: {
+    get inTab() {
+      return [2,3].includes(player.currentPage)
+    },
+    options: {
+      get inTab() {
+        return player.currentPage == 2
+      },
+      get unlocked() {
+        return [2,3].includes(player.currentPage)
+      },
+    },
+    about: {
+      get inTab() {
+        return player.currentPage == 3
+      },
+      get unlocked() {
+        return [2,3].includes(player.currentPage)
+      },
+    },
+  },
+}
+
+function getDimAutoText(dim) {
+  return player.autodims[dim-1]? "开" : "关"
+}
+
+function newsTickerShownButtonText() {
+  if (player.options.showNewsTicker) return "关闭新闻"
+  return "开启新闻"
 }
