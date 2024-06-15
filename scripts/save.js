@@ -120,7 +120,6 @@ function load() {
   }
   saveVal = setInterval(save, 10)
   //removed: setInterval(uncheat,30)
-  loopVal = setInterval(loop, 1000 / 30)
   console.error(new cheatError('Cheater\'s mother is not defined'))
   loadVue()
   hasLoaded.status = true

@@ -1,16 +1,22 @@
-function loop() {
-  updateLastUpdateTime()
-  updateRealDim()
-  updateDimDatas()
-  updatePoints()
-  checkUnlocks()
-  replicateSqrtPoints()
-  updateSquare()
-  autoDim()
-  detectTimerHooker()
-  updateChal()
-  updateResetTime()
-}
+(function() {  
+  function loop() {  
+    updateLastUpdateTime();  
+    updateRealDim();  
+    updateDimDatas();  
+    updatePoints();  
+    checkUnlocks();  
+    replicateSqrtPoints();  
+    updateSquare();  
+    autoDim();  
+    detectTimerHooker();  
+    updateChal();  
+    updateResetTime();  
+  }  
+  
+  document.addEventListener('DOMContentLoaded', function(event) {  
+    window.loopVal = setInterval(loop, 1000 / 30); 
+  });  
+})();
 
 function updateRealDim() {
   for(i = 1; i <= 8; i++) {

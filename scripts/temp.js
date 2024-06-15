@@ -50,7 +50,9 @@ const tmp = {
     let costPow = E(1)
     if (player.square.chals.includes(1)) costPow = costPow.mul(0.8)
     var x = player.points.root(costPow).overflow(tmp.dimsSoftStart1, tmp.dimsSoftPower1)
-    return x.log10().div(dim)
+    final = x.log10().div(dim)
+    if (player.chal == 1) final = final.min(tmp.square.chal1cap)
+    return final
   },
   square: {
     get gain() {
