@@ -198,7 +198,7 @@ updatenews = function() {
   let transformDuration = dist / rate;
   e.style.transition = 'transform ' + transformDuration + 's linear';
   e.style.transform = 'translateX(-' + (textWidth) + 'px)';
-  document.addEventListener("visibilitychange", updatenews)
+  setTimeout(updatenews, Math.ceil(transformDuration) * 1000 + 1000);
 }
 
 Vue.component("newsticker",{
