@@ -47,7 +47,6 @@ function hard_reset() {
       currentPage: 1,
       singleDMult: E(2),
       ptgain: E(0),
-      lastUpdated: Date.now(),
       dims: dims,
       sqrt: {
         unl: false,
@@ -71,7 +70,8 @@ function hard_reset() {
         showNewsTicker: true
       },
       limitBuyDimNumber: E(Infinity),
-      isSetCappedDim: false
+      isSetCappedDim: false,
+      autogalaxy: false
     }
 }
 

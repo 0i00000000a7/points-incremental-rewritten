@@ -1239,9 +1239,9 @@ function numberToStringWithoutSeparators(t) {
     }
     if(x.layer > MAX_LAYER) {
       x.array = [
-        [0, Infinity]
+        [10, 0]
       ];
-      x.layer = 0;
+      x.layer = MAX_LAYER;
       return x;
     }
     if(Number.isInteger(x.layer)) x.layer = Math.floor(x.layer);

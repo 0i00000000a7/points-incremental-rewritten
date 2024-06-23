@@ -48,9 +48,10 @@ function colorText(elem, color, text) {
   return "<" + elem + " style='color:" + color + ";text-shadow:0px 0px 10px;'>" + text + "</" + elem + ">"
 }
 
+
 function formatEndgame() {
   const x = getUndulatingColor()
-  const endgameText = "当前Endgame：" + colorText('h3', x, '1.00e2750') + " 点数"
+  const endgameText = "当前Endgame：" + colorText('h3', x, Endgame.format()) + " 点数"
   return endgameText
 }
 var notify = document.getElementById('notify');
@@ -250,4 +251,8 @@ function getSqUpgClassName(id) {
 }
 function getSqChalClassName(id) {
   return player.chal == id? 'inchal' : (player.square.chals.includes(id)? 'chalcomp' : 'chal')
+}
+function getAutoGalStatus() {
+  if (player.autogalaxy) return "开"
+  return "关"
 }

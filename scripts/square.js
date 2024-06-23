@@ -29,7 +29,15 @@ const sq_upgs = [{
   {
     desc: "维度的超级折算弱化20%",
     cost: E(2),
-    unlocked: true
+    unlocked: true,
+    get effectDisplay() {
+      return `-${this.effect.mul(100).format()}%`
+    },
+    get effect() {
+      let eff = E(0.2)
+      if (hasSqUpg(6)) eff = eff.root(1.2)
+      return eff
+    }
   },
   {
     desc: "大幅强化√点数的乘数增益",
@@ -40,6 +48,35 @@ const sq_upgs = [{
     desc: "解锁挑战",
     cost: E(3000),
     unlocked: true
+  },
+  {
+    desc: "对于挑战2的第二个奖励，前五个维度的指数增益+0.5",
+    cost: E(5e8),
+    unlocked() {
+      return hasSqChal(3) && player.chal.length >= 1
+    },
+    get effect() {
+      let eff = E(0.5)
+      if (hasSqUpg(6)) eff = eff.mul(1.2)
+      return eff
+    },
+    get effectDisplay() {
+      return `+${this.effect.format()}`
+    }
+  },
+  {
+    desc: "前面的升级的效果+20%",
+    cost: E(1e9),
+    unlocked() {
+      return hasSqChal(3) && player.chal.length >= 2
+    }
+  },
+  {
+    desc: "解锁自动购买星系，挑战2第三效果在1.79e308后仍然生效",
+    cost: E(5e11),
+    unlocked() {
+      return hasSqChal(3) && player.chal.length >= 3
+    }
   },
 ]
 
@@ -78,11 +115,11 @@ const sq_chal = [{
   {
     id: 3,
     title: "挑战3 - 行动受限",
-    desc: "每购买一个√星系(除了第一个永久保留的√星系)，都将点数获取速度^0.9<br>每购买一次维度，都都将点数获取速度^0.9",
+    desc: `每购买一个√星系(除了第一个永久保留的√星系)，都将点数获取速度^0.9<br>点数获取^(1/1.696)^(维度购买数量+1)<br>购买1维使点数生产×1，2维×2，以此类推`,
     get unlocked() {
       return player.square.chals.includes(2)
     },
-    goal: E(2).pow(1024).pow(3).pow(Infinity),
+    goal: E(2).pow(1024).pow(3),
     reward: "解锁(已完成的平方挑战数)个新平方升级<br>√星系价格^0.9<br>√星系不再重置任何东西"
   }
 ]

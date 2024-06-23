@@ -8,7 +8,7 @@ function galaxy() {
   if (player.sqrt.galaxies.lt(1)) {
     if (!confirm('你真的要重置吗?')) return
   }
-  galaxy_reset()
+  if (!player.square.chals.includes(3)) galaxy_reset()
   player.sqrt.galaxies = player.sqrt.galaxies.add(1)
 }
 function galaxy_reset() {
@@ -45,3 +45,7 @@ const galaxy_rewards = [
     desc: "基于星系数量增益√点数复制速度",
   },
 ]
+function toggleAutoGal() {
+  if (player.autogalaxy) player.autogalaxy = false
+  else player.autogalaxy = true
+}

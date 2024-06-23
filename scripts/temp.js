@@ -8,7 +8,9 @@ const tmp = {
       return eff
     },
     get galCost() {
-      return E(100).pow(player.sqrt.galaxies.mul(50).add(50))
+      let cost = E(100).pow(player.sqrt.galaxies.mul(50).add(50))
+      if (player.square.chals.includes(3)) cost = cost.pow(0.9)
+      return cost
     },
     get isCapped() {
       if(player.sqrt.points.gte(1e100) && player.sqrt.galaxies.eq(0)) return true
@@ -31,7 +33,7 @@ const tmp = {
       if (hasSqUpg(1)) buff = buff.mul(sq_upgs[0].effect)
       if (player.sqrt.galaxies.gte(6)) buff = buff.mul(player.sqrt.galaxies)
       if (player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
-      if (player.square.chals.includes(2) && player.sqrt.points.lt(Number.MAX_VALUE)) buff = buff.mul(player.dims[8][4].add(10).log10())
+      if (player.square.chals.includes(2) && (player.sqrt.points.lt(Number.MAX_VALUE) || hasSqUpg(7))) buff = buff.mul(player.dims[8][4].add(10).log10())
       return mult.root(debuff).pow(buff).min("1e10")
     },
     get galaxyEffect() {
@@ -51,7 +53,7 @@ const tmp = {
   },
   get dimsSoftPower1() {
     let a = E(0.5)
-    if (hasSqUpg(2)) a = a.pow(0.8)
+    if (hasSqUpg(2)) a = a.pow(E(1).sub(sq_upgs[1].effect))
     return a
   },
   pointsToDims(dim) {

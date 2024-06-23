@@ -40,6 +40,7 @@
       <div class="popup" v-if="app.isShowingPopup == 1">请输入存档<br><input v-model="save" placeholder="在此处键入存档"><br><button @click="importFromApp()" class="btn">导入</button></div>
       <div class="popup" v-if="app.isShowingPopup == 2">输入想要更改的上限<br><input v-model="limitBuy" placeholder="在此处键入单次购买上限"><br>是否开启上限：<input id="isSetCappedDim" type="checkbox" v-model="player.isSetCappedDim"><br><button @click="openPopup(0)" class="btn">关闭</button></div>
       <div v-html="getPointDisplay()"></div>
+      <div v-if="isEndgame()" :style="{color: getUndulatingColor()}">已到达当前版本终点！</div>
       <div>{{ getPointGain() }}</div>
       <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
       <div>
@@ -166,6 +167,7 @@
       <div v-if="player.currentPage == 4">
         <div class="sqrt_text">你有{{ player.sqrt.points.format() }}√点数<span v-if="player.sqrt.unl">(+{{ format(tmp.sqrt.replicatePerTick.log10().mul(30)) }}数量级/s)</span>，因此所有维度乘数×{{ format(tmp.sqrt.dim_eff) }}</div>
         <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
+        <button class="btn" @click="toggleAutoGal()">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
         <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
         <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>

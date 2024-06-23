@@ -7,7 +7,7 @@
     checkUnlocks();  
     replicateSqrtPoints();  
     updateSquare();  
-    autoDim();  
+    autoBuy();  
     detectTimerHooker();  
     updateChal();  
     updateResetTime();  
@@ -39,6 +39,7 @@ function updateDimDatas() {
   for(i = 1; i <= 8; i++) {
     player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
     if (player.square.chals.includes(2)) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(i*0.1))
+    if (hasSqUpg(5) && i<=5) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(sq_upgs[4].effect))
     if (player.square.chals.includes(1) && i<8 && player.dims[i+1][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
   }
   player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)
@@ -77,10 +78,12 @@ function updatePoints() {
     let galaxybought = player.sqrt.galaxies.sub(1)
     let alldimbought = player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10)
     let rec0_9 = E(1.11111111111111111111111)
-    let rec0_99 = E(1.010101010101010101)
     debuff = debuff.mul(rec0_9.pow(galaxybought))
-    debuff = debuff.mul(rec0_99.pow(alldimbought))
+    debuff = debuff.mul(E(1.696).pow(alldimbought.add(1).log10()))
     player.ptgain = player.ptgain.root(debuff)
+    for (let i=2;i<=8;i++) {
+      player.ptgain = player.ptgain.mul(E(i).pow(player.dims[i][4]))
+    }
   }
   player.points = player.points.add(player.ptgain.div(30))
   if (player.chal == 1) player.points = player.points.min(player.sqrt.points.pow(2))
@@ -104,10 +107,11 @@ function changeAuto(dim) {
   player.autodims[dim - 1] = player.autodims[dim - 1] ? false : true
 }
 
-function autoDim() {
+function autoBuy() {
   for(let i = 1; i <= 8; i++) {
     if(player.autodims[i - 1]) buyMaxDim(i)
   }
+  if (player.autogalaxy) galaxy()
 }
 
 function detectTimerHooker() {
@@ -128,4 +132,8 @@ function changeNewsTickerShown() {
 }
 function updateResetTime() {
   player.square.resetTime = player.square.resetTime.add(1/30)
+}
+const Endgame = E("1e4400")
+function isEndgame() {
+  return player.points.gte(Endgame)
 }
