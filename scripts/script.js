@@ -27,13 +27,18 @@ function updateRealDim() {
 
 function updateDimDatas() {
   for(i = 1; i <= 7; i++) {
-    player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
+    if (player.chal != 2) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
+    else {
+      if (i<7) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 2][2]).div(30))
+      else player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].div(30))
+    }
   }
   for(i = 1; i <= 8; i++) {
     player.dims[i][1] = player.dims[i][0].pow(player.dims[i][4].add(1))
   }
   for(i = 1; i <= 8; i++) {
     player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
+    if (player.square.chals.includes(2)) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(i*0.1))
     if (player.square.chals.includes(1) && i<8 && player.dims[i+1][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
   }
   player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)
@@ -67,6 +72,16 @@ function buyMaxDimAfterGal1(dim) {
 
 function updatePoints() {
   player.ptgain = player.dims[1][5].mul(player.dims[1][2])
+  if (player.chal == 3) {
+    let debuff = E(1)
+    let galaxybought = player.sqrt.galaxies.sub(1)
+    let alldimbought = player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10)
+    let rec0_9 = E(1.11111111111111111111111)
+    let rec0_99 = E(1.010101010101010101)
+    debuff = debuff.mul(rec0_9.pow(galaxybought))
+    debuff = debuff.mul(rec0_99.pow(alldimbought))
+    player.ptgain = player.ptgain.root(debuff)
+  }
   player.points = player.points.add(player.ptgain.div(30))
   if (player.chal == 1) player.points = player.points.min(player.sqrt.points.pow(2))
   player.total = player.total.add(player.ptgain.div(30))

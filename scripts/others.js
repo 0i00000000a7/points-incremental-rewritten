@@ -90,3 +90,37 @@ function chunkArrayIntoGroupsOfTen(arr) {
     }
     return result;  
 }  
+
+function formatGain(a,e,res="") {
+    const g = ExpantaNum.add(a,e.div(30))
+    const DT = ExpantaNum("10^^10")
+
+    if (g.neq(a)) {
+        if (a.gte(DT)) {
+            var oom = E(g).slog(10).sub(E(a).slog(10)).mul(30)
+            if (oom.gte(1e-3)) return oom.format() + " 数量级^^2"
+        }
+
+        if (a.gte('ee100')) {
+            var tower = Math.floor(E(a).slog(10).toNumber() - 1.3010299956639813);
+    
+            var oom = E(g).iteratedlog(10,tower).sub(E(a).iteratedlog(10,tower)).mul(30), rated = false;
+    
+            if (oom.gte(1)) rated = true
+            else if (tower > 2) {
+                tower--
+                oom = E(g).iteratedlog(10,tower).sub(E(a).iteratedlog(10,tower)).mul(30)
+                if (oom.gte(1)) rated = true
+            }
+    
+            if (rated) return oom.format() + " 数量级^"+tower
+        }
+    
+        if (a.gte(1e100)) {
+            const oom = g.div(a).log10().mul(30)
+            if (oom.gte(1)) return oom.format() + " 数量级"
+        }
+    }
+
+    return format(e) + res
+}

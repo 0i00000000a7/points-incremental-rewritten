@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>点数增量重制版：{{ player.points.format() }} 点数</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icon.png">
+  
 
   <script src="scripts/technical/vue.js" defer></script>
   <script src="scripts/technical/ExpantaNum.js" defer></script>
@@ -20,10 +20,10 @@
   <script src="scripts/square.js" defer></script>
   <script src="scripts/others.js" defer></script>
   <script src="scripts/newsticker.js" defer></script>
-  <script src="scripts/save.js" defer></script>
-  <script src="scripts/hotkey.js" defer></script>
   <script src="scripts/challenges.js" defer></script>
+  <script src="scripts/hotkey.js" defer></script>
   <script src="scripts/components.js" defer></script>
+  <script src="scripts/save.js" defer></script>
 </head>
 
 <body>
@@ -31,14 +31,14 @@
     <div id="notify" class="hide"></div>
   </div>
   <div id="app" align="center">
+    <title>点数增量重制版 - {{ player.points.format() }}点数</title>
     <div id="loader-overlay" v-if="!hasLoaded.status">
       <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
     </div>
     <div v-if="hasLoaded.status">
-      <div id="news" v-show="player.options.showNewsTicker">
-      <p id="newsText" class="newsContent"></p>
-    </div>
+      <newsticker v-if="player.options.showNewsTicker"></newsticker>
       <div class="popup" v-if="app.isShowingPopup == 1">请输入存档<br><input v-model="save" placeholder="在此处键入存档"><br><button @click="importFromApp()" class="btn">导入</button></div>
+      <div class="popup" v-if="app.isShowingPopup == 2">输入想要更改的上限<br><input v-model="limitBuy" placeholder="在此处键入单次购买上限"><br>是否开启上限：<input id="isSetCappedDim" type="checkbox" v-model="player.isSetCappedDim"><br><button @click="openPopup(0)" class="btn">关闭</button></div>
       <div v-html="getPointDisplay()"></div>
       <div>{{ getPointGain() }}</div>
       <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
@@ -59,9 +59,10 @@
       </div><br>
       <div v-if="player.currentPage == 1">
         <button @click="buyall()" class="btn">购买最大</button>
+        <button @click="openPopup(2)" class="btn" v-if="player.square.chals.includes(2)">更改每次购买上限</button>
         <template>
           <div v-for="dim in dimensions" :key="dim.id">
-            <span v-if="player.dims[dim.id][1].gte(Number.MAX_VALUE)" style="color:red" display="inline-block">超级折算</span><span>{{ dim.label }}</span>
+            <span v-if="tmp.hasSuperScalDim(dim.id)" style="color:red" display="inline-block">超级折算</span><span>{{ dim.label }}</span>
             <span>{{ formatWhole(player.dims[dim.id][5]) }}</span>
             <span>×{{ format(player.dims[dim.id][2]) }}</span>
             <button class="btn" @click="buydim(dim.id)" v-if="player.sqrt.galaxies.lt(1)" :disabled="player.points.lt(player.dims[dim.id][1])">{{ getDimCostDisplay(dim.id) }}</button>
@@ -165,7 +166,7 @@
         <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
         <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
         <div style="color: red" v-if="tmp.sqrt.isSofted">在1.000e100√点数后，√点数复制速度将受到{{ tmp.sqrt.isCapped ? '硬' : '软' }}上限限制!</div>
-        <div style="color: rgb(121, 0, 0)" v-if="player.sqrt.points.gte('1e400')">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
+        <div style="color: rgb(121, 0, 0)" v-if="tmp.sqrt.isSofted2">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>
       <div v-if="player.currentPage == 5">
         <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
@@ -183,7 +184,7 @@
             <table>
               <tr v-for="row in sq_upgs" key="row.id">
                 <td v-for="upg in sq_upgs[row.id]" key="upg.id">
-                  <div :class="'sq_upg' + (hasSqUpg(upg.id)? '_bought' : '') + (player.square.points.gte(app.squpgs2[upg.id-1].cost) && !hasSqUpg(upg.id)? '_buyable' : '')" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @click="buySqUpg(upg.id)"><span>{{ upg.id }}</span></div>
+                  <div :class="getSqUpgClassName(upg.id)" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @click="buySqUpg(upg.id)" v-if="app.squpgs2[upg.id-1].unlocked"><span>{{ upg.id }}</span></div>
                 </td>
               </tr>
             </table>
@@ -191,8 +192,8 @@
         </template>
       </div>
       <div v-if="player.currentPage == 8">
-        <template>
-          <button :class="player.chal == chal.id? 'inchal' : (player.square.chals.includes(chal.id)? 'chalcomp' : 'chal')" v-for="chal in sq_chal" :key="chal.id" @click="handleChalButtonClick(chal.id)">
+        <template v-for="chal in sq_chal">
+          <button :class="getSqChalClassName(chal.id)" v-if="sq_chal[chal.id-1].unlocked" :key="chal.id" @click="handleChalButtonClick(chal.id)">
             C{{ chal.id }}
           </button>
         </template><br><br>

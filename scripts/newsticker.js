@@ -1,4 +1,4 @@
-var textslength
+!(function(){var textslength
 var texts = [
   {
     text: '为什么没有第九维度?',
@@ -166,7 +166,7 @@ var texts = [
     text: `| '0'''''1'''''2'''''3'''''4'''''4'''''4'''''4'''''4'''''4'''''4 | 是的，这也是一把尺子，但<span class="soft">(受硬上限限制)</soft>`
   },
   {
-    text: '史上平衡最差的游戏是什么? IMR ————seanxlx',
+    text: '史上平衡最差的游戏是什么? <del>IMR</del>IDR ————seanxlx',
   },
   {
     text: '反物质是一个谎言',
@@ -180,8 +180,9 @@ var texts = [
 ]
 textslength = texts.length
 console.log(textslength)
-updatenews = function(first=false) {
-  if (first) window.e = document.getElementById('newsText');
+updatenews = function() {
+  if (!player.options.showNewsTicker) return
+  let e = document.getElementById("newsText")
   do {
     rand = Math.floor(Math.random() * textslength)
   } while(checkRand(rand))
@@ -197,23 +198,24 @@ updatenews = function(first=false) {
   let transformDuration = dist / rate;
   e.style.transition = 'transform ' + transformDuration + 's linear';
   e.style.transform = 'translateX(-' + (textWidth) + 'px)';
-  setTimeout(updatenews, Math.ceil(transformDuration) * 1000);
+  document.addEventListener("visibilitychange", updatenews)
 }
 
+Vue.component("newsticker",{
+  get template() {
+    return `<div id="news"><p id="newsText"></p></div>`
+  },
+  mounted() {
+    updatenews()
+  },
+})
 function addClicks() {
   window.clicks++
   sp_new_clicks.innerHTML = clicks
 }
 
- document.addEventListener('DOMContentLoaded', (event) => {  
-    // 你的代码或函数调用  
-    setTimeout("updatenews(true)",100);  
-});  
-
-
-
 function checkRand(rand) {
   if(texts[rand].unlocked === undefined) return false
   else if(texts[rand].unlocked) return false
   else return true
-}
+}})()

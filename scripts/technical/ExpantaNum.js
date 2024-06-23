@@ -238,7 +238,7 @@ function numberToStringWithoutSeparators(t) {
     let f = half_x_floor.mul(7).div(3)
     let g = x.mul(2)
     let h = 6
-    return a.add(b).sub(c).add(d).add(e).add(f).add(g).add(h)
+    return a.add(b).sub(c).add(d).add(e).add(f).add(g).add(h).round()
   }
   P.format = function(precision) {
     var x = this.clone()
@@ -943,7 +943,15 @@ function numberToStringWithoutSeparators(t) {
   P.mlog = function() {
     var number = ExpantaNum(this);
 
-    function l_mlog(number) {
+    number = E(number)
+    if(number.gte('10^^^^10^10')) {
+      number = number
+    } else if(number.gte('10^^^^3')) {
+      number.array[3][1] -= 1
+    } else if(number.gte(E.PENTATED_MAX_SAFE_INTEGER)) {
+      number.array[2][1] -= 1
+    } else {
+      number = (function(number) {
       number = ExpantaNum(number);
       let a;
       if(number.array[2] && number.array[2][1] !== undefined) {
@@ -964,16 +972,7 @@ function numberToStringWithoutSeparators(t) {
         }
       }
       return a;
-    }
-    number = E(number)
-    if(number.gte('10^^^^10^10')) {
-      number = number
-    } else if(number.gte('10^^^^3')) {
-      number.array[3][1] -= 1
-    } else if(number.gte(E.PENTATED_MAX_SAFE_INTEGER)) {
-      number.array[2][1] -= 1
-    } else {
-      number = l_mlog(number)
+    })(number)
     }
     return number
   };

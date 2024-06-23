@@ -4,7 +4,7 @@ function getPointDisplay() {
 }
 
 function getPointGain() {
-  return '你正在每秒获取 ' + formatWhole(player.ptgain) + ' 点数'
+  return '你正在每秒获取 ' + formatGain(player.points,player.ptgain," 点数")
 }
 
 function getDimCostDisplay(dim) {
@@ -236,4 +236,18 @@ function getDimAutoText(dim) {
 function newsTickerShownButtonText() {
   if (player.options.showNewsTicker) return "关闭新闻"
   return "开启新闻"
+}
+
+function getSqUpgClassName(id) {
+  let upgradeClassName = 'sq_upg';
+  if(hasSqUpg(id)) {
+    upgradeClassName += '_bought';
+  }
+  if(player.square.points.gte(app.squpgs2[id - 1].cost) && !hasSqUpg(id)) {
+    upgradeClassName += '_buyable';
+  }
+  return upgradeClassName
+}
+function getSqChalClassName(id) {
+  return player.chal == id? 'inchal' : (player.square.chals.includes(id)? 'chalcomp' : 'chal')
 }

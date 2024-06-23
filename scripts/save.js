@@ -70,6 +70,8 @@ function hard_reset() {
       options: {
         showNewsTicker: true
       },
+      limitBuyDimNumber: E(Infinity),
+      isSetCappedDim: false
     }
 }
 
@@ -109,7 +111,6 @@ function deepCopyProps(source,target) {
 }
 
 function load() {
-  window.map = generateRandomString()
   hard_reset();
   let loadplayer = localStorage.getItem("pts-inc-rew");
   if(loadplayer != null) {

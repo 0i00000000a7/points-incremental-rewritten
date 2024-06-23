@@ -147,15 +147,38 @@ body {
   color: white;
   display: inline-block;
 }
-
+.btn:hover {
+  cursor: pointer;
+  font-size: 12px;
+  max-width: 250px;
+  padding: 7px 25px;
+  text-decoration: none;
+  border: 1px solid #999;
+  background: #555;
+  font-family: 'Courier New', sans-serif;
+  color: white;
+  display: inline-block;
+}
 .square {
   cursor: pointer;
   font-size: 12px;
   max-width: 250px;
   padding: 7px 25px;
   text-decoration: none;
-  border: 1px solid #777;
+  border: 1px solid #770;
   background: #550;
+  font-family: 'Courier New', 'Source Han Sans', sans-serif;
+  color: white;
+  display: inline-block;
+}
+.square:hover {
+  cursor: pointer;
+  font-size: 12px;
+  max-width: 250px;
+  padding: 7px 25px;
+  text-decoration: none;
+  border: 1px solid #990;
+  background: #770;
   font-family: 'Courier New', 'Source Han Sans', sans-serif;
   color: white;
   display: inline-block;
@@ -323,7 +346,7 @@ h3 {
     display: flex;  
     align-items: center;
 }
-.newsContent {
+#newsText {
     white-space: nowrap;
 }
 .soft {
