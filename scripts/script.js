@@ -1,9 +1,9 @@
 (function() {  
   function loop() {  
+    updatePoints();  
     updateLastUpdateTime();  
     updateRealDim();  
     updateDimDatas();  
-    updatePoints();  
     checkUnlocks();  
     replicateSqrtPoints();  
     updateSquare();  
@@ -72,22 +72,9 @@ function buyMaxDimAfterGal1(dim) {
 }
 
 function updatePoints() {
-  player.ptgain = player.dims[1][5].mul(player.dims[1][2])
-  if (player.chal == 3) {
-    let debuff = E(1)
-    let galaxybought = player.sqrt.galaxies.sub(1)
-    let alldimbought = player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10)
-    let rec0_9 = E(1.11111111111111111111111)
-    debuff = debuff.mul(rec0_9.pow(galaxybought))
-    debuff = debuff.mul(E(1.696).pow(alldimbought.add(1).log10()))
-    player.ptgain = player.ptgain.root(debuff)
-    for (let i=2;i<=8;i++) {
-      player.ptgain = player.ptgain.mul(E(i).pow(player.dims[i][4]))
-    }
-  }
-  player.points = player.points.add(player.ptgain.div(30))
+  player.points = player.points.add(tmp.ptgain.div(30))
   if (player.chal == 1) player.points = player.points.min(player.sqrt.points.pow(2))
-  player.total = player.total.add(player.ptgain.div(30))
+  player.total = player.total.add(tmp.ptgain.div(30))
   if (player.best.lt(player.points)) player.best = player.points
 }
 

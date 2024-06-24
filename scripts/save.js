@@ -46,7 +46,6 @@ function hard_reset() {
       best: E(10),
       currentPage: 1,
       singleDMult: E(2),
-      ptgain: E(0),
       dims: dims,
       sqrt: {
         unl: false,
@@ -248,6 +247,7 @@ function fixOldSave() {
   if (player.square.upgrades == void 0) player.square.upgrades = []
   if (player.square.chals == void 0) player.square.chals = []
   if (player.square.resetTime == void 0) player.square.resetTime = E(0)
+  if (player.ptgain != void 0) delete player.ptgain
 }
 document.addEventListener('DOMContentLoaded', (event) => {
     load();

@@ -93,7 +93,7 @@ function chunkArrayIntoGroupsOfTen(arr) {
 
 function formatGain(a,e,res="") {
     const g = ExpantaNum.add(a,e.div(30))
-    const DT = ExpantaNum("10^^10")
+    const DT = ExpantaNum("10^^6")
 
     if (g.neq(a)) {
         if (a.gte(DT)) {
@@ -102,7 +102,7 @@ function formatGain(a,e,res="") {
         }
 
         if (a.gte('ee100')) {
-            var tower = Math.floor(E(a).slog(10).toNumber() - 1.3010299956639813);
+            var tower = E(a).slog(10).sub(1.3010299956639813).floor();
     
             var oom = E(g).iteratedlog(10,tower).sub(E(a).iteratedlog(10,tower)).mul(30), rated = false;
     

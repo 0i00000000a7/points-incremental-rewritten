@@ -78,4 +78,20 @@ const tmp = {
   hasSuperScalDim(dim) {
     return player.dims[dim][1].gte(Number.MAX_VALUE)
   },
+  get ptgain() {
+  let gain = player.dims[1][5].mul(player.dims[1][2])
+  if (player.chal == 3) {
+    let debuff = E(1)
+    let galaxybought = player.sqrt.galaxies.sub(1)
+    let alldimbought = player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10)
+    let rec0_9 = E(1.11111111111111111111111)
+    debuff = debuff.mul(rec0_9.pow(galaxybought))
+    debuff = debuff.mul(E(1.696).pow(alldimbought.add(1).log10()))
+    gain = gain.root(debuff)
+    for (let i=2;i<=8;i++) {
+      gain = gain.mul(E(i).pow(player.dims[i][4]))
+    }
+  }
+  return gain
+  }
 }

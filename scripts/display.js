@@ -4,7 +4,7 @@ function getPointDisplay() {
 }
 
 function getPointGain() {
-  return '你正在每秒获取 ' + formatGain(player.points,player.ptgain," 点数")
+  return '你正在每秒获取 ' + formatGain(player.points,tmp.ptgain," 点数")
 }
 
 function getDimCostDisplay(dim) {
