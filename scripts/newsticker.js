@@ -198,7 +198,7 @@ updatenews = () => {
   e.style.transition = '';
   e.style.transform = 'translateX(' + (parentWidth + 10) + 'px)';
   let dist = parentWidth + e.clientWidth
-  let rate = 2000;
+  let rate = 100;
   let transformDuration = dist / rate;
   e.style.transition = 'transform ' + transformDuration + 's linear';
   e.style.transform = 'translateX(-' + (textWidth) + 'px)';
