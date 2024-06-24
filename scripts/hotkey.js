@@ -1,4 +1,4 @@
-hotkeys("*", function(event, handler) {
+hotkeys("*", function(event) {
   event.preventDefault()
 })
 hotkeys("1,2,3,4,5,6,7,8", function(event, handler) {

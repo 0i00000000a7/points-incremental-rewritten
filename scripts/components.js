@@ -40,6 +40,11 @@ function loadVue() {
       }
     }
   })
+  Vue.component("rainbow",{
+    template() {
+      return `<div :style="{color: getUndulatingColor()}"><slot></slot></div>`
+    }
+  })
 }
 openPopup = function (option) {
     app.isShowingPopup = option

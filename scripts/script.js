@@ -13,7 +13,7 @@
     updateResetTime();  
   }  
   
-  document.addEventListener('DOMContentLoaded', function(event) {  
+  document.addEventListener('DOMContentLoaded', function() {  
     window.loopVal = setInterval(loop, 1000 / 30); 
   });  
 })();

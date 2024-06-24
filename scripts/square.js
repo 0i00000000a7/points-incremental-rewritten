@@ -52,7 +52,7 @@ const sq_upgs = [{
   {
     desc: "对于挑战2的第二个奖励，前五个维度的指数增益+0.5",
     cost: E(5e8),
-    unlocked() {
+    get unlocked() {
       return hasSqChal(3) && player.chal.length >= 1
     },
     get effect() {
@@ -67,14 +67,14 @@ const sq_upgs = [{
   {
     desc: "前面的升级的效果+20%",
     cost: E(1e9),
-    unlocked() {
+    get unlocked() {
       return hasSqChal(3) && player.chal.length >= 2
     }
   },
   {
     desc: "解锁自动购买星系，挑战2第三效果在1.79e308后仍然生效",
     cost: E(5e11),
-    unlocked() {
+    get unlocked() {
       return hasSqChal(3) && player.chal.length >= 3
     }
   },

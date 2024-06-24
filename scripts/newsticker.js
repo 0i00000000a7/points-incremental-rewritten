@@ -177,16 +177,20 @@ var texts = [
   {
     text: '如果你看不了滚动新闻，就说明你把滚动新闻关了',
   },
+  {
+    text: `| 0"1"2"2.5"3"3.25"3.35"3.44"3.52"3.6"3.65"3.69"3.72"3.74"3.756"3.771"3.782"3.79"3.799"3.807"3.814"3.82"3.825"3.829"3.833"3.836"3.8388"3.8406"3.8425"3.8444"3.8463"3.8482"3.8501"3.852"3.854"3.856"3.858"3.8599"3.8617"3.8635"3.8653"3.8671"3.8688"3.8706"3.8724"3.8742"3.876"3.8717"3.8734"3.8751"3.8768"3.8785"3.8802"3.8819"3.8836"3.8853"3.887"3.8886"3.8902"3.8918"3.8934"3.895"3.89625"3.8975"3.89875"3.9 ...... "3.91"3.9105"3.9109 ...... "3.92"3.9201 ...... "3.93"3.93002 ...... "3.94"3.94+1.73×10<sup>-6</sup> ...... "3.95"3.95+8.62×10<sup>-9</sup> ...... "3.95"3.95+3.84×10<sup>-17</sup> ...... "3.96"3.96+5.82×10<sup>-114</sup> ...... "3.97"3.97+1.73×10<sup>-${(5673205187258429357810236875n).toLocaleString()}</sup> ...... "3.98"3.98+<sup>1</sup>/<sub>${format(E.GRAHAMS_NUMBER)}</sub> ...... "3.99"3.99+<sup>1</sup>/<sub>Rayo(10<sup>100</sup>)</sub> ...... "3.999"3.999+<sup>1</sup>/<sub>∞</sub> ...... "4 | 这把尺子经历了<span class='soft'>(受二重软上限限制)</span>`,
+  },
 ]
 textslength = texts.length
 console.log(textslength)
-updatenews = function() {
-  if (!player.options.showNewsTicker) return
+msg = ""
+updatenews = () => {
   let e = document.getElementById("newsText")
+  if (!player.options.showNewsTicker) return
   do {
     rand = Math.floor(Math.random() * textslength)
   } while(checkRand(rand))
-  //rand = 1
+  //rand = textslength-1
   let msg = texts[rand].text;
   e.innerHTML = msg;
   let textWidth = e.clientWidth;
@@ -194,16 +198,20 @@ updatenews = function() {
   e.style.transition = '';
   e.style.transform = 'translateX(' + (parentWidth + 10) + 'px)';
   let dist = parentWidth + e.clientWidth
-  let rate = 100;
+  let rate = 2000;
   let transformDuration = dist / rate;
   e.style.transition = 'transform ' + transformDuration + 's linear';
   e.style.transform = 'translateX(-' + (textWidth) + 'px)';
-  setTimeout(updatenews, Math.ceil(transformDuration) * 1000 + 1000);
+  e.addEventListener('transitionend', onNewsEnd)
 }
-
+var onNewsEnd = () => {
+  let e = document.getElementById("newsText")
+  e.removeEventListener('transitionend', onNewsEnd)
+  setTimeout(updatenews, 1000)
+}
 Vue.component("newsticker",{
   get template() {
-    return `<div id="news"><p id="newsText"></p></div>`
+    return `<div id="news"><p id="newsText">{{ msg }}</p></div>`
   },
   mounted() {
     updatenews()
