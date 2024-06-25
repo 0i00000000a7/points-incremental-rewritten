@@ -83,12 +83,16 @@
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2.5.3<br>
+        当前版本：v0.2.5.4<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
+        <div>
+          <h3>v0.2.5.4</h3><br>
+          - 修改一些数值<br>
+        </div>
         <div>
           <h3>v0.2.5.3</h3><br>
           - 修复手机双击后会放大的bug<br>
@@ -183,7 +187,7 @@
       <div v-if="player.currentPage == 4">
         <div class="sqrt_text">你有{{ player.sqrt.points.format() }}√点数<span v-if="player.sqrt.unl">(+{{ format(tmp.sqrt.replicatePerTick.log10().mul(30)) }}数量级/s)</span>，因此所有维度乘数×{{ format(tmp.sqrt.dim_eff) }}</div>
         <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
-        <button class="btn" @click="toggleAutoGal()">自动：{{ getAutoGalStatus() }}</button>
+        <button class="btn" @click="toggleAutoGal()" v-if="hasSqUpg(7)">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
         <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
         <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>

@@ -35,7 +35,7 @@ const sq_upgs = [{
     },
     get effect() {
       let eff = E(0.2)
-      if (hasSqUpg(6)) eff = eff.root(1.2)
+      if (hasSqUpg(6)) eff = eff.mul(1.2)
       return eff
     }
   },
@@ -66,14 +66,14 @@ const sq_upgs = [{
   },
   {
     desc: "前面的升级的效果+20%",
-    cost: E(1e9),
+    cost: E(1e10),
     get unlocked() {
       return hasSqChal(3) && player.square.chals.length >= 2
     }
   },
   {
     desc: "解锁自动购买星系，挑战2第三效果在1.79e308后仍然生效",
-    cost: E(5e11),
+    cost: E(1.5e12),
     get unlocked() {
       return hasSqChal(3) && player.square.chals.length >= 3
     }

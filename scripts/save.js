@@ -168,6 +168,7 @@ function importFromApp() {
     addNotify("导入失败")
   } finally {
     app.isShowingPopup = 0
+    app.save = ""
   }
 }
 

@@ -38,7 +38,7 @@ const tmp = {
     },
     get galaxyEffect() {
       let eff = player.sqrt.points.log10().div(200).min(player.sqrt.galaxies.mul(1 / 2))
-      if (player.chal == 2) eff = eff.mul(0.75)
+      if (player.chal == 2) eff = eff.mul(0.2)
       if (player.square.chals.includes(2)) eff = eff.mul(1.2)
       return eff
     },
@@ -53,8 +53,8 @@ const tmp = {
   },
   get dimsSoftPower1() {
     let a = E(0.5)
-    if (hasSqUpg(2)) a = a.pow(E(1).sub(sq_upgs[1].effect))
-    return a
+    if (hasSqUpg(2)) a = E(1).sub(a.mul(E(1).sub(sq_upgs[1].effect)))
+    return a.min(1)
   },
   pointsToDims(dim) {
     let costPow = E(1)
@@ -86,7 +86,7 @@ const tmp = {
     let alldimbought = player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10)
     let rec0_9 = E(1/0.9)
     debuff = debuff.mul(rec0_9.pow(galaxybought))
-    debuff = debuff.mul(E(1.696).pow(alldimbought.add(1).log10()))
+    debuff = debuff.mul(E(1.7).pow(alldimbought.add(1).log10()))
     gain = gain.root(debuff)
     for (let i=2;i<=8;i++) {
       gain = gain.mul(E(i).pow(player.dims[i][4]))
