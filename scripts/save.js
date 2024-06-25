@@ -278,4 +278,3 @@ function copyToClipboard(textToCopy) {
   }
   addNotify("复制失败")
 }
-

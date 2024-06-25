@@ -3,6 +3,14 @@ body {
   color: white;
   font-family: 'Courier New', sans-serif;
   position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 @font-face {
@@ -20,8 +28,6 @@ body {
   display: inline-block;
   white-space: nowrap;
 }
-
-
 
 .corrupted {
   animation: corrupted_text 4s cubic-bezier(0.37, 0, 0.63, 1) infinite
@@ -147,6 +153,7 @@ body {
   color: white;
   display: inline-block;
 }
+
 .btn:hover {
   cursor: pointer;
   font-size: 12px;
@@ -159,6 +166,7 @@ body {
   color: white;
   display: inline-block;
 }
+
 .square {
   cursor: pointer;
   font-size: 12px;
@@ -171,6 +179,7 @@ body {
   color: white;
   display: inline-block;
 }
+
 .square:hover {
   cursor: pointer;
   font-size: 12px;
@@ -204,6 +213,7 @@ body {
   cursor: not-allowed;
   display: inline-block;
 }
+
 .square:disabled {
   border-color: #222;
   background: #333300;
@@ -212,9 +222,9 @@ body {
   display: inline-block;
 }
 
-
-
-.chal,.inchal,.chalcomp {
+.chal,
+.inchal,
+.chalcomp {
   width: 70px;
   height: 70px;
   background-color: #000000;
@@ -284,6 +294,7 @@ h3 {
   align-items: center;
   z-index: 9999;
 }
+
 #first-galaxy {
   position: fixed;
   top: 0;
@@ -302,12 +313,12 @@ h3 {
   font-size: 24px;
   font-weight: bold;
 }
+
 #galaxy-text {
   color: black;
   font-size: 40px;
   font-weight: bold;
 }
-
 
 #notify {
   z-index: 9999;
@@ -328,45 +339,52 @@ h3 {
   opacity: 0;
   top: -130px;
 }
+
 * {
   font-family: 'Courier New', Noto Sans SC, sans-serif;
   user-select: none;
 }
-#news { /*滚动新闻*/
-    color: white;
-    width: 90%;
-    top: 0px;
-    height: 20px;
-    border: solid 2px #222;
-    background-color: #171717;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-size: 16px;
-    overflow: hidden;
-    display: flex;  
-    align-items: center;
+
+#news {
+  color: white;
+  width: 90%;
+  top: 0px;
+  height: 20px;
+  border: solid 2px #222;
+  background-color: #171717;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
+
 #newsText {
-    white-space: nowrap;
+  white-space: nowrap;
 }
+
 .soft {
-	color: hsl(237, 15%, 47%);
-	font-weight: bold;
-	text-shadow: 0px 1px 0px hsl(252, 19%, 57%);
-	pointer-events: none;
+  color: hsl(237, 15%, 47%);
+  font-weight: bold;
+  text-shadow: 0px 1px 0px hsl(252, 19%, 57%);
+  pointer-events: none;
 }
-.transparent-button {  
-  display: inline-block;  
-  padding: 10px 20px;  
-  font-size: 16px;  
-  color: #fff; /* 按钮上的文字颜色 */  
-  background-color: transparent; /* 按钮背景完全透明 */  
-  border: none; /* 无边框 */  
-  cursor: pointer; /* 鼠标悬停时变为手形图标 */  
-  outline: none; /* 移除点击时的轮廓 */  
-  transition: color 0.3s ease; /* 文字颜色过渡效果 */  
-}  
+
+.transparent-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.3s ease;
+}
+
 @keyframes a-implode {
+
   0%,
   100% {
     transform: scale(1);
@@ -420,6 +438,7 @@ h3 {
     filter: blur(0);
   }
 }
+
 @keyframes a-dilate {
   0% {
     opacity: 1;
@@ -463,18 +482,19 @@ h3 {
     transform: scaleX(1);
   }
 }
-::-webkit-scrollbar {  
-    width: 10px;  
-}  
-  
-::-webkit-scrollbar-track {  
-    background-color: #000000;
-}  
-  
-::-webkit-scrollbar-thumb {  
-    border: solid 1px black;  
-    background-color: #888;  
-    border-radius: 10px;  
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  border: solid 1px black;
+  background-color: #888;
+  border-radius: 10px;
 }
 
 spoiler:active {
@@ -490,73 +510,84 @@ spoiler {
   color: transparent;
   display: inline-block;
 }
+
 @-webkit-keyframes masked-animation {
-	0% { background-position: 0 0;} 
-	00% {background-position: -8000px -3000px;}
+  0% {
+    background-position: 0 0;
   }
+
+  00% {
+    background-position: -8000px -3000px;
+  }
+}
+
 .sqrt_text {
-	text-align: center;
-	font-size: 18px;
-	color: #000;
-	max-width: 700px;
-	background: -webkit-linear-gradient( left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100% ) repeat;
-	border-color: -webkit-linear-gradient( left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100% ) repeat;
-	-webkit-background-clip: text;
-	-ms-background-clip: text;
-	-moz-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-	-ms-text-fill-color: transparent;
-	-moz-text-fill-color: transparent;
-	text-fill-color: transparent;
-	-webkit-animation-name: masked-animation;
-	-webkit-animation-duration: 50s;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: linear;
-  }
-  
+  text-align: center;
+  font-size: 18px;
+  color: #000;
+  max-width: 700px;
+  background: -webkit-linear-gradient(left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100%) repeat;
+  border-color: -webkit-linear-gradient(left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100%) repeat;
+  -webkit-background-clip: text;
+  -ms-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -ms-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  text-fill-color: transparent;
+  -webkit-animation-name: masked-animation;
+  -webkit-animation-duration: 50s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
 
 .popup {
-	position: fixed;
-	left: 50%;
+  position: fixed;
+  left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-	color: white;
-	border: solid 2px #222;
-	background-color: #171717;
-	padding: 7px 25px;
-	pointer-events: auto;
-	max-width: 75%;
-	max-height: 75%;
-	overflow: auto;
-	font-size: 16px;
-	z-index: 114514;
+  color: white;
+  border: solid 2px #222;
+  background-color: #171717;
+  padding: 7px 25px;
+  pointer-events: auto;
+  max-width: 75%;
+  max-height: 75%;
+  overflow: auto;
+  font-size: 16px;
+  z-index: 114514;
 }
 
-.popup > input {
-	width: 300px;
-	margin-bottom: 10px;
+.popup>input {
+  width: 300px;
+  margin-bottom: 10px;
 }
 
-.sq_upg,.sq_upg_bought,.sq_upg_buyable {  
-  width: 40px;  
-  height: 40px;  
-  border: solid 2px #770;  
-  display: flex; /* 使用Flexbox */  
-  justify-content: center; /* 水平居中 */  
-  align-items: center; /* 垂直居中 */  
-  /* 如果你想让文本垂直和水平都居中，并且是单行文本，可以加上 */  
-  text-align: center; /* 水平居中（对于文本） */  
-}  
-.sq_upg_bought {  
-   background: #550;
-}  
+.sq_upg,
+.sq_upg_bought,
+.sq_upg_buyable {
+  width: 40px;
+  height: 40px;
+  border: solid 2px #770;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sq_upg_bought {
+  background: #550;
+}
+
 .sq_upg_buyable {
   background: #333;
 }
+
 .sq_upg:hover {
   transform: scale(1.2);
 }
+
 .sq_upg_bought:hover {
   transform: scale(1.2);
 }
@@ -564,10 +595,16 @@ spoiler {
 .sky {
   color: skyblue;
 }
+
 .green {
   color: green;
 }
+
 .upg_text_box {
   width: 100%;
   height: 100px;
+}
+
+.aquamarine {
+  color: aquamarine;
 }
