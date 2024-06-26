@@ -5,11 +5,12 @@ const tmp = {
       if (hasSqUpg(3)) {
         eff = eff.mul(player.sqrt.points.add(1).pow(0.01))
       }
+      if (hasSqUpg(7)) eff = eff.pow(4)
       return eff
     },
     get galCost() {
       let cost = E(100).pow(player.sqrt.galaxies.mul(50).add(50))
-      if (player.square.chals.includes(3)) cost = cost.pow(0.9)
+      cost = cost.root(tmp.sqrt.fullCostRoot)
       return cost
     },
     get isCapped() {
@@ -34,14 +35,23 @@ const tmp = {
       if (player.sqrt.galaxies.gte(6)) buff = buff.mul(player.sqrt.galaxies)
       if (player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
       if (player.square.chals.includes(2) && (player.sqrt.points.lt(Number.MAX_VALUE) || hasSqUpg(7))) buff = buff.mul(player.dims[8][4].add(10).log10())
+      if (hasSqChal(7)) buff = buff.mul(MATH.PI)
       return mult.root(debuff).pow(buff).min("1e10")
     },
     get galaxyEffect() {
-      let eff = player.sqrt.points.log10().div(200).min(player.sqrt.galaxies.mul(1 / 2))
+      if (player.chal == 4) return E(0)
+      let div = E(200)
+      if (hasSqChal(4)) div = div.div(tmp.sqrt.fullCostRoot)
+      let eff = player.sqrt.points.log10().div(div).min(player.sqrt.galaxies.mul(1 / 2))
       if (player.chal == 2) eff = eff.mul(0.2)
       if (player.square.chals.includes(2)) eff = eff.mul(1.2)
       return eff
     },
+    get fullCostRoot() {
+      let root = E(1)
+      if (player.square.chals.includes(3)) root = root.mul(1/0.9)
+      return root
+    }
   },
   canBuyDim(dim) {
     //忽略维度价格的情况下
@@ -93,5 +103,5 @@ const tmp = {
     }
   }
   return gain
-  }
+  },
 }

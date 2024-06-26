@@ -14,7 +14,7 @@
   }  
   
   document.addEventListener('DOMContentLoaded', function() {  
-    window.loopVal = setInterval(loop, 1000 / 30); 
+    window.loopVal = setInterval(loop); 
   });  
 })();
 
@@ -26,17 +26,17 @@ function updateRealDim() {
 }
 
 function updateDimDatas() {
-  for(i = 1; i <= 7; i++) {
+  for(let i = 1; i <= 7; i++) {
     if (player.chal != 2) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
     else {
       if (i<7) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 2][2]).div(30))
       else player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].div(30))
     }
   }
-  for(i = 1; i <= 8; i++) {
+  for(let i = 1; i <= 8; i++) {
     player.dims[i][1] = player.dims[i][0].pow(player.dims[i][4].add(1))
   }
-  for(i = 1; i <= 8; i++) {
+  for(let i = 1; i <= 8; i++) {
     player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
     if (player.square.chals.includes(2)) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(i*0.1))
     if (hasSqUpg(5) && i<=5) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(sq_upgs[4].effect))
@@ -120,7 +120,7 @@ function changeNewsTickerShown() {
 function updateResetTime() {
   player.square.resetTime = player.square.resetTime.add(1/30)
 }
-const Endgame = E("1e4400")
+const Endgame = E("1e7000")
 function isEndgame() {
   return player.points.gte(Endgame)
 }

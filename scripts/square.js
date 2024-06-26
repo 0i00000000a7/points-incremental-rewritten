@@ -72,7 +72,7 @@ const sq_upgs = [{
     }
   },
   {
-    desc: "解锁自动购买星系，挑战2第三效果在1.79e308后仍然生效",
+    desc: "解锁自动购买星系，挑战2第三效果在1.79e308后仍然生效，√点数效果^4",
     cost: E(1.5e12),
     get unlocked() {
       return hasSqChal(3) && player.square.chals.length >= 3
@@ -121,5 +121,15 @@ const sq_chal = [{
     },
     goal: E(2).pow(1024).pow(3),
     reward: "解锁(已完成的平方挑战数)个新平方升级<br>√星系价格^0.9<br>√星系不再重置任何东西"
-  }
+  },
+  {
+    id: 4,
+    title: "挑战4 - 星系摧毁",
+    desc: `基于√点数的星系效果无效`,
+    get unlocked() {
+      return hasSqUpg(7)
+    },
+    goal: E(2).pow(1024).pow(4),
+    reward: "星系速度×π,挑战3第二效果也对星系效果生效"
+  },
 ]

@@ -524,22 +524,7 @@ spoiler {
 .sqrt_text {
   text-align: center;
   font-size: 18px;
-  color: #000;
   max-width: 700px;
-  background: -webkit-linear-gradient(left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100%) repeat;
-  border-color: -webkit-linear-gradient(left, #2c2a2b 0%, #315030 25%, #107421 50%, #35f704 100%) repeat;
-  -webkit-background-clip: text;
-  -ms-background-clip: text;
-  -moz-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -ms-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-  text-fill-color: transparent;
-  -webkit-animation-name: masked-animation;
-  -webkit-animation-duration: 50s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
 }
 
 .popup {
@@ -607,4 +592,23 @@ spoiler {
 
 .aquamarine {
   color: aquamarine;
+}
+
+ .sqrtP {
+  color: #03a9f4;
+}
+.sqrtP_lv1 {
+  filter: brightness(125%);
+  font-weight: bold;
+}
+.sqrtP_lv2 {
+  animation: a-replicanti--glow 10s infinite;
+}
+@keyframes a-replicanti--glow {
+
+  0% { color: #2196f3; }
+
+  33% { color: #673ab7; }
+  66% { color: #00bcd4; }
+  100% { color: #2196f3; }
 }

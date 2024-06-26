@@ -185,7 +185,7 @@
         </div>
       </div>
       <div v-if="player.currentPage == 4">
-        <div class="sqrt_text">你有{{ player.sqrt.points.format() }}√点数<span v-if="player.sqrt.unl">(+{{ format(tmp.sqrt.replicatePerTick.log10().mul(30)) }}数量级/s)</span>，因此所有维度乘数×{{ format(tmp.sqrt.dim_eff) }}</div>
+        <div class="sqrt_text">你有<span :class="getSqrtPClass()">{{ player.sqrt.points.format() }}</span>√点数<span v-if="player.sqrt.unl">(+{{ format(tmp.sqrt.replicatePerTick.log10().mul(30)) }}数量级/s)</span>，因此所有维度乘数×{{ format(tmp.sqrt.dim_eff) }}</div>
         <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
         <button class="btn" @click="toggleAutoGal()" v-if="hasSqUpg(7)">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>

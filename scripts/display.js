@@ -256,3 +256,9 @@ function getAutoGalStatus() {
   if (player.autogalaxy) return "开"
   return "关"
 }
+function getSqrtPClass() {
+  let a = "sqrtP"
+  if (hasSqUpg(3)) a += " sqrtP_lv1"
+  if (hasSqUpg(7)) a += " sqrtP_lv2"
+  return a
+}
