@@ -92,16 +92,17 @@ function getGalRewardText() {
 
 function getHotkeyText() {
   let hotkey = "快捷键："
-  hotkey += "按1~8可最大对应的维度，"
-  hotkey += "按shift+1~8可购买一次对应的维度，"
-  hotkey += "按m可全部购买最大，"
-  hotkey += "按g可进行星系重置，"
-  if(player.sqrt.galaxies.gte(3) || player.square.unl) hotkey += "按s可进行平方重置"
+  hotkey += "按1~8可最大对应的维度"
+  hotkey += "，按shift+1~8可购买一次对应的维度"
+  hotkey += "，按m可全部购买最大"
+  hotkey += "，按g可进行星系重置"
+  if(player.sqrt.galaxies.gte(3) || player.square.unl) hotkey += "，按s可进行平方重置"
   return hotkey
 }
 
 function get_pts_volume(x) {
   const meter_cubed = 2.368725399190357385e104
+  if(x.gte("ee9")) return "大神啊！你的点数已经可以制造1个多元宇宙了！"
   if(x.gte("1e785")) return `如果你每秒写3个数字，那么把你的点数写下来需要${formatTime.fromSeconds(x.log10().floor().add(1).div(3))}`
   if(x.gte(Number.MAX_VALUE)) return `如果你的每个点数占据一个普朗克单位，你的点数足以制造${x.div(Number.MAX_VALUE).format()}个无限`
   if(x.gte(meter_cubed * 1e113)) return `如果你的每个点数占据一个普朗克单位，你的点数足以制造${x.div(meter_cubed*1e113).format()}个维度`
@@ -261,4 +262,8 @@ function getSqrtPClass() {
   if (hasSqUpg(3)) a += " sqrtP_lv1"
   if (hasSqUpg(7)) a += " sqrtP_lv2"
   return a
+}
+function calculateRotationAngle(t = 5) {
+  const n = 1e3 * t, a = Date.now() % n / n;
+  return 10 * Math.sin(2 * Math.PI * a)
 }

@@ -14,6 +14,10 @@ function square() {
 
 function updateSquare() {
   if(player.square.best.lt(player.points)) player.square.best = player.square.points
+  if (hasSqChal(5)) {
+    player.square.points = player.square.points.add(tmp.square.gain.mul(0.1/30))
+    player.square.total = player.square.total.add(tmp.square.gain.mul(0.1/30))
+  }
 }
 const sq_upgs = [{
     desc: "复制器速率基于复制器而增加",
@@ -78,6 +82,20 @@ const sq_upgs = [{
       return hasSqChal(3) && player.square.chals.length >= 3
     }
   },
+  {
+    desc: "点数获取速度指数+0.08，在任意平方挑战内+0.16，解锁平方挑战5",
+    cost: E(1e20),
+    get unlocked() {
+      return hasSqChal(3) && player.square.chals.length >= 4
+    }
+  },
+  {
+    desc: "Coming S∞n",
+    cost: E(2e34),
+    get unlocked() {
+      return hasSqChal(3) && player.square.chals.length >= 5
+    }
+  },
 ]
 
 function hasSqUpg(upg) {
@@ -130,6 +148,18 @@ const sq_chal = [{
       return hasSqUpg(7)
     },
     goal: E(2).pow(1024).pow(4),
-    reward: "星系速度×π,挑战3第二效果也对星系效果生效"
+    reward: "√点数复制速度×π,挑战3第二效果也对星系效果生效"
+  },
+  {
+    id: 5,
+    title: "挑战5 - 终焉挑战",
+    desc: `C1~C4同时运行<br>平方升级1,3,5,7禁用<br>自动购买维度和星系禁用<br>第一维度效果对所有维度都生效(每个星系都移除一个，上限移除6个)<br>C3第一效果生效6次<br>每个星系使点数获取速度×2`,
+    get unlocked() {
+      return hasSqUpg(8)
+    },
+    goal: E(2).pow(1024),
+    get reward() {
+      return `每秒获取10%点数<sup>2</sup><br>√点数复制速度×100<br>解锁${wordShift.randomCrossWords("???", 10)}`
+    }
   },
 ]

@@ -42,13 +42,15 @@
       <div v-if="isEndgame()" :style="{color: getUndulatingColor()}">已到达当前版本终点！</div>
       <div>{{ getPointGain() }}</div>
       <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
+      <main-line></main-line>
       <div>
         <button @click="switchpage(1)" class="btn" :disabled="tabshow.main.inTab">主要</button>
         <button @click="switchpage(5)" class="btn" :disabled="tabshow.resets.inTab" v-if="tabshow.resets.unlocked">重置</button>
         <button @click="switchpage(7)" class="square" :disabled="tabshow.square.inTab" v-if="tabshow.square.unlocked">平方</button>
         <button @click="switchpage(6)" class="btn" :disabled="tabshow.stats.inTab">统计</button>
         <button @click="switchpage(2)" class="btn" :disabled="tabshow.options.inTab">选项</button>
-      </div><br>
+      </div>
+      <main-line></main-line>
       <div>
         <button @click="switchpage(1)" class="btn" v-if="tabshow.main.dimensions.unlocked" :disabled="tabshow.main.dimensions.inTab">维度</button>
         <button @click="switchpage(4)" class="btn" v-if="tabshow.main.sqrt.unlocked" :disabled="tabshow.main.sqrt.inTab">√点数</button>
@@ -58,11 +60,11 @@
         <button @click="switchpage(8)" class="square" v-if="tabshow.square.challenges.unlocked" :disabled="tabshow.square.challenges.inTab">挑战</button>
       </div><br>
       <div v-if="player.currentPage == 1">
-        <button @click="buyall()" class="btn">购买最大</button>
+        <button @click="buyall()" class="btn" @touchstart="isHoldMax = true" @touchend="isHoldMax = false">购买最大</button>
         <button @click="openPopup(2)" class="btn" v-if="player.square.chals.includes(2)">更改每次购买上限</button>
         <template>
           <div v-for="dim in dimensions" :key="dim.id">
-            <span v-if="tmp.hasSuperScalDim(dim.id)" style="color:red" display="inline-block">超级折算</span><span>{{ dim.label }}</span>
+            <span v-if="tmp.hasSuperScalDim(dim.id)" style="color:red">超级折算</span><span>{{ dim.label }}</span>
             <span>{{ formatWhole(player.dims[dim.id][5]) }}</span>
             <span>×{{ format(player.dims[dim.id][2]) }}</span>
             <button class="btn" @click="buydim(dim.id)" v-if="player.sqrt.galaxies.lt(1)" :disabled="player.points.lt(player.dims[dim.id][1])">{{ getDimCostDisplay(dim.id) }}</button>
@@ -83,12 +85,17 @@
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2.5.4<br>
+        当前版本：v0.2.6<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
+        <div>
+          <h3>v0.2.6</h3><br>
+          - 添加一个<spoiler>平方挑战</spoiler><br>
+          - 添加一个<spoiler>平方升级</spoiler><br>
+        </div>
         <div>
           <h3>v0.2.5.4</h3><br>
           - 修改一些数值<br>
@@ -189,13 +196,13 @@
         <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
         <button class="btn" @click="toggleAutoGal()" v-if="hasSqUpg(7)">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
-        <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
+        <button class="galaxyReset" @click="galaxy()" @touchstart="isHoldGal = true" @touchend="isHoldGal = false">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
         <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
         <div style="color: red" v-if="tmp.sqrt.isSofted">在1.000e100√点数后，√点数复制速度将受到{{ tmp.sqrt.isCapped ? '硬' : '软' }}上限限制!</div>
         <div style="color: rgb(121, 0, 0)" v-if="tmp.sqrt.isSofted2">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>
       <div v-if="player.currentPage == 5">
-        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+        <button class="square" @click="square()" @touchstart="isHoldSquare = true" @touchend="isHoldSquare = false">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
       </div>
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
@@ -210,7 +217,7 @@
             <table>
               <tr v-for="row in sq_upgs" key="row.id">
                 <td v-for="upg in sq_upgs[row.id]" key="upg.id">
-                  <div :class="getSqUpgClassName(upg.id)" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @click="buySqUpg(upg.id)" v-if="app.squpgs2[upg.id-1].unlocked"><span>{{ upg.id }}</span></div>
+                  <div :class="getSqUpgClassName(upg.id)" @touchstart="hover_upg = upg.id" @touchend="hover_upg = 0" @mouseover="hover_upg = upg.id" @mouseleave="hover_upg = 0" @click="buySqUpg(upg.id)" v-if="app.squpgs2[upg.id-1].unlocked"><span>{{ upg.id }}</span></div>
                 </td>
               </tr>
             </table>

@@ -3,6 +3,8 @@ function handleChalButtonClick(chal) {
   app.choosed_chal = chal
 }
 function enterChal(chal) {
+  player.square.points = player.square.points.add(tmp.square.gain)
+  player.square.total = player.square.total.add(tmp.square.gain)
   square_reset()
   player.chal = chal
 }
@@ -13,6 +15,13 @@ function exitChal() {
 function updateChal() {
   if (player.chal == 1) {
     player.dims[8][4] = E(0.1).max(player.dims[8][4]).min(tmp.square.chal1cap)
+  }
+  if (player.chal == 5) {
+    let a = Math.min(player.sqrt.galaxies.toNumber(), 6)
+    for (let i = 1;i<=8;i++) {
+      player.dims[i][4] = E(0.1).max(player.dims[i][4])
+      if (a < i) player.dims[i][4] = player.dims[i][4].min(tmp.square.chal1cap)
+    }
   }
 }
 function completeChal() {

@@ -1,8 +1,9 @@
-body {
+:root {
+  --font: 'Courier New', 'Noto Sans SC', 'sans-serif';
+}
+html {
   background-color: black;
   color: white;
-  font-family: 'Courier New', sans-serif;
-  position: relative;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -12,6 +13,15 @@ body {
   user-select: none;
   touch-action: manipulation;
 }
+button {
+    border: solid 2px #444;
+    background-color: #1b1b1b;
+	color: white;
+    font-size: 14px;
+	cursor: pointer;
+	transition-property: background-color, border, transform, box-shadow;
+	transition-duration: 0.15s;
+}
 
 @font-face {
   font-family: 'Noto Sans SC';
@@ -20,7 +30,10 @@ body {
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/notosanssc/v36/k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYw.ttf) format('truetype');
 }
-
+* {
+  font-family: var(--font);
+  user-select: none;
+}
 .pts-dis {
   margin: 4px 4px;
   font-size: 48px;
@@ -149,7 +162,6 @@ body {
   text-decoration: none;
   border: 1px solid #777;
   background: #333;
-  font-family: 'Courier New', sans-serif;
   color: white;
   display: inline-block;
 }
@@ -162,7 +174,6 @@ body {
   text-decoration: none;
   border: 1px solid #999;
   background: #555;
-  font-family: 'Courier New', sans-serif;
   color: white;
   display: inline-block;
 }
@@ -175,7 +186,6 @@ body {
   text-decoration: none;
   border: 1px solid #770;
   background: #550;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
   color: white;
   display: inline-block;
 }
@@ -188,7 +198,6 @@ body {
   text-decoration: none;
   border: 1px solid #990;
   background: #770;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
   color: white;
   display: inline-block;
 }
@@ -201,7 +210,6 @@ body {
   text-decoration: none;
   border: 1px solid #777;
   background: #30B782;
-  font-family: 'Courier New', 'Source Han Sans', sans-serif;
   color: white;
   display: inline-block;
 }
@@ -230,7 +238,6 @@ body {
   background-color: #000000;
   color: #ffffff;
   border: 4px solid #555500;
-  font-family: 'Courier New', sans-serif;
   font-size: 16px;
   text-decoration: none;
   cursor: pointer;
@@ -340,10 +347,7 @@ h3 {
   top: -130px;
 }
 
-* {
-  font-family: 'Courier New', Noto Sans SC, sans-serif;
-  user-select: none;
-}
+
 
 #news {
   color: white;
@@ -604,11 +608,86 @@ spoiler {
 .sqrtP_lv2 {
   animation: a-replicanti--glow 10s infinite;
 }
+.sqrtP_lv3 {
+  animation: a-replicanti--happy 5s linear infinite,a-replicanti--glow 10s infinite;
+  opacity: 1;
+  display: inline-flex;
+}
 @keyframes a-replicanti--glow {
-
   0% { color: #2196f3; }
-
   33% { color: #673ab7; }
   66% { color: #00bcd4; }
   100% { color: #2196f3; }
+}
+@keyframes a-replicanti--happy {  
+  0% {  
+    transform: rotate(0deg);  
+  }  
+  5% {  
+    transform: rotate(3deg);  
+  }  
+  10% {  
+    transform: rotate(7deg);  
+  }  
+  15% {  
+    transform: rotate(10deg);  
+  }  
+  20% {  
+    transform: rotate(12deg);  
+  }  
+  25% {  
+    transform: rotate(13deg);  
+  }  
+  30% {  
+    transform: rotate(12deg);  
+  }  
+  35% {  
+    transform: rotate(10deg);  
+  }  
+  40% {  
+    transform: rotate(7deg);  
+  }  
+  45% {  
+    transform: rotate(3deg);  
+  }  
+  50% {  
+    transform: rotate(0deg);  
+  }  
+  /* 下半部分，反向旋转以模拟正弦波的下降 */  
+  55% {  
+    transform: rotate(-3deg);  
+  }  
+  60% {  
+    transform: rotate(-7deg);  
+  }  
+  65% {  
+    transform: rotate(-10deg);  
+  }  
+  70% {  
+    transform: rotate(-12deg);  
+  }  
+  75% {  
+    transform: rotate(-13deg);  
+  }  
+  80% {  
+    transform: rotate(-12deg);  
+  }  
+  85% {  
+    transform: rotate(-10deg);  
+  }  
+  90% {  
+    transform: rotate(-7deg);  
+  }  
+  95% {  
+    transform: rotate(-3deg);  
+  }  
+  100% {  
+    transform: rotate(0deg);  
+  }  
+}
+.main-line {
+	width: 100%;
+	border-bottom: solid 2px #222;
+	height: 5px;
+	margin-bottom: 13px;
 }

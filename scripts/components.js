@@ -27,7 +27,7 @@ function loadVue() {
       
     },  
     methods: {  
-    
+      
     },
     watch: {
       limitBuy(num) {
@@ -41,10 +41,12 @@ function loadVue() {
     }
   })
   Vue.component("rainbow",{
-    template() {
-      return `<div :style="{color: getUndulatingColor()}"><slot></slot></div>`
-    }
+    template: `<template><div :style="{color: getUndulatingColor()}"><slot></slot></div></template>`
   })
+  Vue.component("main-line",{
+    template: `<div class="main-line"></div>`
+  })
+  
 }
 openPopup = function (option) {
     app.isShowingPopup = option

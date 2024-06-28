@@ -1,4 +1,7 @@
 (function() {  
+  isHoldMax = false
+  isHoldGal = false
+  isHoldSquare = false
   function loop() {  
     updatePoints();  
     updateLastUpdateTime();  
@@ -10,24 +13,25 @@
     autoBuy();  
     detectTimerHooker();  
     updateChal();  
-    updateResetTime();  
+    updateResetTime(); 
   }  
   
   document.addEventListener('DOMContentLoaded', function() {  
-    window.loopVal = setInterval(loop); 
+    window.loopVal = setInterval(loop, 1000 / 30); 
+    //window.loopVal = setInterval(loop); 
   });  
 })();
 
 function updateRealDim() {
   for(i = 1; i <= 8; i++) {
     player.dims[i][5] = player.dims[i][3].add(player.dims[i][4].mul(10))
-    if (player.chal == 1 && i<=7) player.dims[i][5] = player.dims[i][5].min(player.dims[i+1][5].pow(2))
+    if ((player.chal == 1 || player.chal == 5) && i<=7) player.dims[i][5] = player.dims[i][5].min(player.dims[i+1][5].pow(2))
   }
 }
 
 function updateDimDatas() {
   for(let i = 1; i <= 7; i++) {
-    if (player.chal != 2) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
+    if ((player.chal != 2 || player.chal != 5)) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
     else {
       if (i<7) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 2][2]).div(30))
       else player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].div(30))
@@ -73,7 +77,7 @@ function buyMaxDimAfterGal1(dim) {
 
 function updatePoints() {
   player.points = player.points.add(tmp.ptgain.div(30))
-  if (player.chal == 1) player.points = player.points.min(player.sqrt.points.pow(2))
+  if ((player.chal == 1 || player.chal == 5)) player.points = player.points.min(player.sqrt.points.pow(2))
   player.total = player.total.add(tmp.ptgain.div(30))
   if (player.best.lt(player.points)) player.best = player.points
 }
@@ -95,10 +99,12 @@ function changeAuto(dim) {
 }
 
 function autoBuy() {
+  if (player.chal != 5) {
   for(let i = 1; i <= 8; i++) {
     if(player.autodims[i - 1]) buyMaxDim(i)
   }
   if (player.autogalaxy) galaxy()
+  }
 }
 
 function detectTimerHooker() {
@@ -120,7 +126,29 @@ function changeNewsTickerShown() {
 function updateResetTime() {
   player.square.resetTime = player.square.resetTime.add(1/30)
 }
-const Endgame = E("1e7000")
+const Endgame = E("1e10800")
 function isEndgame() {
   return player.points.gte(Endgame)
 }
+function holdMax() {
+  if (window.isHoldMax) buyall()
+  if (window.isHoldGal) galaxy()
+  if (window.isHoldSquare) square()
+  requestAnimationFrame(holdMax)
+}
+holdMax()
+function isXiaomiBrowser() {  
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;  
+  
+    // 小米浏览器的userAgent可能包含的关键字，但请注意这些可能会随着版本更新而变化  
+    var keywords = ['MiuiBrowser', 'Xiaomi'];  
+  
+    for (var i = 0; i < keywords.length; i++) {  
+        if (userAgent.indexOf(keywords[i]) > -1) {  
+            return true;  
+        }  
+    }  
+  
+    return false;  
+}  
+  
