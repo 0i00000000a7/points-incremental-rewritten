@@ -137,18 +137,3 @@ function holdMax() {
   requestAnimationFrame(holdMax)
 }
 holdMax()
-function isXiaomiBrowser() {  
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;  
-  
-    // 小米浏览器的userAgent可能包含的关键字，但请注意这些可能会随着版本更新而变化  
-    var keywords = ['MiuiBrowser', 'Xiaomi'];  
-  
-    for (var i = 0; i < keywords.length; i++) {  
-        if (userAgent.indexOf(keywords[i]) > -1) {  
-            return true;  
-        }  
-    }  
-  
-    return false;  
-}  
-  
