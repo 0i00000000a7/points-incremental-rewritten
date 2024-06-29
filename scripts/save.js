@@ -18,20 +18,12 @@ function randomSymbol() {
 }
 
 const wordShift = {
-  // Word cycling uses two diffrent effects to smoothly ease between words in the randomized set
-  // - The randomization effect eases in and out smoothly, with about 62% in the time in the middle being
-  //   completely unrandomized (randomCrossWords is passed frac <= 0). The randomization parameter goes well above 1
-  //   in order to have a good chance of properly randomizing the entire input in the middle
-  // - Near the "edges" (12% on each side) of each word's randomization time, it's blended with the previous or next
-  //   word. This mostly serves to smoothly ease between strings of different lengths, and only occurs between
-  //   strings which already have a high randomization fraction (frac > 1.3)
   wordCycle(list, noBuffer = false) {
     const len = list.length;
     const tick = Math.floor(Date.now() / 250) % (len * 5);
     const mod5 = ((Date.now() / 250) % (len * 5)) % 5;
     const largeTick = Math.floor(tick / 5);
     let v = list[largeTick].text;
-    // Blend with adjacent words, in such a way that mod5 being 0 or 5 corresponds with a 0.5 blend parameter
     if (mod5 < 0.6) {
       v = this.blendWords(list[(largeTick + list.length - 1) % list.length].text, list[largeTick].text, (mod5 + 0.6) / 1.2);
     } else if (mod5 > 4.4) {
@@ -42,17 +34,11 @@ const wordShift = {
     if (noBuffer) return v;
     const maxWordLen = Math.max(...list.map(x => x.text.length));
     const bufferSpace = (maxWordLen - v.length) / 2;
-    //console.log(mod5)
-    // Buffer the result with ALT+255 on either side to prevent the ui from twitching.
-    // Spaces do not work due to being automatically collapsed, and css fixing this causes other issues.
-    //v = " ".repeat(Math.ceil(bufferSpace)) + v + " ".repeat(Math.floor(bufferSpace));
     return {
       text: v,
       color: mergeColor(list[(largeTick + len - 1) % len].color, list[largeTick].color, mod5)
     }
   },
-  // Note that while frac may appear to specify the proportion of letters randomized, it may end up being slightly less
-  // depending on the specific string length and random output sometimes giving outputs which aren't coprime
   randomCrossWords(str, frac = 0.7) {
     if (frac <= 0) return str;
     const x = str.split("");
@@ -62,9 +48,6 @@ const wordShift = {
     }
     return x.join("");
   },
-  // This should only be used on words which will end up being completely randomized, because the unscrambled appearance
-  // of the output may look bad. Blends two strings together to produce a string of intermediate length, taking a
-  // specifed fraction (param, 0 to 1) from the first word and the rest (1 - param) from the second
   blendWords(first, second, param) {
     if (param <= 0) return first;
     if (param >= 1) return second;
@@ -148,7 +131,7 @@ function deepCopyProps(source,target) {
   for (let key in source) {  
         if (source.hasOwnProperty(key)) {  
             // 如果源对象的属性是对象或数组，则递归复制  
-            if ((typeof source[key] === 'object' && !source[key] instanceof ExpantaNum) && source[key] !== null) {  
+            if ((typeof source[key] === 'object' && !(source[key] instanceof ExpantaNum)) && source[key] !== null) {  
                 // 如果目标对象没有这个属性，或者属性是null，则创建一个新的  
                 if (!target.hasOwnProperty(key) || target[key] == null || Array.isArray(source[key]) !== Array.isArray(target[key])) {  
                     target[key] = Array.isArray(source[key]) ? [] : {};  
@@ -304,7 +287,7 @@ function fixOldSave() {
   if (player.options.hotkey == void 0) player.options.hotkey = true
   if (player.ptgain != void 0) delete player.ptgain
 }
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     load();
 });
 
