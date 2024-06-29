@@ -62,16 +62,7 @@ class cheatError extends Error {
     this.name = 'CheatError';
   }
 }
-const dims = [null,
-  [E(10),E(10),E(1),E(0),E(0),E(0)],
-  [E(100),E(100),E(1),E(0),E(0),E(0)],
-  [E(1e3),E(1e3),E(1),E(0),E(0),E(0)],
-  [E(1e4),E(1e4),E(1),E(0),E(0),E(0)],
-  [E(1e5),E(1e5),E(1),E(0),E(0),E(0)],
-  [E(1e6),E(1e6),E(1),E(0),E(0),E(0)],
-  [E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
-  [E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
-]
+
 //[basecost,cost,mult,amount,bought,real]
 
 
@@ -82,7 +73,16 @@ function hard_reset() {
       best: E(10),
       currentPage: 1,
       singleDMult: E(2),
-      dims: dims,
+      dims: [null,
+              [E(10),E(10),E(1),E(0),E(0),E(0)],
+              [E(100),E(100),E(1),E(0),E(0),E(0)],
+              [E(1e3),E(1e3),E(1),E(0),E(0),E(0)],
+              [E(1e4),E(1e4),E(1),E(0),E(0),E(0)],
+              [E(1e5),E(1e5),E(1),E(0),E(0),E(0)],
+              [E(1e6),E(1e6),E(1),E(0),E(0),E(0)],
+              [E(1e7),E(1e7),E(1),E(0),E(0),E(0)],
+              [E(1e8),E(1e8),E(1),E(0),E(0),E(0)],
+      ],
       sqrt: {
         unl: false,
         points: E(1),
