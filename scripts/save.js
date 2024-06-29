@@ -297,7 +297,6 @@ var formatsave = {
 }
 
 function fixOldSave() {
-  //nothing here......
   if (player.square.upgrades == void 0) player.square.upgrades = []
   if (player.square.chals == void 0) player.square.chals = []
   if (player.square.resetTime == void 0) player.square.resetTime = E(0)

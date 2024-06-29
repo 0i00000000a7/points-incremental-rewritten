@@ -85,12 +85,16 @@
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2.6<br>
+        当前版本：v0.2.6.1<br>
         游戏作者：<sup>0100000a7</sup><br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
         <h1>-----更新日志-----</h1>
+        <div>
+          <h3>v0.2.6.1</h3><br>
+          - 修复bug<br>
+        </div>
         <div>
           <h3>v0.2.6</h3><br>
           - 添加一个<spoiler>平方挑战</spoiler><br>
@@ -207,7 +211,7 @@
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
         {{ get_pts_volume(player.points) }}<br><br>
-        <div v-if="player.square.unl"><h2>点数<sup>2</sup></h2>
+        <div v-if="player.square.unl" style="color: yellow"><h2>点数<sup>2</sup></h2>
         你总共拥有{{ player.square.total.format(0) }}点数<sup>2</sup></div>
       </div>
       <div v-if="player.currentPage == 7">
