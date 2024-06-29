@@ -30,7 +30,7 @@ function galaxy_reset() {
 const galaxy_rewards = [
   {
     req: E(1),
-    desc: "移除复制器硬上限，购买维度不再花费点数，你可以购买小数个维度"
+    desc: "移除√点数硬上限，购买维度不再花费点数，你可以购买小数个维度"
   },
   {
     req: E(2),

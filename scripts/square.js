@@ -20,7 +20,7 @@ function updateSquare() {
   }
 }
 const sq_upgs = [{
-    desc: "复制器速率基于复制器而增加",
+    desc: "√点数速率基于√点数而增加",
     get effect() {
       return player.sqrt.points.log10().add(1).pow(0.2)
     },
