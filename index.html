@@ -34,7 +34,7 @@
     <div id="loader-overlay" v-if="!hasLoaded.status">
       <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
     </div>
-    <div v-if="hasLoaded.status">
+    <div ref="game">
       <newsticker v-if="player.options.showNewsTicker"></newsticker>
       <div class="popup" v-if="app.isShowingPopup == 1">请输入存档<br><input v-model="save" placeholder="在此处键入存档"><br><button @click="importFromApp()" class="btn">导入</button></div>
       <div class="popup" v-if="app.isShowingPopup == 2">输入想要更改的上限<br><input v-model="limitBuy" placeholder="在此处键入单次购买上限"><br>是否开启上限：<input id="isSetCappedDim" type="checkbox" v-model="player.isSetCappedDim"><br><button @click="openPopup(0)" class="btn">关闭</button></div>
@@ -234,7 +234,7 @@
             C{{ chal.id }}
           </button>
         </template><br><br>
-        <span v-html="get_sq_chal_text()"></span>
+        <div><sq-chal-text v-if="window.choosed_chal != 0"></sq-chal-text><div>
       </div>
     </div>
   </div>

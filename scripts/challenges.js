@@ -1,6 +1,7 @@
+choosed_chal = 0
 function handleChalButtonClick(chal) {
-  if (app.choosed_chal == chal) enterChal(chal)
-  app.choosed_chal = chal
+  if (choosed_chal == chal) enterChal(chal)
+  choosed_chal = chal
 }
 function enterChal(chal) {
   player.square.points = player.square.points.add(tmp.square.gain)
@@ -27,4 +28,7 @@ function updateChal() {
 function completeChal() {
   if (!player.square.chals.includes(player.chal)) player.square.chals.push(player.chal)
   exitChal()
+}
+function handleSqChalAnotherButtonClick() {
+  player.chal == choosed_chal? (player.points.gte(sq_chal[choosed_chal-1].goal)? completeChal() : exitChal()) : enterChal(choosed_chal)
 }
