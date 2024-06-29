@@ -236,6 +236,10 @@ function newsTickerShownButtonText() {
   if (player.options.showNewsTicker) return "关闭新闻"
   return "开启新闻"
 }
+function hotkeyShownButtonText() {
+  if (player.options.hotkey) return "关闭快捷键"
+  return "开启快捷键"
+}
 
 function getSqUpgClassName(id) {
   let upgradeClassName = 'sq_upg';

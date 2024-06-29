@@ -119,11 +119,12 @@ function hard_reset() {
       canautodim: false,
       chal: 0,
       options: {
-        showNewsTicker: true
+        showNewsTicker: true,
+        hotkey: true
       },
       limitBuyDimNumber: E(Infinity),
       isSetCappedDim: false,
-      autogalaxy: false
+      autogalaxy: false,
     }
 }
 
@@ -300,6 +301,7 @@ function fixOldSave() {
   if (player.square.upgrades == void 0) player.square.upgrades = []
   if (player.square.chals == void 0) player.square.chals = []
   if (player.square.resetTime == void 0) player.square.resetTime = E(0)
+  if (player.options.hotkey == void 0) player.options.hotkey = true
   if (player.ptgain != void 0) delete player.ptgain
 }
 document.addEventListener('DOMContentLoaded', (event) => {

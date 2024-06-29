@@ -123,6 +123,10 @@ function changeNewsTickerShown() {
   if (player.options.showNewsTicker) player.options.showNewsTicker = false
   else player.options.showNewsTicker = true
 }
+function changeHotkey() {
+  if (player.options.hotkey) player.options.hotkey = false
+  else player.options.hotkey = true
+}
 function updateResetTime() {
   player.square.resetTime = player.square.resetTime.add(1/30)
 }
