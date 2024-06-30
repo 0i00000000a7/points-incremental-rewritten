@@ -190,7 +190,7 @@ updatenews = () => {
   do {
     rand = Math.floor(Math.random() * textslength)
   } while(checkRand(rand))
-  //rand = textslength-1
+  //rand = 28
   let msg = texts[rand].text;
   e.innerHTML = msg;
   let textWidth = e.clientWidth;
@@ -217,9 +217,9 @@ Vue.component("newsticker",{
     updatenews()
   },
 })
-function addClicks() {
+window.addClicks = function () {
   window.clicks++
-  sp_new_clicks.innerHTML = clicks
+  document.getElementById("sp_new_clicks").innerHTML = clicks
 }
 
 function checkRand(rand) {

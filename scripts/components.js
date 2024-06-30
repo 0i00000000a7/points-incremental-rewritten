@@ -18,7 +18,6 @@ function loadVue() {
       isShowingPopup: 0,
       save: "",
       hover_upg: 0,
-      choosed_chal: 0,
       sq_upgs: chunkArrayIntoGroupsOfTen(sq_upgs),
       squpgs2: sq_upgs,
       limitBuy: player.limitBuyDimNumber.toString(),
@@ -48,9 +47,6 @@ function loadVue() {
   })
   Vue.component("main-line",{
     template: `<div class="main-line"></div>`
-  })
-  Vue.component("sq-chal-text", {
-    template: `<template><div><button class="btn" @click="handleSqChalAnotherButtonClick()">{{ player.chal == choosed_chal? (player.points.gte(sq_chal[choosed_chal-1].goal)? "完成" : "退出") : "进入" }}挑战</button><br><h4>{{ sq_chal[choosed_chal-1].title }}</h4><span style="color: red" v-html="sq_chal[choosed_chal-1].desc"></span><br>要求：{{ sq_chal[choosed_chal-1].goal.format() }}点数<br><span class="green" v-html="sq_chal[choosed_chal-1].reward"></span></div></template>`
   })
 }
 openPopup = function (option) {

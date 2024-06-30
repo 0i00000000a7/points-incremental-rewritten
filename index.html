@@ -23,6 +23,7 @@
   <script src="scripts/hotkey.js" defer></script>
   <script src="scripts/components.js" defer></script>
   <script src="scripts/save.js" defer></script>
+  <script src="scripts/changelog.js" defer></script>
 </head>
 
 <body>
@@ -34,7 +35,7 @@
     <div id="loader-overlay" v-if="!hasLoaded.status">
       <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
     </div>
-    <div ref="game">
+    <div>
       <newsticker v-if="player.options.showNewsTicker"></newsticker>
       <div class="popup" v-if="app.isShowingPopup == 1">请输入存档<br><input v-model="save" placeholder="在此处键入存档"><br><button @click="importFromApp()" class="btn">导入</button></div>
       <div class="popup" v-if="app.isShowingPopup == 2">输入想要更改的上限<br><input v-model="limitBuy" placeholder="在此处键入单次购买上限"><br>是否开启上限：<input id="isSetCappedDim" type="checkbox" v-model="player.isSetCappedDim"><br><button @click="openPopup(0)" class="btn">关闭</button></div>
@@ -48,16 +49,23 @@
         <button @click="switchpage(5)" class="btn" :disabled="tabshow.resets.inTab" v-if="tabshow.resets.unlocked">重置</button>
         <button @click="switchpage(7)" class="square" :disabled="tabshow.square.inTab" v-if="tabshow.square.unlocked">平方</button>
         <button @click="switchpage(6)" class="btn" :disabled="tabshow.stats.inTab">统计</button>
-        <button @click="switchpage(2)" class="btn" :disabled="tabshow.options.inTab">选项</button>
+        <button @click="switchpage(2)" class="btn" :disabled="tabshow.others.inTab">杂项</button>
       </div>
       <main-line></main-line>
       <div>
         <button @click="switchpage(1)" class="btn" v-if="tabshow.main.dimensions.unlocked" :disabled="tabshow.main.dimensions.inTab">维度</button>
         <button @click="switchpage(4)" class="btn" v-if="tabshow.main.sqrt.unlocked" :disabled="tabshow.main.sqrt.inTab">√点数</button>
-        <button @click="switchpage(2)" class="btn" v-if="tabshow.options.options.unlocked" :disabled="tabshow.options.options.inTab">选项</button>
-        <button @click="switchpage(3)" class="btn" v-if="tabshow.options.about.unlocked" :disabled="tabshow.options.about.inTab">关于</button>
+        <button @click="switchpage(2)" class="btn" v-if="tabshow.others.options.unlocked" :disabled="tabshow.others.options.inTab">选项</button>
+        <button @click="switchpage(3)" class="btn" v-if="tabshow.others.about.unlocked" :disabled="tabshow.others.about.inTab">关于</button>
         <button @click="switchpage(7)" class="square" v-if="tabshow.square.upgrades.unlocked" :disabled="tabshow.square.upgrades.inTab">升级</button>
         <button @click="switchpage(8)" class="square" v-if="tabshow.square.challenges.unlocked" :disabled="tabshow.square.challenges.inTab">挑战</button>
+        <button @click="switchpage(9)" class="square" v-if="tabshow.square.pmp.unlocked" :disabled="tabshow.square.pmp.inTab">点数×点数</button>
+      </div>
+      <main-line v-if="tabshow.haveTheThirdLine"></main-line>
+      <div>
+        <button @click="switchpage(9)" class="square" v-if="tabshow.square.pmp.left.unlocked" :disabled="tabshow.square.pmp.left.inTab">左点数</button>
+        <button @click="switchpage(10)" class="square" v-if="tabshow.square.pmp.multply.unlocked" :disabled="tabshow.square.pmp.multply.inTab">×</button>
+        <button @click="switchpage(11)" class="square" v-if="tabshow.square.pmp.right.unlocked" :disabled="tabshow.square.pmp.right.inTab">右点数</button>
       </div><br>
       <div v-if="player.currentPage == 1">
         <button @click="buyall()" class="btn" @touchstart="isHoldMax = true" @touchend="isHoldMax = false">购买最大</button>
@@ -91,118 +99,8 @@
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
-        <h1>-----更新日志-----</h1>
-        <div>
-          <h3>v0.2.6.3</h3><br>
-          - 修复硬重置bug<br>
-        </div>
-        <div>
-          <h3>v0.2.6.2</h3><br>
-          - 添加关闭快捷键的功能<br>
-        </div>
-        <div>
-          <h3>v0.2.6.1</h3><br>
-          - 修复bug<br>
-        </div>
-        <div>
-          <h3>v0.2.6</h3><br>
-          - 添加一个<spoiler>平方挑战</spoiler><br>
-          - 添加一个<spoiler>平方升级</spoiler><br>
-        </div>
-        <div>
-          <h3>v0.2.5.4</h3><br>
-          - 修改一些数值<br>
-        </div>
-        <div>
-          <h3>v0.2.5.3</h3><br>
-          - 修复手机双击后会放大的bug<br>
-        </div>
-        <div>
-          <h3>v0.2.5.2</h3><br>
-          - 修复<spoiler>平方升级</spoiler>和新闻的显示bug<br>
-        </div>
-        <div>
-          <h3>v0.2.5.1</h3><br>
-          - 修复<spoiler>点数</spoiler>获取显示的bug<br>
-        </div>
-        <div>
-          <h3>v0.2.5</h3><br>
-          - 添加一个<spoiler>平方挑战</spoiler><br>
-          - 添加三个<spoiler>平方升级</spoiler><br>
-        </div>
-        <div>
-          <h3>v0.2.4</h3><br>
-          - 添加一个<spoiler>平方挑战</spoiler><br>
-        </div>
-        <div>
-          <h3>v0.2.3.1</h3><br>
-          - 重新平衡<spoiler>平方挑战1</spoiler><br>
-        </div>
-        <div>
-          <h3>v0.2.3</h3><br>
-          - 添加<spoiler>一个平方挑战</spoiler><br>
-        </div>
-        <div>
-          <h3>v0.2.2</h3><br>
-          - 修复查看<spoiler>平方</spoiler>升级内容时升级会偏移的bug<br>
-        </div>
-        <div>
-          <h3>v0.2.1</h3><br>
-          - 修复电脑无法查看<spoiler>平方</spoiler>升级内容的bug<br>
-        </div>
-        <div>
-          <h3>v0.2</h3><br>
-          - 添加<spoiler>平方</spoiler>重置<br>
-          - 添加4个升级<br>
-        </div>
-        <div>
-          <h3>v0.1.6</h3><br>
-          - 使用vue.js重构游戏界面<br>
-        </div>
-        <div>
-          <h3>v0.1.5.1</h3><br>
-          - 修复部分三叠纪时期的手机无法导出至剪贴板的bug<br>
-          - 修改部分样式<br>
-        </div>
-        <div>
-          <h3>v0.1.5</h3><br>
-          - 添加<spoiler>快捷键</spoiler><br>
-        </div>
-        <div>
-          <h3>v0.1.4.1</h3><br>
-          - 修复<spoiler>星系</spoiler>不重置维度的bug<br>
-        </div>
-        <div>
-          <h3>v0.1.4</h3><br>
-          - 修改<spoiler>星系</spoiler>增益公式<br>
-        </div>
-        <div>
-          <h3>v0.1.3.1</h3><br>
-          - 完善<spoiler>自动化</spoiler>逻辑<br>
-        </div>
-        <div>
-          <h3>v0.1.3</h3><br>
-          - 添加<spoiler>星系</spoiler>重置<br>
-          - Endgame增长至1.000e785<spoiler>点数</spoiler><br>
-        </div>
-        <div>
-          <h4>v0.1.2 游戏体验似乎好点了?</h4>
-            - 添加<spoiler>维度</spoiler>的最大购买按钮<br>
-            - 添加<spoiler>√点数</spoiler>软上限(只不过在软上限开始的地方还有一个硬上限)<br>
-            - 修改<spoiler>星系</spoiler>重置按钮<br>
-            - 添加游戏加载提示<br>
-            - 修复了chromium浏览器在切换页面5分钟后会导致游戏主循环计算变得及其缓慢的bug<br>
-            - 修复了计时器掌控者等恶意脚本可以干扰游戏运行的bug<br>
-        </div>
-        <div>
-          <h3>v0.1 开平方</h3><br>
-            - 添加<spoiler>√点数</spoiler><br>
-            - 画大饼(<spoiler>星系</spoiler>)<br>
-        </div>
-        <div>
-          <h3>v0.0 维度</h3><br>
-            - 添加<spoiler>维度1~8</spoiler><br>
-        </div>
+        <h1>更新日志</h1>
+        <changelog></changelog>
       </div>
       <div v-if="player.currentPage == 4">
         <div class="sqrt_text">你有<span :class="getSqrtPClass()">{{ player.sqrt.points.format() }}</span>√点数<span v-if="player.sqrt.unl">(+{{ format(tmp.sqrt.replicatePerTick.log10().mul(30)) }}数量级/s)</span>，因此所有维度乘数×{{ format(tmp.sqrt.dim_eff) }}</div>
@@ -220,8 +118,10 @@
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
         {{ get_pts_volume(player.points) }}<br><br>
-        <div v-if="player.square.unl" style="color: yellow"><h2>点数<sup>2</sup></h2>
-        你总共拥有{{ player.square.total.format(0) }}点数<sup>2</sup></div>
+        <div v-if="player.square.unl" style="color: yellow">
+          <h2>点数<sup>2</sup></h2>
+          你总共拥有{{ player.square.total.format(0) }}点数<sup>2</sup>
+        </div>
       </div>
       <div v-if="player.currentPage == 7">
         <div class="upg_text_box"><span v-html="get_sq_upg_text()"></span></div><br>
@@ -243,7 +143,7 @@
             C{{ chal.id }}
           </button>
         </template><br><br>
-        <div><sq-chal-text v-if="window.choosed_chal != 0"></sq-chal-text><div>
+        <div v-if="window.choosed_chal != 0" v-html="get_sq_chal_text()"></div>
       </div>
     </div>
   </div>

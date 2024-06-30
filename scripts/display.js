@@ -178,7 +178,7 @@ tabshow = {
   },
   square: {
     get inTab() {
-      return [7].includes(player.currentPage)
+      return [7,8,9,10,11].includes(player.currentPage)
     },
     get unlocked() {
       return player.square.unl
@@ -188,7 +188,7 @@ tabshow = {
         return player.currentPage == 7
       },
       get unlocked() {
-        return [7,8].includes(player.currentPage)
+        return [7,8,9,10,11].includes(player.currentPage)
       },
     },
     challenges: {
@@ -196,7 +196,40 @@ tabshow = {
         return player.currentPage == 8
       },
       get unlocked() {
-        return [7,8].includes(player.currentPage) && hasSqUpg(4)
+        return [7,8,9,10,11].includes(player.currentPage) && hasSqUpg(4)
+      },
+    },
+    pmp: {
+      get inTab() {
+        return [9,10,11].includes(player.currentPage)
+      },
+      get unlocked() {
+        return false
+        return [7,8,9,10,11].includes(player.currentPage) && hasSqChal(5)
+      },
+      left: {
+        get inTab() {
+          return player.currentPage == 9
+        },
+        get unlocked() {
+          return [9,10,11].includes(player.currentPage)
+        }
+      },
+      multply: {
+        get inTab() {
+          return player.currentPage == 10
+        },
+        get unlocked() {
+          return [9,10,11].includes(player.currentPage)
+        }
+      },
+      right: {
+        get inTab() {
+          return player.currentPage == 11
+        },
+        get unlocked() {
+          return [9,10,11].includes(player.currentPage)
+        }
       },
     },
   },
@@ -205,7 +238,7 @@ tabshow = {
       return [6].includes(player.currentPage)
     },
   },
-  options: {
+  others: {
     get inTab() {
       return [2,3].includes(player.currentPage)
     },
@@ -226,6 +259,9 @@ tabshow = {
       },
     },
   },
+  get haveTheThirdLine() {
+    return [9,10,11].includes(player.currentPage)
+  }
 }
 
 function getDimAutoText(dim) {
@@ -267,4 +303,11 @@ function getSqrtPClass() {
 function calculateRotationAngle(t = 5) {
   const n = 1e3 * t, a = Date.now() % n / n;
   return 10 * Math.sin(2 * Math.PI * a)
+}
+function getChalReward() {
+  return "奖励："+sq_chal[choosed_chal-1].reward
+}
+function get_sq_chal_text() {
+  if(window.choosed_chal == 0) return
+  return `<button class="btn" onclick="${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "completeChal()" : "exitChal()") : "enterChal(window.choosed_chal)"}">${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "完成" : "退出") : "进入"}挑战</button><h4>${sq_chal[window.choosed_chal-1].title}</h4><span style="color: red">${sq_chal[window.choosed_chal-1].desc}</span><br>价格：${sq_chal[window.choosed_chal-1].goal.format()}点数<br><span class="green">${sq_chal[window.choosed_chal-1].reward}</span>`
 }

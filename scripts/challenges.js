@@ -32,3 +32,4 @@ function completeChal() {
 function handleSqChalAnotherButtonClick() {
   player.chal == choosed_chal? (player.points.gte(sq_chal[choosed_chal-1].goal)? completeChal() : exitChal()) : enterChal(choosed_chal)
 }
+

@@ -75,6 +75,7 @@ const tmp = {
     if (player.isSetCappedDim) final = final.min(player.dims[dim][4].add(player.limitBuyDimNumber.div(10)))
     let a = Math.min(player.sqrt.galaxies.toNumber(), 6)
     if (player.chal == 5 && (a < dim)) final = final.min(tmp.square.chal1cap).max(0.1)
+    if (player.chal == 1 && dim == 8) final = final.min(tmp.square.chal1cap).max(0.1)
     return final
   },
   square: {
