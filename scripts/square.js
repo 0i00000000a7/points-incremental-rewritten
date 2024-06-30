@@ -158,6 +158,6 @@ const sq_chal = [{
       return hasSqUpg(8)
     },
     goal: E(2).pow(1024),
-    get reward() {return `每秒获取10%点数<sup>2</sup><br>√点数复制速度×100<br>解锁${wordShift.randomCrossWords("?????",10)}`},
+    get reward() {return `每秒获取10%点数<sup>2</sup><br>点数<sup>2</sup>基础效果^2<br>解锁${wordShift.randomCrossWords("?????",10)}`},
   },
 ]

@@ -36,7 +36,6 @@ const tmp = {
       if (player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
       if (player.square.chals.includes(2) && (player.sqrt.points.lt(Number.MAX_VALUE) || (hasSqUpg(7) && player.chal != 5))) buff = buff.mul(player.dims[8][4].add(10).log10())
       if (hasSqChal(4)) buff = buff.mul(Math.PI)
-      if (hasSqChal(5)) buff = buff.mul(100)
       return mult.root(debuff).pow(buff).min("1e10")
     },
     get galaxyEffect() {
@@ -83,7 +82,9 @@ const tmp = {
       return player.points.div("1e485").root(300).div(10).floor()
     },
     get effect() {
-      return player.square.total.add(1).logBase(2).add(1)
+      let eff = player.square.total.add(1).logBase(2).add(1)
+      if (hasSqChal(5)) eff = eff.pow(2)
+      return eff
     },
     get chal1cap() {
       return E(10).mul(E(0.99).pow(player.square.resetTime))
