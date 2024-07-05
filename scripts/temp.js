@@ -87,7 +87,7 @@ const tmp = {
       return eff
     },
     get chal1cap() {
-      return E(10).mul(E(0.99).pow(player.square.resetTime))
+      return E(100).mul(E(0.99).pow(player.square.resetTime))
     }
   },
   hasSuperScalDim(dim) {
