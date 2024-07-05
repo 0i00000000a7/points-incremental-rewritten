@@ -1,5 +1,11 @@
 const changelog = [
   {
+    version: "0.2.4.6",
+    changes: [
+      "添加<spoiler>平方挑战1</spoiler>上限显示",
+    ]
+  },
+  {
     version: "0.2.4.5",
     changes: [
       "修改<spoiler>平方挑战5</spoiler>奖励",

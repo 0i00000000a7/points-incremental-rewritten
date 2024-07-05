@@ -11,6 +11,14 @@ function getDimCostDisplay(dim) {
   return (tmp.canBuyDim(dim)) ? '价格：' + formatWhole(player.dims[dim][1]) : '已达硬上限'
 }
 
+function getDimPointsDisplay(dim) {
+  let a = formatWhole(player.dims[dim][5]);
+  if (dim == 8 && (player.chal === 1 || player.chal === 5)){
+    a = a.concat(` / ${formatWhole(tmp.square.chal1cap*10)}`)
+  }
+  return a;
+}
+
 function getMaxBtnText(dim) {
   let a
   if(player.autodims[dim - 1]) a = `购买次数：${format(player.dims[dim][4])}`
