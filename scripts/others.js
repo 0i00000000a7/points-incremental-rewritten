@@ -124,3 +124,7 @@ function formatGain(a,e,res="") {
 
     return format(e) + res
 }
+
+Array.prototype.toBitmask = function() {
+  return this.reduce((prev, val) => prev | (1 << val), 0);
+};

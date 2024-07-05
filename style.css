@@ -560,10 +560,21 @@ spoiler {
   align-items: center;
   text-align: center;
 }
+.sq_upg_disabled {
+  width: 40px;
+  height: 40px;
+  background: #a00;
+  border: solid 2px #700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 .sq_upg_bought {
   background: #550;
 }
+
 
 .sq_upg_buyable {
   background: #333;

@@ -51,7 +51,7 @@
         <button @click="switchpage(6)" class="btn" :disabled="tabshow.stats.inTab">统计</button>
         <button @click="switchpage(2)" class="btn" :disabled="tabshow.others.inTab">杂项</button>
       </div>
-      <main-line></main-line>
+      <main-line v-if="tabshow.showTheSecondLine"></main-line>
       <div>
         <button @click="switchpage(1)" class="btn" v-if="tabshow.main.dimensions.unlocked" :disabled="tabshow.main.dimensions.inTab">维度</button>
         <button @click="switchpage(4)" class="btn" v-if="tabshow.main.sqrt.unlocked" :disabled="tabshow.main.sqrt.inTab">√点数</button>
@@ -60,13 +60,8 @@
         <button @click="switchpage(7)" class="square" v-if="tabshow.square.upgrades.unlocked" :disabled="tabshow.square.upgrades.inTab">升级</button>
         <button @click="switchpage(8)" class="square" v-if="tabshow.square.challenges.unlocked" :disabled="tabshow.square.challenges.inTab">挑战</button>
         <button @click="switchpage(9)" class="square" v-if="tabshow.square.pmp.unlocked" :disabled="tabshow.square.pmp.inTab">点数×点数</button>
+        <main-line></main-line>
       </div>
-      <main-line v-if="tabshow.haveTheThirdLine"></main-line>
-      <div>
-        <button @click="switchpage(9)" class="square" v-if="tabshow.square.pmp.left.unlocked" :disabled="tabshow.square.pmp.left.inTab">左点数</button>
-        <button @click="switchpage(10)" class="square" v-if="tabshow.square.pmp.multply.unlocked" :disabled="tabshow.square.pmp.multply.inTab">×</button>
-        <button @click="switchpage(11)" class="square" v-if="tabshow.square.pmp.right.unlocked" :disabled="tabshow.square.pmp.right.inTab">右点数</button>
-      </div><br>
       <div v-if="player.currentPage == 1">
         <button @click="buyall()" class="btn" @touchstart="isHoldMax = true" @touchend="isHoldMax = false">购买最大</button>
         <button @click="openPopup(2)" class="btn" v-if="player.square.chals.includes(2)">更改每次购买上限</button>
@@ -144,6 +139,9 @@
           </button>
         </template><br><br>
         <div v-if="window.choosed_chal != 0" v-html="get_sq_chal_text()"></div>
+      </div>
+      <div v-if="player.currentPage == 9">
+        <button class="square">对你的点数<sup>2</sup>进行因式分解以获取(待定)点数×点数</button>
       </div>
     </div>
   </div>

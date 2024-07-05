@@ -54,7 +54,7 @@ function buydim(dim) {
   if(player.sqrt.galaxies.gte(1)) return
   if(player.points.gte(player.dims[dim][1]) && tmp.canBuyDim(dim)) {
     player.dims[dim][4] = player.dims[dim][4].add(1)
-    if(player.sqrt.galaxies.lt(1)) player.points = player.points.sub(player.dims[dim][1])
+    player.points = player.points.sub(player.dims[dim][1])
   }
 }
 

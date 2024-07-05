@@ -28,7 +28,8 @@ const sq_upgs = [{
     get effectDisplay() {
       return `×${this.effect.format()}`
     },
-    unlocked: true
+    unlocked: true,
+    disableInChal5: true
   },
   {
     desc: "维度的超级折算弱化20%",
@@ -46,7 +47,8 @@ const sq_upgs = [{
   {
     desc: "大幅强化√点数的乘数增益",
     cost: E(10),
-    unlocked: true
+    unlocked: true,
+    disableInChal5: true
   },
   {
     desc: "解锁挑战",
@@ -66,21 +68,23 @@ const sq_upgs = [{
     },
     get effectDisplay() {
       return `+${this.effect.format()}`
-    }
+    },
+    disableInChal5: true
   },
   {
     desc: "前面的升级的效果+20%",
     cost: E(1e10),
     get unlocked() {
       return hasSqChal(3) && player.square.chals.length >= 2
-    }
+    },
   },
   {
     desc: "解锁自动购买星系，挑战2第三效果在1.79e308后仍然生效，√点数效果^4",
     cost: E(1.5e12),
     get unlocked() {
       return hasSqChal(3) && player.square.chals.length >= 3
-    }
+    },
+    disableInChal5: true
   },
   {
     desc: "点数获取速度指数+0.08，在任意平方挑战内+0.16，解锁平方挑战5",
@@ -158,6 +162,6 @@ const sq_chal = [{
       return hasSqUpg(8)
     },
     goal: E(2).pow(1024),
-    get reward() {return `每秒获取10%点数<sup>2</sup><br>点数<sup>2</sup>基础效果^2<br>解锁${wordShift.randomCrossWords("?????",10)}`},
+    reward: `每秒获取10%点数<sup>2</sup><br>点数<sup>2</sup>基础效果^2<br>解锁点数×点数`,
   },
 ]

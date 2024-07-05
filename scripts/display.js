@@ -16,6 +16,8 @@ function getMaxBtnText(dim) {
   if(player.autodims[dim - 1]) a = `购买次数：${format(player.dims[dim][4])}`
   else if(player.sqrt.galaxies.gte(1)) a = `购买次数：${format(player.dims[dim][4])} ➜ ${format(tmp.pointsToDims(dim))}`
   else a = "最大"
+  let b = Math.min(player.sqrt.galaxies.toNumber(), 6)
+  if ((player.chal == 1 && dim == 8) || (player.chal == 5 && b < dim)) a += `/${tmp.square.chal1cap.format()}`
   return a
 }
 
@@ -143,7 +145,11 @@ function get_pts_volume(x) {
 
 function get_sq_upg_text() {
   if(app.hover_upg == 0) return
-  return `<span class="sky">[平方升级${app.hover_upg}]${app.squpgs2[app.hover_upg-1].desc}</span><br>价格：${app.squpgs2[app.hover_upg-1].cost.format(0)}点数<sup>2</sup>` + (typeof(app.squpgs2[app.hover_upg - 1].effectDisplay) == "undefined" ? "" : `<br><span class="green">当前：${app.squpgs2[app.hover_upg-1].effectDisplay}</span>`)
+  let a =  `<span class="sky">[平方升级${app.hover_upg}]${app.squpgs2[app.hover_upg-1].desc}</span><br>价格：${app.squpgs2[app.hover_upg-1].cost.format(0)}点数<sup>2</sup>` + (typeof(app.squpgs2[app.hover_upg - 1].effectDisplay) == "undefined" ? "" : `<br><span class="green">当前：${app.squpgs2[app.hover_upg-1].effectDisplay}</span>`)
+  if (player.chal == 5) {
+    if (typeof (sq_upgs[app.hover_upg-1].disableInChal5) == "boolean") a = "<del>" + a + "</del>"
+  }
+  return a
 }
 
 tabshow = {
@@ -178,7 +184,7 @@ tabshow = {
   },
   square: {
     get inTab() {
-      return [7,8,9,10,11].includes(player.currentPage)
+      return [7,8,9].includes(player.currentPage)
     },
     get unlocked() {
       return player.square.unl
@@ -188,7 +194,7 @@ tabshow = {
         return player.currentPage == 7
       },
       get unlocked() {
-        return [7,8,9,10,11].includes(player.currentPage)
+        return [7,8,9].includes(player.currentPage)
       },
     },
     challenges: {
@@ -196,23 +202,22 @@ tabshow = {
         return player.currentPage == 8
       },
       get unlocked() {
-        return [7,8,9,10,11].includes(player.currentPage) && hasSqUpg(4)
+        return [7,8,9].includes(player.currentPage) && hasSqUpg(4)
       },
     },
     pmp: {
       get inTab() {
-        return [9,10,11].includes(player.currentPage)
+        return [9].includes(player.currentPage)
       },
       get unlocked() {
-        return false
-        return [7,8,9,10,11].includes(player.currentPage) && hasSqChal(5)
+        return [7,8,9].includes(player.currentPage) && hasSqChal(5)
       },
       left: {
         get inTab() {
           return player.currentPage == 9
         },
         get unlocked() {
-          return [9,10,11].includes(player.currentPage)
+          return [9].includes(player.currentPage)
         }
       },
       multply: {
@@ -220,7 +225,7 @@ tabshow = {
           return player.currentPage == 10
         },
         get unlocked() {
-          return [9,10,11].includes(player.currentPage)
+          return [9].includes(player.currentPage)
         }
       },
       right: {
@@ -228,7 +233,7 @@ tabshow = {
           return player.currentPage == 11
         },
         get unlocked() {
-          return [9,10,11].includes(player.currentPage)
+          return [9].includes(player.currentPage)
         }
       },
     },
@@ -259,8 +264,8 @@ tabshow = {
       },
     },
   },
-  get haveTheThirdLine() {
-    return [9,10,11].includes(player.currentPage)
+  get showTheSecondLine() {
+    return [1,2,3,4,7,8,9].includes(player.currentPage)
   }
 }
 
@@ -285,6 +290,9 @@ function getSqUpgClassName(id) {
   if(player.square.points.gte(app.squpgs2[id - 1].cost) && !hasSqUpg(id)) {
     upgradeClassName += '_buyable';
   }
+  if (player.chal == 5) {
+    if (typeof (sq_upgs[id-1].disableInChal5) == "boolean") upgradeClassName = "sq_upg_disabled"
+  }
   return upgradeClassName
 }
 function getSqChalClassName(id) {
@@ -308,6 +316,6 @@ function getChalReward() {
   return "奖励："+sq_chal[choosed_chal-1].reward
 }
 function get_sq_chal_text() {
-  if(window.choosed_chal == 0) return
+  if(window.choosed_chal == 0) return ""
   return `<button class="btn" onclick="${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "completeChal()" : "exitChal()") : "enterChal(window.choosed_chal)"}">${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "完成" : "退出") : "进入"}挑战</button><h4>${sq_chal[window.choosed_chal-1].title}</h4><span style="color: red">${sq_chal[window.choosed_chal-1].desc}</span><br>价格：${sq_chal[window.choosed_chal-1].goal.format()}点数<br><span class="green">${sq_chal[window.choosed_chal-1].reward}</span>`
 }

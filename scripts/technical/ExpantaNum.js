@@ -5,9 +5,8 @@ function numberToStringWithoutSeparators(t) {
 }
   
 
-//Code snippets and templates from Decimal.js
-;
-(function(globalScope) {
+
+;(function(globalScope) {
   "use strict";
   // --  EDITABLE DEFAULTS  -- //
   var ExpantaNum = {
