@@ -16,6 +16,10 @@ function getMaxBtnText(dim) {
   if(player.autodims[dim - 1]) a = `购买次数：${format(player.dims[dim][4])}`
   else if(player.sqrt.galaxies.gte(1)) a = `购买次数：${format(player.dims[dim][4])} ➜ ${format(tmp.pointsToDims(dim))}`
   else a = "最大"
+
+  if (dim===8 && (player.chal === 1 || player.chal === 5)){
+    a = a+` / ${format(tmp.square.chal1cap)}`;
+  }
   return a
 }
 
