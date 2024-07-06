@@ -108,6 +108,11 @@ function hard_reset() {
       limitBuyDimNumber: E(Infinity),
       isSetCappedDim: false,
       autogalaxy: false,
+      pmp: {
+        fromsquare: E(0), //因式分解
+        frompoints: E(0), //同底相乘
+        fromsqrt:   E(0), //四次乘方
+      }
     }
 }
 

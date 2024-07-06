@@ -94,7 +94,7 @@ const sq_upgs = [{
     }
   },
   {
-    desc: "Coming S∞n",
+    desc: "移除√点数的第一软上限，√点数第二软上限效果^0.8",
     cost: E(2e34),
     get unlocked() {
       return hasSqChal(3) && player.square.chals.length >= 5

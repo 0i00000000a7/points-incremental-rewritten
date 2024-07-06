@@ -10,6 +10,7 @@ const tmp = {
     },
     get galCost() {
       let cost = E(100).pow(player.sqrt.galaxies.mul(50).add(50))
+      if (player.sqrt.galaxies.gte(20)) cost = E(10).pow(E(player.sqrt.galaxies).pow(2.554))
       cost = cost.root(tmp.sqrt.fullCostRoot)
       return cost
     },
@@ -18,6 +19,7 @@ const tmp = {
       else return false
     },
     get isSofted() {
+      if (hasSqUpg(9)) return false
       if(player.sqrt.points.gte(1e100)) return true
       else return false
     },
@@ -28,7 +30,8 @@ const tmp = {
     get replicatePerTick() {
       let mult = E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1 / 30)
       let debuff = player.sqrt.points.div(1e100).log10().mul(0.01).add(1).max(1)
-      debuff = debuff.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(0.0075).max(0)).sub(0))
+      if (hasSqUpg(9)) debuff = E(1)
+      debuff = debuff.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(0.0075).max(0).root(tmp.sqrt.SoftDelay)))
       buff = E(1)
       buff = buff.mul(tmp.square.effect)
       if((hasSqUpg(1) && player.chal != 5)) buff = buff.mul(sq_upgs[0].effect)
@@ -51,6 +54,11 @@ const tmp = {
       let root = E(1)
       if(player.square.chals.includes(3)) root = root.mul(1 / 0.9)
       return root
+    },
+    get SoftDelay() {
+      let eff = E(1)
+      if (hasSqUpg(9)) eff = eff.mul(1.25)
+      return eff
     }
   },
   canBuyDim(dim) {

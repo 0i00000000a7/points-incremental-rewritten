@@ -141,7 +141,14 @@
         <div v-if="window.choosed_chal != 0" v-html="get_sq_chal_text()"></div>
       </div>
       <div v-if="player.currentPage == 9">
-        <button class="square">对你的点数<sup>2</sup>进行因式分解以获取(待定)点数×点数</button>
+        <table>
+          <tr>
+            <td style="text-align: center;">因式分解</td>
+          </tr>
+          <tr>
+            <td><button class="square">对你的点数<sup>2</sup>进行因式分解以获取1点数×点数<br>要求：</button></td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
