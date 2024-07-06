@@ -2,7 +2,7 @@ const changelog = [
   {
     version: "0.2.4.7",
     changes: [
-      "完善升级9",
+      "完善<spoiler>平方升级9</spoiler>",
     ]
   },
   {
