@@ -1,5 +1,11 @@
 const changelog = [
   {
+    version: "0.2.6.1",
+    changes: [
+      "修改一些显示",
+    ]
+  },
+  {
     version: "0.2.6",
     changes: [
       "添加5个<spoiler>平方升级</spoiler>",

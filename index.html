@@ -160,7 +160,7 @@
           </tr>
         </table>
         <main-line></main-line>
-        你有{{ player.pmp.transCrystal.format(0) }}-{{ tmp.pmp.spentCrystal.format(0) }}={{ tmp.pmp.realCrystal.format(0) }}个超越之晶(下一个在{{ tmp.pmp.tCrysNextGoal.format() }}超越点数)<br>
+        你有{{ player.pmp.transCrystal.format(0) }}<span v-if="tmp.pmp.spentCrystal.gt(0)">-{{ tmp.pmp.spentCrystal.format(0) }}={{ tmp.pmp.realCrystal.format(0) }}</span>个超越之晶(下一个在{{ tmp.pmp.tCrysNextGoal.format() }}超越点数)<br>
         <button @click="respecCrysBab()" class="btn">重新分配，但进行一次无奖励的平方重置</button>
         <table>
           <td><button class="btn sky" @click="buyCrysBab(1)">({{ player.pmp.buyables[1].format(0) }})超越点数获取公式底数+2<br>价格：1超越之晶</button></td>
