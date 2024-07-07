@@ -129,7 +129,7 @@ function changeHotkey() {
 function updateResetTime() {
   player.square.resetTime = player.square.resetTime.add(1/30)
 }
-const Endgame = E("e3e4")
+const Endgame = E("e1.3e5")
 function isEndgame() {
   return player.points.gte(Endgame)
 }

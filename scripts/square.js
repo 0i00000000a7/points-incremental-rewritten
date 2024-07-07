@@ -144,7 +144,7 @@ const sq_upgs = [{
   },
   {
     desc: "解锁立方重置",
-    cost: E("1e1200"),
+    cost: E("1e1500"),
     get unlocked() {
       return hasSqUpg(14)
     },
