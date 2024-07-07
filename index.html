@@ -103,13 +103,14 @@
         <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
         <button class="btn" @click="toggleAutoGal()" v-if="hasSqUpg(7)">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
-        <button class="galaxyReset" @click="galaxy()" @touchstart="isHoldGal = true" @touchend="isHoldGal = false">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
+        <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
         <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
         <div style="color: red" v-if="tmp.sqrt.isSofted">在1.000e100√点数后，√点数复制速度将受到{{ tmp.sqrt.isCapped ? '硬' : '软' }}上限限制!</div>
-        <div style="color: rgb(121, 0, 0)" v-if="tmp.sqrt.isSofted2">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
+        <div style="color: rgb(214, 0, 0)" v-if="tmp.sqrt.isSofted2">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>
       <div v-if="player.currentPage == 5">
-        <button class="square" @click="square()" @touchstart="isHoldSquare = true" @touchend="isHoldSquare = false">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
+        <button class="cube" @click="" v-if="hasSqUpg(15)">重置之前的所有内容，但获取Coming S∞n!</span>点数<sup>2</sup><br>要求：{{ E(2).pow(4096).format(3) }}点数<sup>3</sup></button>
       </div>
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
@@ -144,7 +145,7 @@
       <div v-if="player.currentPage == 9">
         <span style="font-size: 14px">注意，购买后将直接清空资源，而不是减去!</span>
         <main-line></main-line>
-        <div class="sky">你有{{ player.pmp.fromsquare.format(0) }}+{{ player.pmp.frompoints.format(0) }}+{{ player.pmp.fromsqrt.format(0) }}={{ tmp.pmp.totalpts.format(0) }}点数×点数，它们每秒生产{{ tmp.pmp.tPgain.format() }}超越点数<br>
+        <div class="sky">你有{{ player.pmp.fromsquare.format(0) }}+{{ player.pmp.frompoints.format(0) }}<span v-if="hasSqUpg(13)">×2</span>+{{ player.pmp.fromsqrt.format(0) }}={{ tmp.pmp.totalpts.format(0) }}点数×点数，它们每秒生产{{ tmp.pmp.tPgain.format() }}超越点数<br>
         你有{{ player.pmp.transPoint.format() }}超越点数，√点数二重软上限效果变为{{ tmp.pmp.tPeff.format() }}次方根</div>
         <table>
           <tr>
@@ -158,6 +159,7 @@
             <td><button class="btn" tooltip="对你的√点数进行四次乘方以获取1点数×点数" @click="buyPMP(3)">获取1点数×点数<br>要求：{{ tmp.pmp.sqrtCost.format() }}√点数</button></td>
           </tr>
         </table>
+        <main-line></main-line>
         你有{{ player.pmp.transCrystal.format(0) }}-{{ tmp.pmp.spentCrystal.format(0) }}={{ tmp.pmp.realCrystal.format(0) }}个超越之晶(下一个在{{ tmp.pmp.tCrysNextGoal.format() }}超越点数)<br>
         <button @click="respecCrysBab()" class="btn">重新分配，但进行一次无奖励的平方重置</button>
         <table>

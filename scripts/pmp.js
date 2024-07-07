@@ -40,6 +40,14 @@ function respecCrysBab() {
 }
 
 function buyCrysBab(x) {
-  if (tmp.pmp.realCrystal.lt(1)) return
+  if (hasSqUpg(11) && player.pmp.buyables[x].gte(player.pmp.transCrystal) && x == 1) return
+  if (hasSqUpg(12) && player.pmp.buyables[x].gte(player.pmp.transCrystal) && x == 2) return
+  if (hasSqUpg(12) && player.pmp.buyables[x].gte(player.pmp.transCrystal) && x == 3) return
+  if (tmp.pmp.realCrystal.lt(1)) {
+    if (hasSqUpg(11) && x == 1) {}
+    else if (hasSqUpg(12) && x == 2) {}
+    else if (hasSqUpg(12) && x == 3) {}
+    else return
+  }
   player.pmp.buyables[x] = player.pmp.buyables[x].add(1)
 }

@@ -11,6 +11,7 @@ const tmp = {
     get galCost() {
       let cost = E(100).pow(player.sqrt.galaxies.mul(50).add(50))
       if (player.sqrt.galaxies.gte(20)) cost = E(10).pow(E(player.sqrt.galaxies).pow(2.554))
+      if (player.sqrt.galaxies.gte(80)) cost = E(10).pow(E(1.1502).pow(E(player.sqrt.galaxies)))
       cost = cost.root(tmp.sqrt.fullCostRoot)
       return cost
     },
@@ -39,7 +40,7 @@ const tmp = {
       if(player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
       if(player.square.chals.includes(2) && (player.sqrt.points.lt(Number.MAX_VALUE) || (hasSqUpg(7) && player.chal != 5))) buff = buff.mul(player.dims[8][4].add(10).log10())
       if(hasSqChal(4)) buff = buff.mul(Math.PI)
-      return mult.root(debuff).pow(buff).min("1e40")
+      return mult.root(debuff).pow(buff).min(this.maxRepSpeed)
     },
     get galaxyEffect() {
       if((player.chal == 4 || player.chal == 5)) return E(0)
@@ -61,6 +62,12 @@ const tmp = {
       if (hasSqUpg(9)) eff = eff.mul(1.25)
       eff = eff.mul(tmp.pmp.tPeff)
       return eff
+    },
+    get maxRepSpeed() {
+      let cap = E(1e40)
+      if (hasSqUpg(13)) cap = cap.pow(5)
+      if (hasSqUpg(14)) cap = cap.pow(10)
+      return cap
     }
   },
   canBuyDim(dim) {
@@ -89,7 +96,7 @@ const tmp = {
   },
   square: {
     get gain() {
-      return player.points.div("1e485").root(300).div(10).pow(tmp.pmp.Bab2eff).floor()
+      return player.points.div("1e485").root(300).div(10).pow(tmp.pmp.Bab2eff).overflow("1e800",0.9).floor()
     },
     get effect() {
       let eff = player.square.total.add(1).logBase(2).add(1)
@@ -123,6 +130,7 @@ const tmp = {
       else gain = gain.pow(1.08)
     }
     if(player.chal == 5) gain = gain.mul(E(2).pow(player.sqrt.galaxies))
+    gain = gain.overflow("ee5",0.5)
     return gain
   },
   pmp: {
@@ -136,7 +144,11 @@ const tmp = {
       return E(10).pow(E(10).pow(E(10).add(E(0.3).mul(player.pmp.fromsqrt)).div(3)))
     },
     get totalpts() {
-      return player.pmp.fromsquare.add(player.pmp.frompoints).add(player.pmp.fromsqrt)
+      let a = player.pmp.fromsquare
+      let b = player.pmp.frompoints
+      let c = player.pmp.fromsqrt
+      if (hasSqUpg(13)) b = b.mul(2)
+      return a.add(b).add(c)
     },
     get tPgain() {
       let gain = E(3).add(tmp.pmp.Bab1eff).pow(tmp.pmp.totalpts).sub(1)
@@ -150,7 +162,7 @@ const tmp = {
       return E(1e6).pow(player.pmp.transCrystal.add(1))
     },
     get spentCrystal() {
-      return player.pmp.buyables[1].add(player.pmp.buyables[2]).add(player.pmp.buyables[3])
+      return player.pmp.buyables[1].mul(hasSqUpg(11)?0 : 1).add(player.pmp.buyables[2].mul(hasSqUpg(12)?0 : 1)).add(player.pmp.buyables[3].mul(hasSqUpg(12)?0 : 1))
     },
     get realCrystal() {
       return player.pmp.transCrystal.sub(this.spentCrystal)

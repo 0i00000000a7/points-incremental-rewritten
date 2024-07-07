@@ -208,7 +208,7 @@ button {
   padding: 7px 25px;
   text-decoration: none;
   border: 1px solid #777;
-  background: #30B782;
+  background: rgb(0, 127, 127);
   color: white;
   display: inline-block;
 }

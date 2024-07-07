@@ -1,7 +1,5 @@
 (function() {  
   isHoldMax = false
-  isHoldGal = false
-  isHoldSquare = false
   function loop() {  
     updatePoints();  
     updateLastUpdateTime();  
@@ -137,8 +135,6 @@ function isEndgame() {
 }
 function holdMax() {
   if (window.isHoldMax) buyall()
-  if (window.isHoldGal) galaxy()
-  if (window.isHoldSquare) square()
   requestAnimationFrame(holdMax)
 }
 holdMax()

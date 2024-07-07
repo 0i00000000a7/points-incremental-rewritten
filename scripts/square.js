@@ -114,6 +114,41 @@ const sq_upgs = [{
       return `×${this.effect.format()}`
     }
   },
+  {
+    desc: "购买第一超越之晶购买项不再花费超越之晶，但上限于总超越之晶数量",
+    cost: E(1e150),
+    get unlocked() {
+      return hasSqUpg(10)
+    },
+  },
+  {
+    desc: "购买第二，三超越之晶购买项不再花费超越之晶，但上限于总超越之晶数量",
+    cost: E(1e200),
+    get unlocked() {
+      return hasSqUpg(10)
+    },
+  },
+  {
+    desc: "√点数的复制速度硬上限×5，从同底相乘中获取的<span style=\"color: white\">点数×点数</span>×2",
+    cost: E(1e230),
+    get unlocked() {
+      return hasSqUpg(12)
+    },
+  },
+  {
+    desc: "√点数的复制速度硬上限再×10",
+    cost: E("1e900"),
+    get unlocked() {
+      return hasSqUpg(13)
+    },
+  },
+  {
+    desc: "解锁立方重置",
+    cost: E("1e1200"),
+    get unlocked() {
+      return hasSqUpg(14)
+    },
+  },
 ]
 
 function hasSqUpg(upg) {
