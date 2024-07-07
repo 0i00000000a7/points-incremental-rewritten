@@ -1297,7 +1297,7 @@ function numberToStringWithoutSeparators(t) {
         b = true;
       }
       if(x.array.length < ExpantaNum.maxOps && x.array[0][0] !== 0) x.array.unshift([0, 10]);
-      for(i = 0; i < x.array.length - 1; ++i) {
+      for(let i = 0; i < x.array.length - 1; ++i) {
         if(x.array[i][0] == x.array[i + 1][0]) {
           x.array[i][1] += x.array[i + 1][1];
           x.array.splice(i + 1, 1);
@@ -1341,7 +1341,7 @@ function numberToStringWithoutSeparators(t) {
         }
         b = true;
       }
-      for(i = 1; i < x.array.length; ++i) {
+      for(let i = 1; i < x.array.length; ++i) {
         if(x.array[i][1] > MAX_SAFE_INTEGER) {
           if(i != x.array.length - 1 && x.array[i + 1][0] == x.array[i][0] + 1) {
             x.array[i + 1][1]++;
@@ -1644,7 +1644,7 @@ function numberToStringWithoutSeparators(t) {
       a = input.split(/[Ee]/);
       b = [x.array[0][1], 0];
       c = 1;
-      for(i = a.length - 1; i >= 0; --i) {
+      for(let i = a.length - 1; i >= 0; --i) {
         //The things that are already there
         if(b[0] < MAX_E && b[1] === 0) {
           b[0] = Math.pow(10, c * b[0]);
@@ -1717,13 +1717,13 @@ function numberToStringWithoutSeparators(t) {
     ];
     else if(typeof array[0] == "number") {
       x.array = [];
-      for(i = 0; i < array.length; i++) {
+      for(let i = 0; i < array.length; i++) {
         if(typeof array[i] != "number") throw Error(invalidArgument + "Expected Array of Number");
         x.array.push([i, array[i]]);
       }
     } else if(array[0] instanceof Array) {
       x.array = [];
-      for(i = 0; i < array.length; i++) {
+      for(let i = 0; i < array.length; i++) {
         if(!(array[i] instanceof Array) || typeof array[i][0] != "number" || typeof array[i][1] != "number") throw Error(invalidArgument + "Expected Array of pair of Number");
         x.array.push([array[i][0], array[i][1]]);
       }
@@ -1941,7 +1941,7 @@ function numberToStringWithoutSeparators(t) {
     if(obj === void 0) obj = {};
     if(obj) {
       ps = ['maxOps', 'serializeMode', 'debug'];
-      for(i = 0; i < ps.length;)
+      for(let i = 0; i < ps.length;)
         if(!obj.hasOwnProperty(p = ps[i++])) obj[p] = this[p];
     }
     ExpantaNum.config(obj);
@@ -1988,7 +1988,7 @@ function numberToStringWithoutSeparators(t) {
         'serializeMode', 0, 1,
         'debug', 0, 2
       ];
-    for(i = 0; i < ps.length; i += 3) {
+    for(let i = 0; i < ps.length; i += 3) {
       if((v = obj[p = ps[i]]) !== void 0) {
         if(Math.floor(v) === v && v >= ps[i + 1] && v <= ps[i + 2]) this[p] = v;
         else throw Error(invalidArgument + p + ': ' + v);

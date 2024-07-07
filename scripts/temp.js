@@ -1,1 +1,168 @@
-const tmp={sqrt:{get dim_eff(){let e=player.sqrt.points.add(1).log10().add(1).pow(2);return hasSqUpg(3)&&5!=player.chal&&(e=e.mul(player.sqrt.points.add(1).pow(.01))),hasSqUpg(7)&&5!=player.chal&&(e=e.pow(4)),e},get galCost(){let e=E(100).pow(player.sqrt.galaxies.mul(50).add(50));return player.sqrt.galaxies.gte(20)&&(e=E(10).pow(E(player.sqrt.galaxies).pow(2.554))),e=e.root(tmp.sqrt.fullCostRoot)},get isCapped(){return!(!player.sqrt.points.gte(1e100)||!player.sqrt.galaxies.eq(0))},get isSofted(){return!hasSqUpg(9)&&!!player.sqrt.points.gte(1e100)},get isSofted2(){return!!player.sqrt.points.gte("1e400")},get replicatePerTick(){let e=E(1).add(E(.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1/30),a=player.sqrt.points.div(1e100).log10().mul(.01).add(1).max(1);hasSqUpg(9)&&(a=E(1)),a=a.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(.0075).max(0).root(tmp.sqrt.SoftRoot)));let l=E(1);return l=l.mul(tmp.square.effect),hasSqUpg(1)&&5!=player.chal&&(l=l.mul(sq_upgs[0].effect)),player.sqrt.galaxies.gte(6)&&(l=l.mul(player.sqrt.galaxies)),player.square.chals.includes(1)&&player.points.gte(1e10)&&(l=l.mul(player.points.slog(10))),player.square.chals.includes(2)&&(player.sqrt.points.lt(Number.MAX_VALUE)||hasSqUpg(7)&&5!=player.chal)&&(l=l.mul(player.dims[8][4].add(10).log10())),hasSqChal(4)&&(l=l.mul(Math.PI)),e.root(a).pow(l).min("1e10")},get galaxyEffect(){if(4==player.chal||5==player.chal)return E(0);let e=E(200);hasSqChal(4)&&(e=e.div(tmp.sqrt.fullCostRoot));let a=player.sqrt.points.log10().div(e).min(player.sqrt.galaxies.mul(.5));return 2!=player.chal&&5!=player.chal||(a=a.mul(.2)),player.square.chals.includes(2)&&(a=a.mul(1.2)),a},get fullCostRoot(){let e=E(1);return player.square.chals.includes(3)&&(e=e.mul(1/.9)),e},get SoftRoot(){let e=E(1);return hasSqUpg(9)&&(e=e.mul(1.25)),e}},canBuyDim:e=>!player.dims[e][1].gte(E(2).pow(1024))||!player.sqrt.galaxies.lt(1),get dimsSoftStart1(){return E(2).pow(1024)},get dimsSoftPower1(){let e=E(.5);return hasSqUpg(2)&&(e=E(1).sub(e.mul(E(1).sub(sq_upgs[1].effect)))),e.min(1)},pointsToDims(e){let a=E(1);player.square.chals.includes(1)&&(a=a.mul(.8));let l=player.points.root(a).overflow(tmp.dimsSoftStart1,tmp.dimsSoftPower1).log10().div(e);player.isSetCappedDim&&(l=l.min(player.dims[e][4].add(player.limitBuyDimNumber.div(10))));let r=Math.min(player.sqrt.galaxies.toNumber(),6);return 5==player.chal&&r<e&&(l=l.min(tmp.square.chal1cap).max(.1)),1==player.chal&&8==e&&(l=l.min(tmp.square.chal1cap).max(.1)),l},square:{get gain(){return player.points.div("1e485").root(300).div(10).floor()},get effect(){let e=player.square.total.add(1).logBase(2).add(1);return hasSqChal(5)&&(e=e.pow(2)),e},get chal1cap(){return E(10).mul(E(.99).pow(player.square.resetTime))}},hasSuperScalDim:e=>player.dims[e][1].gte(Number.MAX_VALUE),get ptgain(){let e=player.dims[1][5].mul(player.dims[1][2]);if(3==player.chal||5==player.chal){let a=E(1),l=player.sqrt.galaxies.sub(1),r=player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10),t=E(1/.9);a=a.mul(t.pow(l)),5==player.chal&&(a=a.mul(t.pow(l.pow(5)))),a=a.mul(E(1.7).pow(r.add(1).log10())),e=e.root(a);for(let a=2;a<=8;a++)e=e.mul(E(a).pow(player.dims[a][4]))}return hasSqUpg(8)&&(e=0!=player.chal?e.pow(1.16):e.pow(1.08)),5==player.chal&&(e=e.mul(E(2).pow(player.sqrt.galaxies))),e},pmp:{get squareCost(){return E(10).pow(player.pmp.fromsquare.add(2**.5).pow(11.05))},get pointCost(){return E(1919810)},get sqrtCost(){return E(114514)}}};
+const tmp = {
+  sqrt: {
+    get dim_eff() {
+      let eff = player.sqrt.points.add(1).log10().add(1).pow(2)
+      if((hasSqUpg(3) && player.chal != 5)) {
+        eff = eff.mul(player.sqrt.points.add(1).pow(0.01))
+      }
+      if((hasSqUpg(7) && player.chal != 5)) eff = eff.pow(4)
+      return eff
+    },
+    get galCost() {
+      let cost = E(100).pow(player.sqrt.galaxies.mul(50).add(50))
+      if (player.sqrt.galaxies.gte(20)) cost = E(10).pow(E(player.sqrt.galaxies).pow(2.554))
+      cost = cost.root(tmp.sqrt.fullCostRoot)
+      return cost
+    },
+    get isCapped() {
+      if(player.sqrt.points.gte(1e100) && player.sqrt.galaxies.eq(0)) return true
+      else return false
+    },
+    get isSofted() {
+      if (hasSqUpg(9)) return false
+      if(player.sqrt.points.gte(1e100)) return true
+      else return false
+    },
+    get isSofted2() {
+      if(player.sqrt.points.gte("1e400")) return true
+      else return false
+    },
+    get replicatePerTick() {
+      let mult = E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1 / 30)
+      let debuff = player.sqrt.points.div(1e100).log10().mul(0.01).add(1).max(1)
+      if (hasSqUpg(9)) debuff = E(1)
+      debuff = debuff.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(0.0075).max(0).root(tmp.sqrt.SoftRoot)))
+      let buff = E(1)
+      buff = buff.mul(tmp.square.effect)
+      if((hasSqUpg(1) && player.chal != 5)) buff = buff.mul(sq_upgs[0].effect)
+      if(player.sqrt.galaxies.gte(6)) buff = buff.mul(player.sqrt.galaxies)
+      if(player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
+      if(player.square.chals.includes(2) && (player.sqrt.points.lt(Number.MAX_VALUE) || (hasSqUpg(7) && player.chal != 5))) buff = buff.mul(player.dims[8][4].add(10).log10())
+      if(hasSqChal(4)) buff = buff.mul(Math.PI)
+      return mult.root(debuff).pow(buff).min("1e40")
+    },
+    get galaxyEffect() {
+      if((player.chal == 4 || player.chal == 5)) return E(0)
+      let div = E(200)
+      if(hasSqChal(4)) div = div.div(tmp.sqrt.fullCostRoot)
+      let eff = player.sqrt.points.log10().div(div).min(player.sqrt.galaxies.mul(1 / 2))
+      if((player.chal == 2 || player.chal == 5)) eff = eff.mul(0.2)
+      if(player.square.chals.includes(2)) eff = eff.mul(1.2)
+      return eff
+    },
+    get fullCostRoot() {
+      let root = E(1)
+      if(player.square.chals.includes(3)) root = root.mul(1 / 0.9)
+      root = root.mul(tmp.pmp.Bab3eff)
+      return root
+    },
+    get SoftRoot() {
+      let eff = E(1)
+      if (hasSqUpg(9)) eff = eff.mul(1.25)
+      eff = eff.mul(tmp.pmp.tPeff)
+      return eff
+    }
+  },
+  canBuyDim(dim) {
+    //忽略维度价格的情况下
+    if(player.dims[dim][1].gte(E(2).pow(1024)) && player.sqrt.galaxies.lt(1)) return false
+    else return true
+  },
+  get dimsSoftStart1() {
+    return E(2).pow(1024)
+  },
+  get dimsSoftPower1() {
+    let a = E(0.5)
+    if(hasSqUpg(2)) a = E(1).sub(a.mul(E(1).sub(sq_upgs[1].effect)))
+    return a.min(1)
+  },
+  pointsToDims(dim) {
+    let costPow = E(1)
+    if(player.square.chals.includes(1)) costPow = costPow.mul(0.8)
+    var x = player.points.root(costPow).overflow(tmp.dimsSoftStart1, tmp.dimsSoftPower1)
+    let final = x.log10().div(dim)
+    if(player.isSetCappedDim) final = final.min(player.dims[dim][4].add(player.limitBuyDimNumber.div(10)))
+    let a = Math.min(player.sqrt.galaxies.toNumber(), 6)
+    if(player.chal == 5 && (a < dim)) final = final.min(tmp.square.chal1cap).max(0.1)
+    if(player.chal == 1 && dim == 8) final = final.min(tmp.square.chal1cap).max(0.1)
+    return final
+  },
+  square: {
+    get gain() {
+      return player.points.div("1e485").root(300).div(10).pow(tmp.pmp.Bab2eff).floor()
+    },
+    get effect() {
+      let eff = player.square.total.add(1).logBase(2).add(1)
+      if(hasSqChal(5)) eff = eff.pow(2)
+      return eff
+    },
+    get chal1cap() {
+      return E(10).mul(E(0.99).pow(player.square.resetTime))
+    }
+  },
+  hasSuperScalDim(dim) {
+    return player.dims[dim][1].gte(Number.MAX_VALUE)
+  },
+  get ptgain() {
+    let gain = player.dims[1][5].mul(player.dims[1][2])
+    if((player.chal == 3 || player.chal == 5)) {
+      let debuff = E(1)
+      let galaxybought = player.sqrt.galaxies.sub(1)
+      let alldimbought = player.dims[1][4].add(player.dims[2][4]).add(player.dims[3][4]).add(player.dims[4][4]).add(player.dims[5][4]).add(player.dims[6][4]).add(player.dims[7][4]).add(player.dims[8][4]).div(10)
+      let rec0_9 = E(1 / 0.9)
+      debuff = debuff.mul(rec0_9.pow(galaxybought))
+      if(player.chal == 5) debuff = debuff.mul(rec0_9.pow(galaxybought.pow(5)))
+      debuff = debuff.mul(E(1.7).pow(alldimbought.add(1).log10()))
+      gain = gain.root(debuff)
+      for(let i = 2; i <= 8; i++) {
+        gain = gain.mul(E(i).pow(player.dims[i][4]))
+      }
+    }
+    if(hasSqUpg(8)) {
+      if(player.chal != 0) gain = gain.pow(1.16)
+      else gain = gain.pow(1.08)
+    }
+    if(player.chal == 5) gain = gain.mul(E(2).pow(player.sqrt.galaxies))
+    return gain
+  },
+  pmp: {
+    get squareCost() {
+      return E(10).pow(E(32).mul(E(1.2).add(E(0.2).mul(player.pmp.fromsquare)).pow(2)))
+    },
+    get pointCost() {
+      return E(10).pow(E(1e4).mul(E(1.2).add(E(0.2).mul(player.pmp.frompoints)).pow(2)))
+    },
+    get sqrtCost() {
+      return E(10).pow(E(10).pow(E(10).add(E(0.3).mul(player.pmp.fromsqrt)).div(3)))
+    },
+    get totalpts() {
+      return player.pmp.fromsquare.add(player.pmp.frompoints).add(player.pmp.fromsqrt)
+    },
+    get tPgain() {
+      let gain = E(3).add(tmp.pmp.Bab1eff).pow(tmp.pmp.totalpts).sub(1)
+      if (hasSqUpg(10)) gain = gain.mul(sq_upgs[9].effect)
+      return gain
+    },
+    get tPeff() {
+      return player.pmp.transPoint.add(10).log10().pow(0.2)
+    },
+    get tCrysNextGoal() {
+      return E(1e6).pow(player.pmp.transCrystal.add(1))
+    },
+    get spentCrystal() {
+      return player.pmp.buyables[1].add(player.pmp.buyables[2]).add(player.pmp.buyables[3])
+    },
+    get realCrystal() {
+      return player.pmp.transCrystal.sub(this.spentCrystal)
+    },
+    get Bab1eff() {
+      return player.pmp.buyables[1].mul(2)
+    },
+    get Bab2eff() {
+      return E(0.1).mul(player.pmp.buyables[2]).add(1)
+    },
+    get Bab3eff() {
+      return E(1/0.9).pow(player.pmp.buyables[3])
+    },
+  },
+}

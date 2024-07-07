@@ -1,1 +1,328 @@
-function getPointDisplay(){return player.points.lt("ee6")?'你有<div class="pts-dis">'+formatWhole(player.points)+"</div>点数":'<div class="pts-dis">'+formatWhole(player.points)+"</div>"}function getPointGain(){return"你正在每秒获取 "+formatGain(player.points,tmp.ptgain," 点数")}function getDimCostDisplay(e){return tmp.canBuyDim(e)?"价格："+formatWhole(player.dims[e][1]):"已达硬上限"}function getMaxBtnText(e){let t;t=player.autodims[e-1]?`购买次数：${format(player.dims[e][4])}`:player.sqrt.galaxies.gte(1)?`购买次数：${format(player.dims[e][4])} ➜ ${format(tmp.pointsToDims(e))}`:"最大";let r=Math.min(player.sqrt.galaxies.toNumber(),6);return(1==player.chal&&8==e||5==player.chal&&r<e)&&(t+=`/${tmp.square.chal1cap.format()}`),t}function updateTitle(){document.title="点数增量重制版："+formatWhole(player.points)+" 点数"}function switchpage(e){player.currentPage=e}function convertToB16(e){let t=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"],r=e%16;return t[(e-r)/16]+t[r]}function getUndulatingColor(e=Math.sqrt(760)){let t=(new Date).getTime(),r=Math.sin(t/1e3/e*2*Math.PI+0),a=Math.sin(t/1e3/e*2*Math.PI+2),n=Math.sin(t/1e3/e*2*Math.PI+4);return r=convertToB16(Math.floor(128*r)+128),a=convertToB16(Math.floor(128*a)+128),n=convertToB16(Math.floor(128*n)+128),"#"+String(r)+String(a)+String(n)}function colorText(e,t,r){return"<"+e+" style='color:"+t+";text-shadow:0px 0px 10px;'>"+r+"</"+e+">"}function formatEndgame(){return"当前Endgame："+colorText("h3",getUndulatingColor(),Endgame.format())+" 点数"}var notify=document.getElementById("notify");function showNotify(e){notify.classList.remove("hide"),notify.innerHTML=e}function hideNotify(){notify.classList.add("hide")}function addNotify(e){showNotify(e),setTimeout(function(){hideNotify()},1e3)}function addAnimation(e,t){document.body.style.animation=`${e} ${t}s 1`,setTimeout(()=>{document.body.style.animation=""},1e3*t)}function getGalRewardText(){const e=player.sqrt.galaxies;if(player.sqrt.galaxies.gte(galaxy_rewards[galaxy_rewards.length-1].req))return"";for(let t=galaxy_rewards.length-1;t>=0;t--)if(e.gte(galaxy_rewards[t].req))return t>1?`在${formatWhole(galaxy_rewards[t+1].req)}星系，`+galaxy_rewards[t+1].desc:"";return`在${formatWhole(galaxy_rewards[0].req)}星系，`+galaxy_rewards[0].desc}function getHotkeyText(){let e="快捷键：";return e+="按1~8可最大对应的维度",e+="，按shift+1~8可购买一次对应的维度",e+="，按m可全部购买最大",e+="，按g可进行星系重置",(player.sqrt.galaxies.gte(3)||player.square.unl)&&(e+="，按s可进行平方重置"),e}function get_pts_volume(e){const t=2.3687253991903575e104;return e.gte("ee9")?"大神啊！你的点数已经可以制造1个多元宇宙了！":e.gte("1e785")?`如果你每秒写3个数字，那么把你的点数写下来需要${formatTime.fromSeconds(e.log10().floor().add(1).div(3))}`:e.gte(Number.MAX_VALUE)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(Number.MAX_VALUE).format()}个无限`:e.gte(1e113*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1e113*t).format()}个维度`:e.gte(3.4e80*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(3.4e80*t).format()}个可观测宇宙`:e.gte(1e73*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1e73*t).format()}个玉夫座空洞`:e.gte(5e68*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(5e68*t).format()}个本星系团`:e.gte(3.3e61*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(3.3e61*t).format()}个星系`:e.gte(3.3e55*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(3.3e55*t).format()}个本地泡`:e.gte(1.7e48*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1.7e48*t).format()}个奥尔特云`:e.gte(1.7e45*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1.7e45*t).format()}个星云`:e.gte(8e36*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(8e36*t).format()}个超巨星`:e.gte(5e32*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(5e32*t).format()}个红巨星`:e.gte(1.41e27*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1.41e27*t).format()}个太阳`:e.gte(1.53e24*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1.53e24*t).format()}个木星`:e.gte(1.08e21*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1.08e21*t).format()}个地球`:e.gte(45e16*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(45e16*t).format()}个矮行星`:e.gte(5e12*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(5e12*t).format()}个大型小行星`:e.gte(33e7*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以充满${e.div(33e7*t).format()}座万里长城`:e.gte(2600600*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以充满${e.div(2600600*t).format()}座吉萨大金字塔`:e.gte(2500*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以充满${e.div(2500*t).format()}个奥运规模的游泳池`:e.gte(1*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以充满${e.div(1*t).format()}个冰箱`:e.gte(75e-5*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以充满${e.div(75e-5*t).format()}个酒瓶`:e.gte(3555e-9*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以充满${e.div(3555e-9*t).format()}个茶匙`:e.gte(5e8*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(5e8*t).format()}粒米`:e.gte(6.2e-11*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(6.2e-11*t).format()}粒沙子`:e.gte(9e-17*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(9e-17*t).format()}个红细胞`:e.gte(5e-21*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(5e-21*t).format()}个病毒`:e.gte(7.23e-30*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(7.23e-30*t).format()}个氢原子`:e.gte(1e-42*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(1e-42*t).format()}个原子核`:e.gte(2.82e-45*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以制造${e.div(2.82e-45*t).format()}个质子`:e.gte(1e-54*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以占据${e.div(1e-54*t).format()}立方阿米`:e.gte(1e-63*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以占据${e.div(1e-63*t).format()}立方仄米`:e.gte(1e-72*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以占据${e.div(1e-72*t).format()}立方幺米`:e.gte(1e-81*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以占据${e.div(1e-81*t).format()}立方柔米`:e.gte(1e-90*t)?`如果你的每个点数占据一个普朗克单位，你的点数足以占据${e.div(1e-90*t).format()}立方亏米`:`如果你的每个点数占据一个普朗克单位，你的点数足以占据${formatWhole(e)}个普朗克单位`}function get_sq_upg_text(){if(0==app.hover_upg)return;let e=`<span class="sky">[平方升级${app.hover_upg}]${app.squpgs2[app.hover_upg-1].desc}</span><br>价格：${app.squpgs2[app.hover_upg-1].cost.format(0)}点数<sup>2</sup>`+(void 0===app.squpgs2[app.hover_upg-1].effectDisplay?"":`<br><span class="green">当前：${app.squpgs2[app.hover_upg-1].effectDisplay}</span>`);return 5==player.chal&&"boolean"==typeof sq_upgs[app.hover_upg-1].disableInChal5&&(e="<del>"+e+"</del>"),e}function getDimAutoText(e){return player.autodims[e-1]?"开":"关"}function newsTickerShownButtonText(){return player.options.showNewsTicker?"关闭新闻":"开启新闻"}function hotkeyShownButtonText(){return player.options.hotkey?"关闭快捷键":"开启快捷键"}function getSqUpgClassName(e){let t="sq_upg";return hasSqUpg(e)&&(t+="_bought"),player.square.points.gte(app.squpgs2[e-1].cost)&&!hasSqUpg(e)&&(t+="_buyable"),5==player.chal&&"boolean"==typeof sq_upgs[e-1].disableInChal5&&(t="sq_upg_disabled"),t}function getSqChalClassName(e){return player.chal==e?"inchal":player.square.chals.includes(e)?"chalcomp":"chal"}function getAutoGalStatus(){return player.autogalaxy?"开":"关"}function getSqrtPClass(){let e="sqrtP";return hasSqUpg(3)&&(e+=" sqrtP_lv1"),hasSqUpg(7)&&(e+=" sqrtP_lv2"),e}function calculateRotationAngle(e=5){const t=1e3*e,r=Date.now()%t/t;return 10*Math.sin(2*Math.PI*r)}function getChalReward(){return"奖励："+sq_chal[choosed_chal-1].reward}function get_sq_chal_text(){return 0==window.choosed_chal?"":`<button class="btn" onclick="${player.chal==window.choosed_chal?player.points.gte(sq_chal[window.choosed_chal-1].goal)?"completeChal()":"exitChal()":"enterChal(window.choosed_chal)"}">${player.chal==window.choosed_chal?player.points.gte(sq_chal[window.choosed_chal-1].goal)?"完成":"退出":"进入"}挑战</button><h4>${sq_chal[window.choosed_chal-1].title}</h4><span style="color: red">${sq_chal[window.choosed_chal-1].desc}</span><br>价格：${sq_chal[window.choosed_chal-1].goal.format()}点数<br><span class="green">${sq_chal[window.choosed_chal-1].reward}</span>`}tabshow={main:{get inTab(){return[1,4].includes(player.currentPage)},dimensions:{get inTab(){return 1==player.currentPage},get unlocked(){return[1,4].includes(player.currentPage)}},sqrt:{get inTab(){return 4==player.currentPage},get unlocked(){return[1,4].includes(player.currentPage)}}},resets:{get inTab(){return[5].includes(player.currentPage)},get unlocked(){return player.square.unl||player.sqrt.galaxies.gte(3)}},square:{get inTab(){return[7,8,9].includes(player.currentPage)},get unlocked(){return player.square.unl},upgrades:{get inTab(){return 7==player.currentPage},get unlocked(){return[7,8,9].includes(player.currentPage)}},challenges:{get inTab(){return 8==player.currentPage},get unlocked(){return[7,8,9].includes(player.currentPage)&&hasSqUpg(4)}},pmp:{get inTab(){return[9].includes(player.currentPage)},get unlocked(){return[7,8,9].includes(player.currentPage)&&hasSqChal(5)},left:{get inTab(){return 9==player.currentPage},get unlocked(){return[9].includes(player.currentPage)}},multply:{get inTab(){return 10==player.currentPage},get unlocked(){return[9].includes(player.currentPage)}},right:{get inTab(){return 11==player.currentPage},get unlocked(){return[9].includes(player.currentPage)}}}},stats:{get inTab(){return[6].includes(player.currentPage)}},others:{get inTab(){return[2,3].includes(player.currentPage)},options:{get inTab(){return 2==player.currentPage},get unlocked(){return[2,3].includes(player.currentPage)}},about:{get inTab(){return 3==player.currentPage},get unlocked(){return[2,3].includes(player.currentPage)}}},get showTheSecondLine(){return[1,2,3,4,7,8,9].includes(player.currentPage)}};
+function getPointDisplay() {
+  if(player.points.lt('ee6')) return '你有<div class="pts-dis">' + formatWhole(player.points) + '</div>点数'
+  else return '<div class="pts-dis">' + formatWhole(player.points) + '</div>'
+}
+
+function getPointGain() {
+  return '你正在每秒获取 ' + formatGain(player.points,tmp.ptgain," 点数")
+}
+
+function getDimCostDisplay(dim) {
+  return (tmp.canBuyDim(dim)) ? '价格：' + formatWhole(player.dims[dim][1]) : '已达硬上限'
+}
+
+function getMaxBtnText(dim) {
+  let a
+  if(player.autodims[dim - 1]) a = `购买次数：${format(player.dims[dim][4])}`
+  else if(player.sqrt.galaxies.gte(1)) a = `购买次数：${format(player.dims[dim][4])} ➜ ${format(tmp.pointsToDims(dim))}`
+  else a = "最大"
+  let b = Math.min(player.sqrt.galaxies.toNumber(), 6)
+  if ((player.chal == 1 && dim == 8) || (player.chal == 5 && b < dim)) a += `/${tmp.square.chal1cap.format()}`
+  return a
+}
+
+function updateTitle() {
+  document.title = '点数增量重制版：' + formatWhole(player.points) + ' 点数'
+}
+
+function switchpage(page) {
+  player.currentPage = page
+}
+
+function convertToB16(n) {
+  let codes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+  let x = n % 16
+  return codes[(n - x) / 16] + codes[x]
+}
+
+function getUndulatingColor(period = Math.sqrt(760)) {
+  let t = new Date().getTime()
+  let a = Math.sin(t / 1e3 / period * 2 * Math.PI + 0)
+  let b = Math.sin(t / 1e3 / period * 2 * Math.PI + 2)
+  let c = Math.sin(t / 1e3 / period * 2 * Math.PI + 4)
+  a = convertToB16(Math.floor(a * 128) + 128)
+  b = convertToB16(Math.floor(b * 128) + 128)
+  c = convertToB16(Math.floor(c * 128) + 128)
+  return "#" + String(a) + String(b) + String(c)
+}
+
+function colorText(elem, color, text) {
+  return "<" + elem + " style='color:" + color + ";text-shadow:0px 0px 10px;'>" + text + "</" + elem + ">"
+}
+
+
+function formatEndgame() {
+  const x = getUndulatingColor()
+  const endgameText = "当前Endgame：" + colorText('h3', x, Endgame.format()) + " 点数"
+  return endgameText
+}
+var notify = document.getElementById('notify');
+// 显示通知框  
+function showNotify(str) {
+  notify.classList.remove('hide');
+  notify.innerHTML = str
+}
+// 隐藏通知框  
+function hideNotify() {
+  notify.classList.add('hide');
+}
+
+function addNotify(str) {
+  showNotify(str)
+  setTimeout(function() {
+    hideNotify()
+  }, 1000)
+}
+
+function addAnimation(name, duration) {
+  document.body.style.animation = `${name} ${duration}s 1`;
+  setTimeout(() => {
+    document.body.style.animation = "";
+  }, duration * 1000);
+}
+
+function getGalRewardText() {
+  const x = player.sqrt.galaxies;
+  if(player.sqrt.galaxies.gte(galaxy_rewards[galaxy_rewards.length - 1].req)) return ""
+  for(let i = galaxy_rewards.length - 1; i >= 0; i--) {
+    if(x.gte(galaxy_rewards[i].req)) {
+      return i > 1 ? `在${formatWhole(galaxy_rewards[i+1].req)}星系，` + galaxy_rewards[i + 1].desc : "";
+    }
+  }
+  return `在${formatWhole(galaxy_rewards[0].req)}星系，` + galaxy_rewards[0].desc;
+}
+
+function getHotkeyText() {
+  let hotkey = "快捷键："
+  hotkey += "按1~8可最大对应的维度"
+  hotkey += "，按shift+1~8可购买一次对应的维度"
+  hotkey += "，按m可全部购买最大"
+  hotkey += "，按g可进行星系重置"
+  if(player.sqrt.galaxies.gte(3) || player.square.unl) hotkey += "，按s可进行平方重置"
+  return hotkey
+}
+
+function get_pts_volume(x) {
+  const meter_cubed = 2.3687253991903575e104
+  if(x.gte("ee9")) return "大神啊！你的点数已经可以制造1个多元宇宙了！"
+  if(x.gte("1e785")) return `如果你每秒写3个数字，那么把你的点数写下来需要${formatTime.fromSeconds(x.log10().floor().add(1).div(3))}`
+  if(x.gte(Number.MAX_VALUE)) return `如果你的每个点数占据一个普朗克单位，你的点数足以制造${x.div(Number.MAX_VALUE).format()}个无限`
+  const prefixes = [
+    { value: 1e113, name: "维度", verb: "制造" },
+    { value: 3.4e80, name: "可观测宇宙", verb: "制造" },
+    { value: 1e73, name: "玉夫座空洞", verb: "制造" },
+    { value: 5e68, name: "本星系团", verb: "制造" },
+    { value: 3.3e61, name: "星系", verb: "制造" },
+    { value: 3.3e55, name: "本地泡", verb: "制造" },
+    { value: 1.7e48, name: "奥尔特云", verb: "制造" },
+    { value: 1.7e45, name: "星云", verb: "制造" },
+    { value: 8e36, name: "超巨星", verb: "制造" },
+    { value: 5e32, name: "红巨星", verb: "制造" },
+    { value: 1.41e27, name: "太阳", verb: "制造" },
+    { value: 1.53e24, name: "木星", verb: "制造" },
+    { value: 1.08e21, name: "地球", verb: "制造" },
+    { value: 4.5e17, name: "矮行星", verb: "制造" },
+    { value: 5e12, name: "大型小行星", verb: "制造" },
+    { value: 3.3e8, name: "万里长城", verb: "填满" },
+    { value: 2.6006e6, name: "吉萨大金字塔", verb: "填满" },
+    { value: 2.5e3, name: "奥运规模的游泳池", verb: "填满" },
+    { value: 1, name: "冰箱", verb: "填满" },
+    { value: 7.5e-4, name: "酒瓶", verb: "填满" },
+    { value: 3.555e-6, name: "茶匙", verb: "填满" },
+    { value: 5e-8, name: "米", verb: "制造" },
+    { value: 6.2e-11, name: "沙子", verb: "制造" },
+    { value: 9e-17, name: "红细胞", verb: "制造" },
+    { value: 5e-21, name: "病毒", verb: "制造" },
+    { value: 7.23e-30, name: "氢原子", verb: "制造" },
+    { value: 1e-42, name: "原子核", verb: "制造" },
+    { value: 2.82e-45, name: "质子", verb: "制造" },
+    { value: 1e-54, name: "立方阿米", verb: "占据" },
+    { value: 1e-63, name: "立方仄米", verb: "占据" },
+    { value: 1e-72, name: "立方幺米", verb: "占据" },
+    { value: 1e-81, name: "立方柔米", verb: "占据" },
+    { value: 1e-90, name: "立方亏米", verb: "占据" },
+  ]
+  for (let prefix of prefixes) {
+    if (x.gte(prefix.value * meter_cubed)) {
+      return `如果你的每个点数占据一个普朗克单位，你的点数足以${prefix.verb}${x.div(prefix.value * meter_cubed).format()}个${prefix.name}`
+    }
+  }
+  return `如果你的每个点数占据一个普朗克单位，你的点数足以占据${formatWhole(x)}个普朗克单位`
+}
+
+function get_sq_upg_text() {
+  if(app.hover_upg == 0) return
+  let a =  `<span class="sky">[平方升级${app.hover_upg}]${app.squpgs2[app.hover_upg-1].desc}</span><br>价格：${app.squpgs2[app.hover_upg-1].cost.format(0)}点数<sup>2</sup>` + (typeof(app.squpgs2[app.hover_upg - 1].effectDisplay) == "undefined" ? "" : `<br><span class="green">当前：${app.squpgs2[app.hover_upg-1].effectDisplay}</span>`)
+  if (player.chal == 5) {
+    if (typeof (sq_upgs[app.hover_upg-1].disableInChal5) == "boolean") a = "<del>" + a + "</del>"
+  }
+  return a
+}
+
+tabshow = {
+  main: {
+    get inTab() {
+      return [1,4].includes(player.currentPage)
+    },
+    dimensions: {
+      get inTab() {
+        return player.currentPage == 1
+      },
+      get unlocked() {
+        return [1,4].includes(player.currentPage)
+      },
+    },
+    sqrt: {
+      get inTab() {
+        return player.currentPage == 4
+      },
+      get unlocked() {
+        return [1,4].includes(player.currentPage)
+      },
+    },
+  },
+  resets: {
+    get inTab() {
+      return [5].includes(player.currentPage)
+    },
+    get unlocked() {
+      return player.square.unl || player.sqrt.galaxies.gte(3)
+    },
+  },
+  square: {
+    get inTab() {
+      return [7,8,9].includes(player.currentPage)
+    },
+    get unlocked() {
+      return player.square.unl
+    },
+    upgrades: {
+      get inTab() {
+        return player.currentPage == 7
+      },
+      get unlocked() {
+        return [7,8,9].includes(player.currentPage)
+      },
+    },
+    challenges: {
+      get inTab() {
+        return player.currentPage == 8
+      },
+      get unlocked() {
+        return [7,8,9].includes(player.currentPage) && hasSqUpg(4)
+      },
+    },
+    pmp: {
+      get inTab() {
+        return [9].includes(player.currentPage)
+      },
+      get unlocked() {
+        return [7,8,9].includes(player.currentPage) && hasSqChal(5)
+      },
+      left: {
+        get inTab() {
+          return player.currentPage == 9
+        },
+        get unlocked() {
+          return [9].includes(player.currentPage)
+        }
+      },
+      multply: {
+        get inTab() {
+          return player.currentPage == 10
+        },
+        get unlocked() {
+          return [9].includes(player.currentPage)
+        }
+      },
+      right: {
+        get inTab() {
+          return player.currentPage == 11
+        },
+        get unlocked() {
+          return [9].includes(player.currentPage)
+        }
+      },
+    },
+  },
+  stats: {
+    get inTab() {
+      return [6].includes(player.currentPage)
+    },
+  },
+  others: {
+    get inTab() {
+      return [2,3].includes(player.currentPage)
+    },
+    options: {
+      get inTab() {
+        return player.currentPage == 2
+      },
+      get unlocked() {
+        return [2,3].includes(player.currentPage)
+      },
+    },
+    about: {
+      get inTab() {
+        return player.currentPage == 3
+      },
+      get unlocked() {
+        return [2,3].includes(player.currentPage)
+      },
+    },
+  },
+  get showTheSecondLine() {
+    return [1,2,3,4,7,8,9].includes(player.currentPage)
+  }
+}
+
+function getDimAutoText(dim) {
+  return player.autodims[dim-1]? "开" : "关"
+}
+
+function newsTickerShownButtonText() {
+  if (player.options.showNewsTicker) return "关闭新闻"
+  return "开启新闻"
+}
+function hotkeyShownButtonText() {
+  if (player.options.hotkey) return "关闭快捷键"
+  return "开启快捷键"
+}
+
+function getSqUpgClassName(id) {
+  let upgradeClassName = 'sq_upg';
+  if(hasSqUpg(id)) {
+    upgradeClassName += '_bought';
+  }
+  if(player.square.points.gte(app.squpgs2[id - 1].cost) && !hasSqUpg(id)) {
+    upgradeClassName += '_buyable';
+  }
+  if (player.chal == 5) {
+    if (typeof (sq_upgs[id-1].disableInChal5) == "boolean") upgradeClassName = "sq_upg_disabled"
+  }
+  return upgradeClassName
+}
+function getSqChalClassName(id) {
+  return player.chal == id? 'inchal' : (player.square.chals.includes(id)? 'chalcomp' : 'chal')
+}
+function getAutoGalStatus() {
+  if (player.autogalaxy) return "开"
+  return "关"
+}
+function getSqrtPClass() {
+  let a = "sqrtP"
+  if (hasSqUpg(3)) a += " sqrtP_lv1"
+  if (hasSqUpg(7)) a += " sqrtP_lv2"
+  return a
+}
+function calculateRotationAngle(t = 5) {
+  const n = 1e3 * t, a = Date.now() % n / n;
+  return 10 * Math.sin(2 * Math.PI * a)
+}
+function getChalReward() {
+  return "奖励："+sq_chal[choosed_chal-1].reward
+}
+function get_sq_chal_text() {
+  if(window.choosed_chal == 0) return ""
+  return `<button class="btn" onclick="${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "completeChal()" : "exitChal()") : "enterChal(window.choosed_chal)"}">${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "完成" : "退出") : "进入"}挑战</button><h4>${sq_chal[window.choosed_chal-1].title}</h4><span style="color: red">${sq_chal[window.choosed_chal-1].desc}</span><br>价格：${sq_chal[window.choosed_chal-1].goal.format()}点数<br><span class="green">${sq_chal[window.choosed_chal-1].reward}</span>`
+}

@@ -17,13 +17,14 @@
   <script src="scripts/script.js" defer></script>
   <script src="scripts/sqrt.js" defer></script>
   <script src="scripts/square.js" defer></script>
+  <script src="scripts/pmp.js" defer></script>
   <script src="scripts/others.js" defer></script>
   <script src="scripts/newsticker.js" defer></script>
   <script src="scripts/challenges.js" defer></script>
   <script src="scripts/hotkey.js" defer></script>
   <script src="scripts/components.js" defer></script>
-  <script src="scripts/save.js" defer></script>
   <script src="scripts/changelog.js" defer></script>
+  <script src="scripts/save.js" defer></script>
 </head>
 
 <body>
@@ -141,9 +142,10 @@
         <div v-if="window.choosed_chal != 0" v-html="get_sq_chal_text()"></div>
       </div>
       <div v-if="player.currentPage == 9">
-        Coming S∞n!
         <span style="font-size: 14px">注意，购买后将直接清空资源，而不是减去!</span>
         <main-line></main-line>
+        <div class="sky">你有{{ player.pmp.fromsquare.format(0) }}+{{ player.pmp.frompoints.format(0) }}+{{ player.pmp.fromsqrt.format(0) }}={{ tmp.pmp.totalpts.format(0) }}点数×点数，它们每秒生产{{ tmp.pmp.tPgain.format() }}超越点数<br>
+        你有{{ player.pmp.transPoint.format() }}超越点数，√点数二重软上限效果变为{{ tmp.pmp.tPeff.format() }}次方根</div>
         <table>
           <tr>
             <td style="text-align: center;">因式分解</td>
@@ -151,10 +153,17 @@
             <td style="text-align: center;">四次乘方</td>
           </tr>
           <tr>
-            <td><button class="square" tooltip="对你的点数^2进行因式分解以获取1点数×点数">获取1点数×点数<br>要求：{{ tmp.pmp.squareCost.format() }}点数<sup>2</sup></button></td>
-            <td><button class="btn" tooltip="对你的点数进行同底相乘以获取1点数×点数">获取1点数×点数<br>要求：{{ tmp.pmp.pointCost.format() }}点数</button></td>
-            <td><button class="btn" tooltip="对你的√点数进行四次乘方以获取1点数×点数">获取1点数×点数<br>要求：{{ tmp.pmp.sqrtCost.format() }}√点数</button></td>
+            <td><button class="square" tooltip="对你的点数^2进行因式分解以获取1点数×点数" @click="buyPMP(1)">获取1点数×点数<br>要求：{{ tmp.pmp.squareCost.format() }}点数<sup>2</sup></button></td>
+            <td><button class="btn" tooltip="对你的点数进行同底相乘以获取1点数×点数" @click="buyPMP(2)">获取1点数×点数<br>要求：{{ tmp.pmp.pointCost.format() }}点数</button></td>
+            <td><button class="btn" tooltip="对你的√点数进行四次乘方以获取1点数×点数" @click="buyPMP(3)">获取1点数×点数<br>要求：{{ tmp.pmp.sqrtCost.format() }}√点数</button></td>
           </tr>
+        </table>
+        你有{{ player.pmp.transCrystal.format(0) }}-{{ tmp.pmp.spentCrystal.format(0) }}={{ tmp.pmp.realCrystal.format(0) }}个超越之晶(下一个在{{ tmp.pmp.tCrysNextGoal.format() }}超越点数)<br>
+        <button @click="respecCrysBab()" class="btn">重新分配，但进行一次无奖励的平方重置</button>
+        <table>
+          <td><button class="btn sky" @click="buyCrysBab(1)">({{ player.pmp.buyables[1].format(0) }})超越点数获取公式底数+2<br>价格：1超越之晶</button></td>
+          <td><button class="btn sky" @click="buyCrysBab(2)">({{ player.pmp.buyables[2].format(0) }})点数<sup>2</sup>获取指数+0.1<br>价格：1超越之晶</button></td>
+          <td><button class="btn sky" @click="buyCrysBab(3)">({{ player.pmp.buyables[3].format(0) }})√星系价格^0.9<br>价格：1超越之晶</button></td>
         </table>
       </div>
     </div>
