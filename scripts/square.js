@@ -130,7 +130,7 @@ const sq_upgs = [{
   },
   {
     desc: "√点数的复制速度硬上限×5，从同底相乘中获取的<span style=\"color: white\">点数×点数</span>×2",
-    cost: E(1e230),
+    cost: E(1e245),
     get unlocked() {
       return hasSqUpg(12)
     },
