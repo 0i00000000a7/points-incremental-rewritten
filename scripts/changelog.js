@@ -2,7 +2,7 @@ const changelog = [
   {
     version: "0.2.7",
     changes: [
-      "添加成就",
+      "添加16个成就",
     ]
   },
   {
