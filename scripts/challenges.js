@@ -1,6 +1,5 @@
 choosed_chal = 0
 function handleChalButtonClick(chal) {
-  if (choosed_chal == chal) enterChal(chal)
   choosed_chal = chal
 }
 function enterChal(chal) {
@@ -27,6 +26,7 @@ function updateChal() {
 }
 function completeChal() {
   if (!player.square.chals.includes(player.chal)) player.square.chals.push(player.chal)
+  if (player.chal == 1 && player.square.resetTime.lte(10)) getAch(23)
   exitChal()
 }
 function handleSqChalAnotherButtonClick() {

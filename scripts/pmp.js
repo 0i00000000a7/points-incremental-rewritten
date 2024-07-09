@@ -49,5 +49,6 @@ function buyCrysBab(x) {
     else if (hasSqUpg(12) && x == 3) {}
     else return
   }
+  if (player.pmp.buyables[x].gte(50)) return
   player.pmp.buyables[x] = player.pmp.buyables[x].add(1)
 }

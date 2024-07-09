@@ -247,8 +247,24 @@ tabshow = {
   },
   stats: {
     get inTab() {
-      return [6].includes(player.currentPage)
+      return [6,10].includes(player.currentPage)
     },
+    stats: {
+      get inTab() {
+        return [6].includes(player.currentPage)
+      },
+      get unlocked() {
+        return [6,10].includes(player.currentPage)
+      }
+    },
+    achievement: {
+      get inTab() {
+        return [10].includes(player.currentPage)
+      },
+      get unlocked() {
+        return [6,10].includes(player.currentPage)
+      }
+    }
   },
   others: {
     get inTab() {
@@ -272,7 +288,7 @@ tabshow = {
     },
   },
   get showTheSecondLine() {
-    return [1,2,3,4,7,8,9].includes(player.currentPage)
+    return [1,2,3,4,6,7,8,9,10].includes(player.currentPage)
   }
 }
 
@@ -325,4 +341,14 @@ function getChalReward() {
 function get_sq_chal_text() {
   if(window.choosed_chal == 0) return ""
   return `<button class="btn" onclick="${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "completeChal()" : "exitChal()") : "enterChal(window.choosed_chal)"}">${player.chal == window.choosed_chal? (player.points.gte(sq_chal[window.choosed_chal-1].goal)? "完成" : "退出") : "进入"}挑战</button><h4>${sq_chal[window.choosed_chal-1].title}</h4><span style="color: red">${sq_chal[window.choosed_chal-1].desc}</span><br>价格：${sq_chal[window.choosed_chal-1].goal.format()}点数<br><span class="green">${sq_chal[window.choosed_chal-1].reward}</span>`
+}
+function updateTitle() {
+  document.title = `点数增量重制版 - ${player.points.format(0)}点数`
+  requestAnimationFrame(updateTitle)
+}
+function getAchClass(ach) {
+  let name = "achi tooltipBox"
+  ach = parseInt(ach)
+  if (hasAch(ach)) name += " unlocked"
+  return name
 }

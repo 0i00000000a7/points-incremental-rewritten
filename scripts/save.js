@@ -115,7 +115,9 @@ function hard_reset() {
         transPoint: E(0),
         transCrystal: E(0),
         buyables: [null,E(0),E(0),E(0)],
-      }
+      },
+      achievements: [],
+      ach12time: 0,
     }
 }
 
@@ -168,6 +170,7 @@ function load() {
   console.error(new cheatError('Cheater\'s mother is not defined'))
   loadVue()
   hasLoaded.status = true
+  updateTitle()
 }
 
 function export_copy() {
@@ -287,6 +290,7 @@ var formatsave = {
     return this.steps.reduceRight((x, f) => f.decode(x), s);
   },
 }
+
 
 function fixOldSave() {
   if (player.square.upgrades == void 0) player.square.upgrades = []

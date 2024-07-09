@@ -13,6 +13,7 @@
     updateChal();  
     updateResetTime(); 
     updatePMP()
+    updateAch()
   }  
   
   document.addEventListener('DOMContentLoaded', function() {  
@@ -40,10 +41,14 @@ function updateDimDatas() {
     player.dims[i][1] = player.dims[i][0].pow(player.dims[i][4].add(1))
   }
   for(let i = 1; i <= 8; i++) {
-    player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff)
+    player.dims[i][2] = player.singleDMult.pow(player.dims[i][4]).mul(tmp.sqrt.dim_eff).mul(tmp.achievementsEffDim)
     if (player.square.chals.includes(2)) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(i*0.1))
     if (hasSqUpg(5) && i<=5) player.dims[i][2].mul(tmp.sqrt.dim_eff.pow(sq_upgs[4].effect))
     if (player.square.chals.includes(1) && i<8 && player.dims[i+1][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
+    if (hasAch(11) && i == 1) player.dims[i][2] = player.dims[i][2].mul(1.02)
+    if (hasAch(21) && i == 1) player.dims[i][2] = player.dims[i][2].mul(1.4)
+    if (hasAch(12)) player.dims[i][2] = player.dims[i][2].mul(E(1).add(player.dims[i][2].add(1).log10().div(100)))
+    if (hasAch(17)) player.dims[i][2] = player.dims[i][2].mul(E(1.17).pow(player.sqrt.galaxies))
   }
   player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)
   if(player.sqrt.galaxies.gte(2)) player.canautodim = true
@@ -65,13 +70,17 @@ function buyMaxDim(dim) {
   var x = player.points
   if(x.gt(E(2).pow(1024))) x = E(2).pow(1024)
   if(x.gte(player.dims[dim][1])) {
-    player.dims[dim][4] = x.log10().div(dim).floor()
+    let target = x.log10().div(dim).floor()
+    if (target.sub(player.dims[dim][4]).gte(2)) getAch(11)
+    player.dims[dim][4] = target
     player.points = player.points.sub(player.dims[dim][0].pow(x.log10().div(dim).floor()))
   }
 }
 
 function buyMaxDimAfterGal1(dim) {
-  player.dims[dim][4] = tmp.pointsToDims(dim)
+  let target = tmp.pointsToDims(dim)
+  if (target.sub(player.dims[dim][4]).gte(2)) getAch(11)
+  player.dims[dim][4] = target
 }
 
 function updatePoints() {

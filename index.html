@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icon.png">
+  <title>点数增量重制版</title>
 
   <script src="scripts/technical/vue.js" defer></script>
   <script src="scripts/technical/ExpantaNum.js" defer></script>
@@ -23,6 +24,7 @@
   <script src="scripts/challenges.js" defer></script>
   <script src="scripts/hotkey.js" defer></script>
   <script src="scripts/components.js" defer></script>
+  <script src="scripts/achievements.js" defer></script>
   <script src="scripts/changelog.js" defer></script>
   <script src="scripts/save.js" defer></script>
 </head>
@@ -32,7 +34,6 @@
     <div id="notify" class="hide"></div>
   </div>
   <div id="app" align="center">
-    <title>点数增量重制版 - {{ player.points.format() }}点数</title>
     <div id="loader-overlay" v-if="!hasLoaded.status">
       <div class="loader-text" align="center">游戏加载中......<br><span style='font-size: 18px'>这可能需要一些时间</span><br><noscript>本游戏无法运行于无javacript的环境下！</noscript></div>
     </div>
@@ -61,6 +62,8 @@
         <button @click="switchpage(7)" class="square" v-if="tabshow.square.upgrades.unlocked" :disabled="tabshow.square.upgrades.inTab">升级</button>
         <button @click="switchpage(8)" class="square" v-if="tabshow.square.challenges.unlocked" :disabled="tabshow.square.challenges.inTab">挑战</button>
         <button @click="switchpage(9)" class="square" v-if="tabshow.square.pmp.unlocked" :disabled="tabshow.square.pmp.inTab">点数×点数</button>
+        <button @click="switchpage(6)" class="btn" :disabled="tabshow.stats.stats.inTab" v-if="tabshow.stats.stats.unlocked">统计</button>
+        <button @click="switchpage(10)" class="btn" v-if="tabshow.stats.achievement.unlocked" :disabled="tabshow.stats.achievement.inTab">成就</button>
         <main-line></main-line>
       </div>
       <div v-if="player.currentPage == 1">
@@ -91,7 +94,7 @@
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
         当前版本：v0.2.6.3<br>
-        游戏作者：<sup>0100000a7</sup><br>
+        游戏作者：<sup>0100000a7</sup> & EdenGameMaster<br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
@@ -137,7 +140,7 @@
       <div v-if="player.currentPage == 8">
         <template v-for="chal in sq_chal">
           <button :class="getSqChalClassName(chal.id)" v-if="sq_chal[chal.id-1].unlocked" :key="chal.id" @click="handleChalButtonClick(chal.id)">
-            C{{ chal.id }}
+            <b>C{{ chal.id }}</b>
           </button>
         </template><br><br>
         <div v-if="window.choosed_chal != 0" v-html="get_sq_chal_text()"></div>
@@ -154,9 +157,9 @@
             <td style="text-align: center;">四次乘方</td>
           </tr>
           <tr>
-            <td><button class="square" tooltip="对你的点数^2进行因式分解以获取1点数×点数" @click="buyPMP(1)">获取1点数×点数<br>要求：{{ tmp.pmp.squareCost.format() }}点数<sup>2</sup></button></td>
-            <td><button class="btn" tooltip="对你的点数进行同底相乘以获取1点数×点数" @click="buyPMP(2)">获取1点数×点数<br>要求：{{ tmp.pmp.pointCost.format() }}点数</button></td>
-            <td><button class="btn" tooltip="对你的√点数进行四次乘方以获取1点数×点数" @click="buyPMP(3)">获取1点数×点数<br>要求：{{ tmp.pmp.sqrtCost.format() }}√点数</button></td>
+            <td><button class="square tooltipBox" @click="buyPMP(1)"><div class="tooltip">对你的点数<sup>2</sup>进行因式分解以获取1点数×点数</div>获取1点数×点数<br>要求：{{ tmp.pmp.squareCost.format() }}点数<sup>2</sup></button></td>
+            <td><button class="btn tooltipBox" @click="buyPMP(2)"><div class="tooltip">对你的点数进行同底相乘以获取1点数×点数</div>获取1点数×点数<br>要求：{{ tmp.pmp.pointCost.format() }}点数</button></td>
+            <td><button class="btn tooltipBox" @click="buyPMP(3)"><div class="tooltip">对你的√点数进行四次乘方以获取1点数×点数</div>获取1点数×点数<br>要求：{{ tmp.pmp.sqrtCost.format() }}√点数</button></td>
           </tr>
         </table>
         <main-line></main-line>
@@ -167,6 +170,10 @@
           <td><button class="btn sky" @click="buyCrysBab(2)">({{ player.pmp.buyables[2].format(0) }})点数<sup>2</sup>获取指数+0.1<br>价格：1超越之晶</button></td>
           <td><button class="btn sky" @click="buyCrysBab(3)">({{ player.pmp.buyables[3].format(0) }})√星系价格^0.9<br>价格：1超越之晶</button></td>
         </table>
+      </div>
+      <div v-if="player.currentPage == 10">
+        你完成了{{ player.achievements.length }}/{{ totalachievements }}个成就，这使你的维度乘数×{{ tmp.achievementsEffDim.format() }}
+        <achievements></achievements>
       </div>
     </div>
   </div>

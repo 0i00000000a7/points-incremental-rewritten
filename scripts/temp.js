@@ -40,6 +40,11 @@ const tmp = {
       if(player.square.chals.includes(1) && player.points.gte(1e10)) buff = buff.mul(player.points.slog(10))
       if(player.square.chals.includes(2) && (player.sqrt.points.lt(Number.MAX_VALUE) || (hasSqUpg(7) && player.chal != 5))) buff = buff.mul(player.dims[8][4].add(10).log10())
       if(hasSqChal(4)) buff = buff.mul(Math.PI)
+      if(hasAch(16)) {
+        if (player.sqrt.points.gte(1e10)) buff = buff.mul(1.06)
+        if (player.sqrt.points.gte(1e50)) buff = buff.mul(1.06)
+        if (player.sqrt.points.gte(5e99)) buff = buff.mul(1.06)
+      }
       return mult.root(debuff).pow(buff).min(this.maxRepSpeed)
     },
     get galaxyEffect() {
@@ -177,4 +182,12 @@ const tmp = {
       return E(1/0.9).pow(player.pmp.buyables[3])
     },
   },
+  cube: {
+    get gainNorm() {
+      return player.square.points
+    }
+  },
+  get achievementsEffDim() {
+    return E(1.05).pow(player.achievements.length)
+  }
 }

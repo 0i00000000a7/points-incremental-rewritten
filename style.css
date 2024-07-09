@@ -309,7 +309,11 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 1919810;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 1919810;
 }
 
 #first-galaxy {
@@ -325,11 +329,7 @@ h3 {
   z-index: 9999;
 }
 
-.loader-text {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-}
+
 
 #galaxy-text {
   color: black;
@@ -747,106 +747,64 @@ spoiler {
   height: 5px;
   margin-bottom: 13px;
 }
-[tooltip] {
-	position: relative;
-	z-index: 2;
-	white-space: pre-wrap;
-	text-align: center;
-}
-
-[tooltip]:before,
-[tooltip]:after {
-	visibility: hidden;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-	opacity: 0;
-    bottom: calc(100% - 5px);
-	pointer-events: none;
-	white-space: pre-wrap;
-}
-
-[tooltip]:before {
-	position: absolute;
-	bottom: calc(100% - 5px);
-	left: 50%;
-	margin-bottom: 5px;
-	padding: 7px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	background-color: #000;
-	background-color: hsla(0, 0%, 5%, 0.9);
-	color: #fff;
-	content: attr(tooltip);
-	text-align: center;
-	font-size: 14px;
-	line-height: 1.2;
-	transition-duration: 0.5s;
-	white-space: pre-wrap;
-}
-
-[tooltip]:not([t-size]):before {
-	margin-left: -160px;
-    width: 320px;
-}
-
-[tooltip][t-size^='small']:before {
-	margin-left: -60px;
-    width: 120px;
-}
-
-[tooltip][t-size^='medium']:before {
-	margin-left: -120px;
-    width: 240px;
-}
-
-[tooltip]:after {
-	position: absolute;
-	bottom: calc(100% - 5px);
-	left: 50%;
-	margin-left: -5px;
-	width: 0;
-	text-align: center;
-	border-top: 5px solid #000;
-	border-top: 5px solid hsla(0, 0%, 5%, 0.9);
-	border-right: 5px solid transparent;
-	border-left: 5px solid transparent;
-	content: " ";
-	font-size: 0;
-	line-height: 0;
-	transition-duration: 0.5s;
-	white-space: pre-wrap;
-}
-
-[tooltip]:hover:before,
-[tooltip]:hover:after {
-	visibility: visible;
-    bottom: calc(100% + 1px);
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-	opacity: 1;
-	white-space: pre-wrap;
-}
-
-#tooltip-div {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-
-    background-color: #000e;
-    min-width: 20px;
-    max-width: 300px;
-    min-height: 10px;
-	font-size: 13px;
-	padding: 5px 10px;
-
-	border: solid 3px #444;
-	border-radius: 10px;
-
-    color: white;
-    text-align: center;
-
+.tooltip { 
     pointer-events: none;
+    text-align: center;
+    width: 150px;
+    font-size: 12px;
+    line-height: 1.2;
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: 5px;
+    transform: translateX(-50%);
+    padding: 7px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.5s;
+  
+    position: absolute;
+    z-index: 20000;
+  
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white
+    content: attr(tooltip);
+    font-size:14px;
+
+}
+
+.tooltip:after {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+.achi {
+    border: solid 3px black;
+	  background-size: contain;
+    width: 75px;
+    height: 75px;
+    background-color: gray;
+    border-radius: 10%;
+    padding: 5px;
+    color: white;
+    text-shadow: 0px 0px 12px black;
+    font-size: 12px;
+}
+.tooltipBox { 
+	position: relative;
+  }
+  
+  .tooltipBox:hover .tooltip{
+	opacity: 1;
+  }
+.unlocked {
+    background-color: darkgreen;
 }

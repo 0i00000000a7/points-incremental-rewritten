@@ -128,4 +128,16 @@ function formatGain(a,e,res="") {
 Array.prototype.toBitmask = function() {
   return this.reduce((prev, val) => prev | (1 << val), 0);
 };
-
+Array.fromBitmask = function(mask) {
+  const bitIndices = [];
+  let currentIndex = 0;
+  while (mask !== 0) {
+    if (mask & 1) bitIndices.push(currentIndex);
+    mask >>= 1;
+    ++currentIndex;
+  }
+  return bitIndices;
+};
+function excludeElements(arr, excludeList) {
+  return arr.filter(element => !excludeList.includes(element));
+}
