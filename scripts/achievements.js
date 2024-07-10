@@ -22,7 +22,7 @@ function getAch(id) {
 const achievements = [
   [
     {title: "双倍给下一个人", goal: "通过购买最大一次性购买2次第一维度", reward: "第一维度生产+2%" },
-    {title: "暴涨期?", goal: "让点数生产超过你的点数生产12秒" },
+    {title: "暴涨期?", goal: "让点数生产超过你的点数12秒" },
     {title: "暴跌期......", get goal() { return (player.sqrt.galaxies.gte(1))? "让某个维度至少13秒购买维度后所获得的数量<10" : "让某个维度至少13秒买不起" } },
     {title: "8项维度测试总评：A+", goal: "所有维度的倍率>100", reward: "所有维度获得一个<u><i><b>超高</b></i></u>的加成" },
     {title: "半条命：维度破坏", goal: "得到100√点数" },
