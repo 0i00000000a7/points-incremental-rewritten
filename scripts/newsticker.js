@@ -166,7 +166,7 @@ var texts = [
     text: `| '0'''''1'''''2'''''3'''''4'''''4'''''4'''''4'''''4'''''4'''''4 | 是的，这也是一把尺子，但<span class="soft">(受硬上限限制)</soft>`
   },
   {
-    text: '史上平衡最差的游戏是什么? <del>IMR</del><a target="_blank">IDR(Incremental Data Rewritten) ————seanxlx</a>',
+    text: '史上平衡最差的游戏是什么? <del>IMR</del><a target="_blank" href="https://seanxlx2011.github.io/">IDR(Incremental Data Rewritten) </a>————seanxlx',
   },
   {
     text: '反物质是一个谎言',
@@ -194,7 +194,7 @@ updatenews = () => {
   do {
     rand = Math.floor(Math.random() * textslength)
   } while(checkRand(rand))
-  //rand = 28
+  rand = 50
   let msg = texts[rand].text;
   e.innerHTML = msg
   let textWidth = e.clientWidth;
