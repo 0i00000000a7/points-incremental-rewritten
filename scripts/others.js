@@ -144,8 +144,6 @@ Array.fromBitmask = function(mask) {
   }
   return bitIndices;
 };
-function excludeElements(arr, excludeList) {
-  return arr.filter(element => !excludeList.includes(element));
+Array.prototype.exclude = function (...excludeList) {
+  return this.filter(el => !excludeList.includes(el))
 }
-
-

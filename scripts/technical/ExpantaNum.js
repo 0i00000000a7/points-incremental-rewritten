@@ -753,8 +753,9 @@ function numberToStringWithoutSeparators(t) {
     var negln;
     if(t.isNaN() || other.isNaN() || payload.isNaN()) return ExpantaNum.NaN.clone();
     if(other.isInfinite() && other.sign > 0) {
-      if(t.gte(Math.exp(1 / Math.E))) return ExpantaNum.POSITIVE_INFINITY.clone();
+      if(t.gte(1.4446678610091994)) return ExpantaNum.POSITIVE_INFINITY.clone();
       //Formula for infinite height power tower.
+      if (t.eq(1.444667861009196)) return ExpantaNum(2.718277846521643)
       negln = t.ln().neg();
       return negln.lambertw().div(negln);
     }

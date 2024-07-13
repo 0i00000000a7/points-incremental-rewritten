@@ -194,7 +194,7 @@ updatenews = () => {
   do {
     rand = Math.floor(Math.random() * textslength)
   } while(checkRand(rand))
-  rand = 50
+  //rand = 50
   let msg = texts[rand].text;
   e.innerHTML = msg
   let textWidth = e.clientWidth;
