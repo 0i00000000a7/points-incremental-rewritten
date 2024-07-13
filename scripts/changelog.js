@@ -1,8 +1,14 @@
 const changelog = [
   {
+    version: "0.2.7.1",
+    changes: [
+      "削弱<spoiler>√星系</spoiler>阶段的时间墙",
+    ]
+  },
+  {
     version: "0.2.7",
     changes: [
-      "添加16个成就",
+      "添加16个<spoiler>成就</spoiler>",
     ]
   },
   {

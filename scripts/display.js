@@ -105,7 +105,7 @@ function getHotkeyText() {
 function get_pts_volume(x) {
   const meter_cubed = 2.3687253991903575e104
   if(x.gte("ee9")) return "大神啊！你的点数已经可以制造1个多元宇宙了！"
-  if(x.gte("1e785")) return `如果你每秒写3个数字，那么把你的点数写下来需要${formatTime.fromSeconds(x.log10().floor().add(1).div(3))}`
+  if(x.gte("1e785")) return `如果你每秒擦掉3个数字，那么把你的点数写下来需要${formatTime.fromSeconds(x.log10().floor().add(1).div(3).neg())}`
   if(x.gte(Number.MAX_VALUE)) return `如果你的每个点数占据一个普朗克单位，你的点数足以制造${x.div(Number.MAX_VALUE).format()}个无限`
   const prefixes = [
     { value: 1e113, name: "维度", verb: "制造" },
@@ -351,4 +351,7 @@ function getAchClass(ach) {
   ach = parseInt(ach)
   if (hasAch(ach)) name += " unlocked"
   return name
+}
+function getGalButtonText() {
+  return `获得一个星系<br>但重置之前的一切<br>${getGalRewardText()}<br>要求：${format(tmp.sqrt.galCost) }√点数`
 }

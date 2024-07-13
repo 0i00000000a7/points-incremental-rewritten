@@ -93,7 +93,7 @@
       <div v-if="player.currentPage == 3">
         <span v-html="formatEndgame()"></span><br>
         <span style="color: red">{{ getHotkeyText() }}</span><br>
-        当前版本：v0.2.7<br>
+        当前版本：v{{ changelog[0].version }}<br>
         游戏作者：<sup>0100000a7</sup> & EdenGameMaster<br>
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
@@ -106,14 +106,14 @@
         <div class="sqrt_text" v-if="!player.sqrt.unl">达到1.000e80点数后，你的√点数将开始自我复制!</div><br>
         <button class="btn" @click="toggleAutoGal()" v-if="hasSqUpg(7)">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
-        <button class="galaxyReset" @click="galaxy()">获得一个星系<br>但重置之前的一切<br><span v-html="getGalRewardText()"></span><br>要求：{{ format(tmp.sqrt.galCost) }} √点数</button>
+        <button class="galaxyReset" @click="galaxy()" v-html="getGalButtonText()"></button>
         <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
         <div style="color: red" v-if="tmp.sqrt.isSofted">在1.000e100√点数后，√点数复制速度将受到{{ tmp.sqrt.isCapped ? '硬' : '软' }}上限限制!</div>
         <div style="color: rgb(214, 0, 0)" v-if="tmp.sqrt.isSofted2">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>
       <div v-if="player.currentPage == 5">
-        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}</span>点数<sup>2</sup><br>要求：1.000e785点数</button>
-        <button class="cube" @click="" v-if="hasSqUpg(15)">重置之前的所有内容，但获取Coming S∞n!</span>点数<sup>3</sup><br>要求：1.00e1,729点数<sup>2</sup></button>
+        <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}点数<sup>2</sup><br>要求：1.000e785点数</button>
+        <button class="cube" @click="" v-if="hasSqUpg(15)">重置之前的所有内容，但获取{{ /*tmp.cube.gainNorm.format(0)*/ }}???点数<sup>3</sup><br>要求：1.00e1,729点数<sup>2</sup></button>
       </div>
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>

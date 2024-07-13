@@ -42,21 +42,27 @@ class formatTime {
     return this._ms;
   }
   get years() {
+    if (this._ms.isneg()) return ExpantaNum.ceil(this.totalYears);
     return ExpantaNum.floor(this.totalYears);
   }
   get days() {
+    if (this._ms.isneg()) return new formatTime(this._ms.neg()).days.neg()
     return ExpantaNum.floor(this.totalDays.sub(this.totalDays.div(365).floor().times(365)));
   }
   get hours() {
+    if (this._ms.isneg()) return new formatTime(this._ms.neg()).hours.neg()
     return ExpantaNum.floor(this.totalHours.sub(this.totalHours.div(24).floor().times(24)));
   }
   get minutes() {
+    if (this._ms.isneg()) return new formatTime(this._ms.neg()).minutes.neg()
     return ExpantaNum.floor(this.totalMinutes.sub(this.totalMinutes.div(60).floor().times(60)));
   }
   get seconds() {
+    if (this._ms.isneg()) return new formatTime(this._ms.neg()).seconds.neg()
     return ExpantaNum.floor(this.totalSeconds.sub(this.totalSeconds.div(60).floor().times(60)));
   }
   get milliseconds() {
+    if (this._ms.isneg()) return new formatTime(this._ms.neg()).milliseconds.neg()
     return ExpantaNum.floor(this.totalMilliseconds.sub(this.totalMilliseconds.div(1e3).floor().times(1e3)));
   }
   toString() {
@@ -141,3 +147,5 @@ Array.fromBitmask = function(mask) {
 function excludeElements(arr, excludeList) {
   return arr.filter(element => !excludeList.includes(element));
 }
+
+

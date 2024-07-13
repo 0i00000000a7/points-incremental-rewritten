@@ -165,7 +165,7 @@ function load() {
     deepCopyProps(loadplayer, player)
     fixOldSave()
   }
-  saveVal = setInterval(save, 10)
+  saveVal = setInterval(save, 1000 / 30)
   //removed: setInterval(uncheat,30)
   console.error(new cheatError('Cheater\'s mother is not defined'))
   loadVue()
@@ -327,4 +327,14 @@ function copyToClipboard(textToCopy) {
     return navigator.clipboard.writeText(textToCopy);
   }
   addNotify("复制失败")
+}
+function copyToFile(str,name) {
+  let file = new Blob([str], {
+    type: "text/plain"
+  })
+  window.URL = window.URL || window.webkitURL;
+  let a = document.createElement("a")
+  a.href = window.URL.createObjectURL(file)
+  a.download = name + ".txt"
+  a.click()
 }

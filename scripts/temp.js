@@ -30,7 +30,7 @@ const tmp = {
     },
     get replicatePerTick() {
       let mult = E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1 / 30)
-      let debuff = player.sqrt.points.div(1e100).log10().mul(0.01).add(1).max(1)
+      let debuff = player.sqrt.points.div(1e100).log10().mul(0.05).add(1).max(1)
       if (hasSqUpg(9)) debuff = E(1)
       debuff = debuff.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(0.0075).max(0).root(tmp.sqrt.SoftRoot)))
       let buff = E(1)
@@ -158,6 +158,7 @@ const tmp = {
     get tPgain() {
       let gain = E(3).add(tmp.pmp.Bab1eff).pow(tmp.pmp.totalpts).sub(1)
       if (hasSqUpg(10)) gain = gain.mul(sq_upgs[9].effect)
+      gain = gain.overflow(1e250,0.75)
       return gain
     },
     get tPeff() {
@@ -184,7 +185,10 @@ const tmp = {
   },
   cube: {
     get gainNorm() {
-      return player.square.points
+      return player.square.points.add(1).log10().root(3).div(3).sub(3).floor()
+    },
+    get gainDis() {
+      return player.sqrt.points.slog(10)
     }
   },
   get achievementsEffDim() {

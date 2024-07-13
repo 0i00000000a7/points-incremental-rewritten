@@ -212,6 +212,7 @@ button {
   color: white;
   display: inline-block;
 }
+
 .cube:hover {
   cursor: pointer;
   font-size: 12px;
@@ -328,8 +329,6 @@ h3 {
   align-items: center;
   z-index: 9999;
 }
-
-
 
 #galaxy-text {
   color: black;
@@ -572,6 +571,7 @@ spoiler {
   align-items: center;
   text-align: center;
 }
+
 .sq_upg_disabled {
   width: 40px;
   height: 40px;
@@ -586,7 +586,6 @@ spoiler {
 .sq_upg_bought {
   background: #550;
 }
-
 
 .sq_upg_buyable {
   background: #333;
@@ -747,64 +746,63 @@ spoiler {
   height: 5px;
   margin-bottom: 13px;
 }
-.tooltip { 
-    pointer-events: none;
-    text-align: center;
-    width: 150px;
-    font-size: 12px;
-    line-height: 1.2;
-    bottom: 100%;
-    left: 50%;
-    margin-bottom: 5px;
-    transform: translateX(-50%);
-    padding: 7px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    opacity: 0;
-    transition: opacity 0.5s;
-  
-    position: absolute;
-    z-index: 20000;
-  
-    background-color: rgba(0, 0, 0, 0.75);
-    color: white
-    content: attr(tooltip);
-    font-size:14px;
 
+.tooltip {
+  pointer-events: none;
+  text-align: center;
+  width: 150px;
+  font-size: 12px;
+  line-height: 1.2;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 5px;
+  transform: translateX(-50%);
+  padding: 7px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.5s;
+  position: absolute;
+  z-index: 20000;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white content: attr(tooltip);
+  font-size: 14px;
 }
 
 .tooltip:after {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
 
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: white transparent transparent transparent;
-}
 .achi {
-    border: solid 3px black;
-	  background-size: contain;
-    width: 75px;
-    height: 75px;
-    background-color: gray;
-    border-radius: 10%;
-    padding: 5px;
-    color: white;
-    text-shadow: 0px 0px 12px black;
-    font-size: 12px;
+  border: solid 3px black;
+  background-size: contain;
+  width: 75px;
+  height: 75px;
+  background-color: gray;
+  border-radius: 10%;
+  padding: 5px;
+  color: white;
+  text-shadow: 0px 0px 12px black;
+  font-size: 12px;
 }
-.tooltipBox { 
-	position: relative;
-  }
-  
-  .tooltipBox:hover .tooltip{
-	opacity: 1;
-  }
+
+.tooltipBox {
+  position: relative;
+}
+
+.tooltipBox:hover .tooltip {
+  opacity: 1;
+}
+
 .unlocked {
-    background-color: darkgreen;
+  background-color: darkgreen;
 }

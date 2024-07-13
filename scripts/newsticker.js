@@ -196,7 +196,7 @@ updatenews = () => {
   } while(checkRand(rand))
   //rand = 28
   let msg = texts[rand].text;
-  e.innerHTML = msg;
+  e.innerHTML = msg
   let textWidth = e.clientWidth;
   let parentWidth = e.parentElement.clientWidth;
   e.style.transition = '';
@@ -215,7 +215,7 @@ var onNewsEnd = () => {
 }
 Vue.component("newsticker",{
   get template() {
-    return `<div id="news"><p id="newsText">{{ msg }}</p></div>`
+    return `<div id="news"><p id="newsText"></p></div>`
   },
   mounted() {
     updatenews()
