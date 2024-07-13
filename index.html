@@ -98,6 +98,7 @@
         本游戏使用了<a href="https://github.com/Naruyoko/ExpantaNum.js" target="_blank">ExpantaNum.js</a>
         <a href="https://github.com/cloudytheconqueror/letter-notation-format" target="_blank">format-expantanum.js</a>来处理大数字<br>
         使用了<a href="https://github.com/nodeca/pako" target="_blank">pako.js</a>来处理存档<br>
+        <rainbow><i>点击可查看被遮挡的剧透内容</i></rainbow>
         <h1>更新日志</h1>
         <changelog></changelog>
       </div>
@@ -107,7 +108,7 @@
         <button class="btn" @click="toggleAutoGal()" v-if="hasSqUpg(7)">自动：{{ getAutoGalStatus() }}</button>
         <div class="sqrt_text">√星系({{ formatWhole(player.sqrt.galaxies) }})</div>
         <button class="galaxyReset" @click="galaxy()" v-html="getGalButtonText()"></button>
-        <div>同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
+        <div v-if="player.sqrt.unl">同时，你的√点数和星系还使购买10个的倍率+{{ tmp.sqrt.galaxyEffect.format(3) }}</div>
         <div style="color: red" v-if="tmp.sqrt.isSofted">在1.000e100√点数后，√点数复制速度将受到{{ tmp.sqrt.isCapped ? '硬' : '软' }}上限限制!</div>
         <div style="color: rgb(214, 0, 0)" v-if="tmp.sqrt.isSofted2">在1.000e400√点数后，√点数复制速度将受到二重软上限限制!</div>
       </div>

@@ -166,7 +166,7 @@ var texts = [
     text: `| '0'''''1'''''2'''''3'''''4'''''4'''''4'''''4'''''4'''''4'''''4 | 是的，这也是一把尺子，但<span class="soft">(受硬上限限制)</soft>`
   },
   {
-    text: '史上平衡最差的游戏是什么? <del>IMR</del>IDR ————seanxlx',
+    text: '史上平衡最差的游戏是什么? <del>IMR</del><a target="_blank">IDR(Incremental Data Rewritten) ————seanxlx</a>',
   },
   {
     text: '反物质是一个谎言',

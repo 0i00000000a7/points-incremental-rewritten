@@ -1,5 +1,14 @@
 const changelog = [
   {
+    version: "0.2.7.2",
+    changes: [
+      "修复了新闻中的Incremental Data Rewritten缩写可能引发歧义的bug",
+      "修复了<spoiler>√星系</spoiler>奖励未正确隐藏的bug",
+      "修复了<spoiler>√星系</spoiler>提示显示不正常的bug",
+      "添加了点击查看剧透内容的提示",
+    ]
+  },
+  {
     version: "0.2.7.1",
     changes: [
       "削弱<spoiler>√星系</spoiler>阶段的时间墙",
