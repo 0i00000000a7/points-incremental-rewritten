@@ -66,7 +66,7 @@ class formatTime {
     return ExpantaNum.floor(this.totalMilliseconds.sub(this.totalMilliseconds.div(1e3).floor().times(1e3)));
   }
   toString() {
-    if (this.totalMilliseconds.eq(0)) return '0毫秒'
+    if (this.totalMilliseconds.lt(1)) return '0毫秒'
     let string = ''
     if (this.years.neq(0)) string = string + (formatWhole(this.years) + '年')
     if (this.days.neq(0) && this.years.lt(4e14)) string = string + (formatWhole(this.days) + '天')

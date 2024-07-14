@@ -1,5 +1,11 @@
 const changelog = [
   {
+    version: "0.2.8",
+    changes: [
+      "添加离线进度"
+    ]
+  },
+  {
     version: "0.2.7.2",
     changes: [
       "修复了新闻中的Incremental Data Rewritten缩写可能引发歧义的bug",

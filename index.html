@@ -20,6 +20,7 @@
   <script src="scripts/square.js" defer></script>
   <script src="scripts/pmp.js" defer></script>
   <script src="scripts/others.js" defer></script>
+  <script src="scripts/offline.js" defer></script>
   <script src="scripts/newsticker.js" defer></script>
   <script src="scripts/challenges.js" defer></script>
   <script src="scripts/hotkey.js" defer></script>
@@ -44,6 +45,7 @@
       <div v-html="getPointDisplay()"></div>
       <div v-if="isEndgame()" :style="{color: getUndulatingColor()}">已到达当前版本终点！</div>
       <div>{{ getPointGain() }}</div>
+      <div v-if="player.timeSpeed != 1">当前游戏速度：×{{ format(player.timeSpeed) }}</div>
       <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
       <main-line></main-line>
       <div>
@@ -57,6 +59,7 @@
       <div>
         <button @click="switchpage(1)" class="btn" v-if="tabshow.main.dimensions.unlocked" :disabled="tabshow.main.dimensions.inTab">维度</button>
         <button @click="switchpage(4)" class="btn" v-if="tabshow.main.sqrt.unlocked" :disabled="tabshow.main.sqrt.inTab">√点数</button>
+        <button @click="switchpage(11)" class="btn" v-if="tabshow.main.offline.unlocked" :disabled="tabshow.main.offline.inTab">离线</button>
         <button @click="switchpage(2)" class="btn" v-if="tabshow.others.options.unlocked" :disabled="tabshow.others.options.inTab">选项</button>
         <button @click="switchpage(3)" class="btn" v-if="tabshow.others.about.unlocked" :disabled="tabshow.others.about.inTab">关于</button>
         <button @click="switchpage(7)" class="square" v-if="tabshow.square.upgrades.unlocked" :disabled="tabshow.square.upgrades.inTab">升级</button>
@@ -175,6 +178,18 @@
       <div v-if="player.currentPage == 10">
         你完成了{{ player.achievements.length }}/{{ totalachievements }}个成就，这使你的维度乘数×{{ tmp.achievementsEffDim.format() }}
         <achievements></achievements>
+      </div>
+      <div v-if="player.currentPage == 11">
+        <span style="color: #aaa">你离线了{{ formatTime.fromSeconds(player.offlinedTime) }}<br>
+        游戏{{ player.isOffline? "已" : "未" }}暂停</span><br>
+        <span style="font-size: 14px;color: #aaa">当游戏处于暂停状态时，你将获取离线时间</span><br>
+        <i style="font-size: 12px; animation: warn 10s linear infinite">警告⚠️：如果您从未来“穿越”了回来，将强行暂停此游戏</i><br>
+        <button class="btn" @click="switchGameState">切换游戏运行状态</button>
+        <main-line></main-line>
+        <h3>时间超频</h3><br>
+        <input type="range" min="0" max="6" step="0.001" style="width: 300px" v-model.number="player.offlinePower"><br>
+        当时间超频激活时，游戏速度将被加快至原来的{{ format(2**player.offlinePower) }}倍，但代价是离线时间每秒减少{{ format(2**player.offlinePower-1) }}秒<br>
+        <button class="btn" @click="switchTimeOverpower">{{ player.timeOverpower? "关闭" : "激活" }}时间超频</button>
       </div>
     </div>
   </div>

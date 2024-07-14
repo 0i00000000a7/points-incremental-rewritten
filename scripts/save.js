@@ -118,6 +118,11 @@ function hard_reset() {
       },
       achievements: [],
       ach12time: 0,
+      timeSpeed: 1,
+      offlinedTime: 0,
+      isOffline: false,
+      offlinePower: 0,
+      timeOverpower: false
     }
 }
 

@@ -169,7 +169,7 @@ tabshow = {
         return player.currentPage == 1
       },
       get unlocked() {
-        return [1,4].includes(player.currentPage)
+        return [1,4,11].includes(player.currentPage)
       },
     },
     sqrt: {
@@ -177,7 +177,15 @@ tabshow = {
         return player.currentPage == 4
       },
       get unlocked() {
-        return [1,4].includes(player.currentPage)
+        return [1,4,11].includes(player.currentPage)
+      },
+    },
+    offline: {
+      get inTab() {
+        return player.currentPage == 11
+      },
+      get unlocked() {
+        return [1,4,11].includes(player.currentPage)
       },
     },
   },
@@ -288,7 +296,7 @@ tabshow = {
     },
   },
   get showTheSecondLine() {
-    return [1,2,3,4,6,7,8,9,10].includes(player.currentPage)
+    return [1,2,3,4,6,7,8,9,10,11].includes(player.currentPage)
   }
 }
 

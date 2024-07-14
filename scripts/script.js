@@ -1,8 +1,10 @@
 (function() {  
   isHoldMax = false
   function loop() {  
-    updatePoints();  
+    updateOffline()
     updateLastUpdateTime();  
+    if (player.isOffline) return
+    updatePoints();  
     updateRealDim();  
     updateDimDatas();  
     checkUnlocks();  
@@ -31,10 +33,10 @@ function updateRealDim() {
 
 function updateDimDatas() {
   for(let i = 1; i <= 7; i++) {
-    if ((player.chal != 2 || player.chal != 5)) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30))
+    if ((player.chal != 2 || player.chal != 5)) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 1][2]).div(30/player.timeSpeed))
     else {
-      if (i<7) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 2][2]).div(30))
-      else player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].div(30))
+      if (i<7) player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].mul(player.dims[i + 2][2]).div(30/player.timeSpeed))
+      else player.dims[i][3] = player.dims[i][3].add(player.dims[i + 1][5].div(30/player.timeSpeed))
     }
   }
   for(let i = 1; i <= 8; i++) {
@@ -84,9 +86,9 @@ function buyMaxDimAfterGal1(dim) {
 }
 
 function updatePoints() {
-  player.points = player.points.add(tmp.ptgain.div(30))
+  player.points = player.points.add(tmp.ptgain.div(30/player.timeSpeed))
   if ((player.chal == 1 || player.chal == 5)) player.points = player.points.min(player.sqrt.points.pow(2))
-  player.total = player.total.add(tmp.ptgain.div(30))
+  player.total = player.total.add(tmp.ptgain.div(30/player.timeSpeed))
   if (player.best.lt(player.points)) player.best = player.points
 }
 
@@ -136,7 +138,7 @@ function changeHotkey() {
   else player.options.hotkey = true
 }
 function updateResetTime() {
-  player.square.resetTime = player.square.resetTime.add(1/30)
+  player.square.resetTime = player.square.resetTime.add(1/30*player.timeSpeed)
 }
 const Endgame = E("e156000")
 function isEndgame() {

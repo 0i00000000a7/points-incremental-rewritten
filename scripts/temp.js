@@ -29,7 +29,7 @@ const tmp = {
       else return false
     },
     get replicatePerTick() {
-      let mult = E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1 / 30)
+      let mult = E(1).add(E(0.25).mul(player.points.add(1).log10().div(80).max(1))).pow(1 / 30).pow(player.timeSpeed)
       let debuff = player.sqrt.points.div(1e100).log10().mul(0.05).add(1).max(1)
       if (hasSqUpg(9)) debuff = E(1)
       debuff = debuff.add(E(10).pow(player.sqrt.points.div("1e400").log10().mul(0.0075).max(0).root(tmp.sqrt.SoftRoot)))

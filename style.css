@@ -652,6 +652,14 @@ spoiler {
     color: #2196f3;
   }
 }
+@keyframes warn {
+  0%,100% {
+    color: #2196f3;
+  }
+  50% {
+    color: #f32121;
+  }
+}
 
 @keyframes a-replicanti--happy {
   0% {
@@ -806,3 +814,4 @@ spoiler {
 .unlocked {
   background-color: darkgreen;
 }
+

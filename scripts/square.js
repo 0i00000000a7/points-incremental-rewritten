@@ -15,8 +15,8 @@ function square() {
 function updateSquare() {
   if(player.square.best.lt(player.points)) player.square.best = player.square.points
   if (hasSqChal(5)) {
-    player.square.points = player.square.points.add(tmp.square.gain.mul(0.1/30))
-    player.square.total = player.square.total.add(tmp.square.gain.mul(0.1/30))
+    player.square.points = player.square.points.add(tmp.square.gain.mul(0.1/30).mul(player.timeSpeed))
+    player.square.total = player.square.total.add(tmp.square.gain.mul(0.1/30).mul(player.timeSpeed))
   }
 }
 const sq_upgs = [{

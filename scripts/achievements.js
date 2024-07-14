@@ -59,14 +59,14 @@ let achData = {
   ach13timer: Array(8).fill(0)
 }
 function updateAch() {
-  if (tmp.ptgain.gt(player.points)) player.ach12time += 1/30
+  if (tmp.ptgain.gt(player.points)) player.ach12time += (1/30 * player.timeSpeed)
   else player.ach12time = 0
   if (player.ach12time >= 12) getAch(12)
   let ach14cancomplete = true
   let ach17cancomplete = true
   for (let i = 1;i <= 8;i++) {
     if (tmp.pointsToDims(i).sub(player.dims[i][4]).lt(1)) {
-      achData.ach13timer[i-1] += 1/30
+      achData.ach13timer[i-1] += (1/30 * player.timeSpeed)
       if (achData.ach13timer[i-1] > 13) getAch(13)
     } else {
       achData.ach13timer[i-1] = 0

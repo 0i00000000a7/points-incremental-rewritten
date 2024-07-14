@@ -183,18 +183,25 @@ var texts = [
   {
     text: "论点数×点数的效果到底有多大"
   },
+  {
+    text: "通知：受不可抗力因素影响，滚动新闻发生了故障，可能会导致一条新闻被连续播放3~5次"
+  },
 ]
 textslength = texts.length
 console.log(textslength)
 msg = ""
 let rand
+let repeatN56times = 0
 updatenews = () => {
   let e = document.getElementById("newsText")
   if (!player.options.showNewsTicker) return
   do {
     rand = Math.floor(Math.random() * textslength)
   } while(checkRand(rand))
-  //rand = 50
+  //if (Math.random() < 0.3) rand = 56
+  if (rand == 56 && repeatN56times == 0) repeatN56times = Math.round(3+Math.random()*(5-2))
+  if (repeatN56times > 0) repeatN56times--
+  if (repeatN56times > 0) rand = 56
   let msg = texts[rand].text;
   e.innerHTML = msg
   let textWidth = e.clientWidth;
