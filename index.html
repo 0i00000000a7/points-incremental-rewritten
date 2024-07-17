@@ -45,7 +45,7 @@
       <div v-html="getPointDisplay()"></div>
       <div v-if="isEndgame()" :style="{color: getUndulatingColor()}">已到达当前版本终点！</div>
       <div>{{ getPointGain() }}</div>
-      <div v-if="player.timeSpeed != 1">当前游戏速度：×{{ format(player.timeSpeed) }}</div>
+      <div v-if="player.timeSpeed != 1">当前全局游戏速度：×{{ format(player.timeSpeed) }}</div>
       <div style="color: yellow" v-if="player.square.unl">你有{{ player.square.points.format(0) }}点数<sup>2</sup>，因此√点数复制速度×{{ tmp.square.effect.format() }}</div>
       <main-line></main-line>
       <div>
@@ -117,7 +117,7 @@
       </div>
       <div v-if="player.currentPage == 5">
         <button class="square" @click="square()">重置之前的所有内容，但获取{{ tmp.square.gain.format(0) }}点数<sup>2</sup><br>要求：1.000e785点数</button>
-        <button class="cube" @click="" v-if="hasSqUpg(15)">重置之前的所有内容，但获取{{ /*tmp.cube.gainNorm.format(0)*/ }}???点数<sup>3</sup><br>要求：1.00e1,729点数<sup>2</sup></button>
+        <button class="cube" @click="" v-if="hasSqUpg(15)">重置之前的所有内容，但获取{{ tmp.cube.gainNorm.format(0) }}点数<sup>3</sup>, <br>要求：1.00e1,729点数<sup>2</sup></button>
       </div>
       <div v-if="player.currentPage == 6">
         你总共制造了{{ formatWhole(player.total) }}点数<br>
@@ -183,11 +183,12 @@
         <span style="color: #aaa">你离线了{{ formatTime.fromSeconds(player.offlinedTime) }}<br>
         游戏{{ player.isOffline? "已" : "未" }}暂停</span><br>
         <span style="font-size: 14px;color: #aaa">当游戏处于暂停状态时，你将获取离线时间</span><br>
+        <span style="font-size: 14px;color: #aaa">基于当前时间超频的速度，离线时间的消耗将在{{ formatTime.fromSeconds((2**player.offlinePower-1) / 30) }}以下停止</span><br>
         <i style="font-size: 12px; animation: warn 10s linear infinite">警告⚠️：如果您从未来“穿越”了回来，将强行暂停此游戏</i><br>
         <button class="btn" @click="switchGameState">切换游戏运行状态</button>
         <main-line></main-line>
         <h3>时间超频</h3><br>
-        <input type="range" min="0" max="6" step="0.001" style="width: 300px" v-model.number="player.offlinePower"><br>
+        <input type="range" min="0" max="7" step="0.001" style="width: 300px" v-model.number="player.offlinePower"><br>
         当时间超频激活时，游戏速度将被加快至原来的{{ format(2**player.offlinePower) }}倍，但代价是离线时间每秒减少{{ format(2**player.offlinePower-1) }}秒<br>
         <button class="btn" @click="switchTimeOverpower">{{ player.timeOverpower? "关闭" : "激活" }}时间超频</button>
       </div>

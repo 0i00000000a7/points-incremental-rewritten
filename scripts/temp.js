@@ -165,7 +165,9 @@ const tmp = {
       return player.pmp.transPoint.add(10).log10().pow(0.2)
     },
     get tCrysNextGoal() {
-      return E(1e6).pow(player.pmp.transCrystal.add(1))
+      let goal = E(1e6).pow(player.pmp.transCrystal.add(1))
+      if (player.pmp.transCrystal.gte(50)) goal = E(2).pow(E(1.024).pow(player.pmp.transCrystal.add(1).mul(6)))
+      return goal
     },
     get spentCrystal() {
       return player.pmp.buyables[1].mul(hasSqUpg(11)?0 : 1).add(player.pmp.buyables[2].mul(hasSqUpg(12)?0 : 1)).add(player.pmp.buyables[3].mul(hasSqUpg(12)?0 : 1))

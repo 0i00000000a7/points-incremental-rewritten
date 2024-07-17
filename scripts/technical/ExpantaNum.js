@@ -1,12 +1,4 @@
-function numberToStringWithoutSeparators(t) {
-  if("number" != typeof t) throw new Error("Invalid input. Must be a number.");
-  let e = t.toLocaleString();
-  return e = e.replace(/,/g, "")
-}
-  
-
-
-;(function(globalScope) {
+(function(globalScope) {
   "use strict";
   // --  EDITABLE DEFAULTS  -- //
   var ExpantaNum = {
@@ -30,84 +22,22 @@ function numberToStringWithoutSeparators(t) {
       // ALL    2 Show everything.
       debug: 0
     },
-    // -- END OF EDITABLE DEFAULTS -- //
-    external = true,
-    expantaNumError = "[ExpantaNumError] ",
-    invalidArgument = expantaNumError + "Invalid argument: ",
-    isExpantaNum = /^[-\+]*(Infinity|NaN|(J+|J\^\d+(((\.\d*)?([Ee][-\+]*))\d*)? )?(10(\^+|\{[1-9]\d*\})|\(10(\^+|\{[1-9]\d*\})\)\^[1-9]\d* )*((\d+(\.\d*)?|\d*\.\d+)?([Ee][-\+]*))*(0|\d+(\.\d*)?|\d*\.\d+))$/,
-    MAX_SAFE_INTEGER = 1e20,
-    MAX_LAYER = 1e50,
-    MAX_E = Math.log10(MAX_SAFE_INTEGER), //15.954589770191003
-    // ExpantaNum.prototype object
-    P = {},
-    // ExpantaNum static object
-    Q = {},
-    // ExpantaNum constants
-    R = {};
+  // -- END OF EDITABLE DEFAULTS -- //
+  external = true,
+  expantaNumError = "[ExpantaNumError] ",
+  invalidArgument = expantaNumError + "Invalid argument: ",
+  isExpantaNum = /^[-\+]*(Infinity|NaN|(J+|J\^\d+(((\.\d*)?([Ee][-\+]*))\d*)? )?(10(\^+|\{[1-9]\d*\})|\(10(\^+|\{[1-9]\d*\})\)\^[1-9]\d* )*((\d+(\.\d*)?|\d*\.\d+)?([Ee][-\+]*))*(0|\d+(\.\d*)?|\d*\.\d+))$/,
+  MAX_SAFE_INTEGER = 9007199254740991,
+  MAX_LAYER = 1e50,
+  MAX_E = Math.log10(MAX_SAFE_INTEGER), //15.954589770191003
+  critical_10_tetr = [1, 1.0084569386362108, 1.0169855374710048, 1.0255868191168949, 1.0342618235415293, 1.0430116084287384, 1.051837249548183, 1.0607398411338453, 1.0697204962715994, 1.0787803472961104, 1.0879205461973205, 1.0971422650367824, 1.1064466963741175, 1.1158350537038733, 1.1253085719030735, 1.1348685076897578, 1.144516140092818, 1.1542527709334487, 1.1640797253185362, 1.1739983521463295, 1.1840100246247336, 1.1941161408025878, 1.2043181241142988, 1.2146174239382106, 1.2250155161691028, 1.2355139038052285, 1.246114117550306, 1.2568177164309018, 1.2676262884296503, 1.2785414511347712, 1.289564852406363, 1.3006981710599637, 1.311943117567885, 1.3233014347788512, 1.3347748986564762, 1.3463653190371463, 1.358074540407884, 1.3699044427047908, 1.381856942132688, 1.393933992006594, 1.4061375836156955, 1.4184697471105, 1.4309325524138699, 1.4435281101566713, 1.4562585726387873, 1.4691261348162812, 1.4821330353155109, 1.4952815574750327, 1.5085740304161543, 1.5220128301430342, 1.5356003806732461, 1.5493391551997695, 1.5632316772853934, 1.5772805220905577, 1.591488317635694, 1.6058577460991628, 1.620391545151923, 1.6350925093301152, 1.6499634914467711, 1.6650074040439202, 1.6802272208863964, 1.6956259784987022, 1.7112067777463371, 1.7269727854630423, 1.742927236125475, 1.7590734335768747, 1.7754147528013413, 1.7919546417504109, 1.8086966232236699, 1.8256442968052167, 1.8428013408578485, 1.860171514576917, 1.8777586601058744, 1.895566704715604, 1.9135996630497105, 1.9318616394380272, 1.9503568302806829, 1.9690895265051622, 1.9880641160988854, 2.0072850867199294, 2.026757028388619, 2.0464846362628144, 2.066472713499842, 2.086726174208116, 2.1072500464916386, 2.1280494755906703, 2.1491297271220056, 2.170496190422425, 2.1921543819990292, 2.2141099490903198, 2.2363686733420343, 2.2589364746019185, 2.281819414837774, 2.305023702183309, 2.3285556951164943, 2.352421906775323, 2.3766290094160785, 2.4011838390194202, 2.4260934000498104, 2.451364870374057, 2.4770056063449646, 2.503023148056348, 2.5294252247759283, 2.556219760562907, 2.583414880077287, 2.6110189145883393, 2.639040408189903, 2.6674881242305495, 2.6963710519669957, 2.725698413449491, 2.7554796706483113, 2.785724532830869, 2.8164429641993762, 2.84764519179944, 2.8793417137104043, 2.911543307528779, 2.944261039156543, 2.9775062719066945, 3.011290675938929, 3.0456262380389476, 3.080525271755482, 3.1160004279097775, 3.152064705492951, 3.1887314629673416, 3.2260144299887217, 3.2639277195670156, 3.302485840683998, 3.3417037113872996, 3.381596672380968, 3.42218050113377, 3.4634714265274473, 3.5054861440681715, 3.5482418316855706, 3.5917561661448665, 3.6360473400988904, 3.681134079808043, 3.7270356635576354, 3.7737719408034742, 3.82136335207809, 3.8698309496915764, 3.9191964192627293, 3.9694821021179147, 4.020711018596992, 4.072906892307574, 4.126094175371021, 4.180298074705726, 4.235544579395597, 4.291860489194101, 4.349273444216785, 4.407811955877973, 4.467505439130197, 4.528384246067991, 4.590479700960888, 4.653824136783907, 4.718450933317406, 4.784394556891993, 4.851690601858269, 4.920375833865422, 4.990488235037242, 5.062067051138936, 5.135152840833187, 5.209787527129339, 5.286014451135245, 5.363878428227427, 5.4434258067616, 5.524704529452448, 5.607764197558746, 5.6926561380176555, 5.779433473680126, 5.868151196808028, 5.958866246002853, 6.0516375867455885, 6.146526295737767, 6.243595649244776, 6.342911215654253, 6.444540952474931, 6.548555308014616, 6.6550273279901555, 6.764032767337394, 6.875650207505187, 6.989961179534715, 7.107050293243637, 7.227005372854116, 7.3499175994245745, 7.47588166046725, 7.60499590715731, 7.737362519564638, 7.873087680366413, 8.012281757527557, 8.15505949646695, 8.301540222260469, 8.451848052467126, 8.606112121202498, 8.764466815124152, 8.927052022037014, 9.094013392873281, 9.265502617851125, 9.441677717669888, 9.622703350656748, 9.808751136841234, 10],
+  // ExpantaNum.prototype object
+  P = {},
+  // ExpantaNum static object
+  Q = {},
+  // ExpantaNum constants
+  R = {};
   // ExpantaNum prototype methods
-  /*
-   *  absoluteValue             abs
-   *  affordArithmeticSeries
-   *  affordGeometricSeries
-   *  arrow
-   *  ceiling                   ceil
-   *  chain
-   *  choose
-   *  comparedTo                cmp
-   *  cubeRoot                  cbrt
-   *  divide                    div
-   *  equals                    eq
-   *  expansion
-   *  exponential               exp
-   *  factorial                 fact
-   *  floor
-   *  gamma
-   *  generalLogarithm          log10
-   *  greaterThan               gt
-   *  greaterThanOrEqualTo      gte
-   *  hyper
-   *  isFinite
-   *  isInfinite
-   *  isInteger                 isint
-   *  isNaN
-   *  isNegative                isneg
-   *  isPositive                ispos
-   *  iteratedexp
-   *  iteratedlog
-   *  lambertw
-   *  layeradd
-   *  layeradd10
-   *  lessThan                  lt
-   *  lessThanOrEqualTo         lte
-   *  logarithm                 logBase
-   *  minus                     sub
-   *  modulo                    mod
-   *  naturalLogarithm          ln        log
-   *  negated                   neg
-   *  notequals                 neq
-   *  pentate                   pent
-   *  plus                      add
-   *  reciprocate               rec
-   *  root
-   *  round
-   *  slog
-   *  squareRoot                sqrt
-   *  ssqrt                     ssrt
-   *  sumArithmeticSeries
-   *  sumGeometricSeries
-   *  times                     mul
-   *  tetrate                   tetr
-   *  toExponential
-   *  toFixed
-   *  toHyperE
-   *  toJSON
-   *  toNumber
-   *  toPower                   pow
-   *  toPrecision
-   *  toString
-   *  toStringWithDecimalPlaces
-   *  valueOf
-   */
   R.ZERO = 0;
   R.ONE = 1;
   R.E = Math.E;
@@ -128,6 +58,9 @@ function numberToStringWithoutSeparators(t) {
   R.TETRATED_MAX_SAFE_INTEGER = "10^^" + MAX_SAFE_INTEGER;
   R.PENTATED_MAX_SAFE_INTEGER = "10^^^" + MAX_SAFE_INTEGER;
   R.GRAHAMS_NUMBER = "J^63 10^^^(10^)^7625597484984 3638334640023.7783";
+  
+  //ExpantaNum Prototype Methods
+  
   P.absoluteValue = P.abs = function() {
     var x = this.clone();
     x.sign = 1;
@@ -229,7 +162,7 @@ function numberToStringWithoutSeparators(t) {
     var x = this.clone()
     let three_sub_x_div_2_ceil = ExpantaNum(3).sub(x).div(2).ceil()
     let half_x_floor = x.div(2).floor()
-    let a = three_sub_x_div_2_ceil.pow(3).mul(-2/3)
+    let a = three_sub_x_div_2_ceil.pow(3).mul(-2 / 3)
     let b = three_sub_x_div_2_ceil.pow(2).mul(5)
     let c = three_sub_x_div_2_ceil.mul(31).div(3)
     let d = half_x_floor.pow(3).mul(2).div(3)
@@ -241,7 +174,7 @@ function numberToStringWithoutSeparators(t) {
   }
   P.format = function(precision) {
     var x = this.clone()
-    return format(x,precision)
+    return format(x, precision)
   }
   Q.compare = Q.cmp = function(x, y) {
     return new ExpantaNum(x).cmp(y);
@@ -293,6 +226,103 @@ function numberToStringWithoutSeparators(t) {
   };
   Q.maximum = Q.max = function(x, y) {
     return new ExpantaNum(x).max(y);
+  };
+  P.compareTo_tolerance = P.cmp_tolerance = function(other, tolerance) {
+    if(!(other instanceof ExpantaNum)) other = new ExpantaNum(other);
+    return this.eq_tolerance(other, tolerance) ? 0 : this.cmp(other);
+  };
+  Q.compare_tolerance = Q.cmp_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).cmp_tolerance(y, tolerance);
+  };
+  P.greaterThan_tolerance = P.gt_tolerance = function(other, tolerance) {
+    if(!(other instanceof ExpantaNum)) other = new ExpantaNum(other);
+    return !this.eq_tolerance(other, tolerance) && this.gt(other);
+  };
+  Q.greaterThan_tolerance = Q.gt_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).gt_tolerance(y, tolerance);
+  };
+  P.greaterThanOrEqualTo_tolerance = P.gte_tolerance = function(other, tolerance) {
+    if(!(other instanceof ExpantaNum)) other = new ExpantaNum(other);
+    return this.eq_tolerance(other, tolerance) || this.gt(other);
+  };
+  Q.greaterThanOrEqualTo_tolerance = Q.gte_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).gte_tolerance(y, tolerance);
+  };
+  P.lessThan_tolerance = P.lt_tolerance = function(other, tolerance) {
+    if(!(other instanceof ExpantaNum)) other = new ExpantaNum(other);
+    return !this.eq_tolerance(other, tolerance) && this.lt(other);
+  };
+  Q.lessThan_tolerance = Q.lt_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).lt_tolerance(y, tolerance);
+  };
+  P.lessThanOrEqualTo_tolerance = P.lte_tolerance = function(other, tolerance) {
+    if(!(other instanceof ExpantaNum)) other = new ExpantaNum(other);
+    return this.eq_tolerance(other, tolerance) || this.lt(other);
+  };
+  Q.lessThanOrEqualTo_tolerance = Q.lte_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).lte_tolerance(y, tolerance);
+  };
+  //From break_eternity.js
+  //https://github.com/Patashu/break_eternity.js/blob/96901974c175cb28f66c7164a5a205cdda783872/src/index.ts#L2802
+  P.equalsTo_tolerance = P.equal_tolerance = P.eq_tolerance = function(other, tolerance) {
+    if(!(other instanceof ExpantaNum)) other = new ExpantaNum(other);
+    if(tolerance == null) tolerance = 1e-7;
+    if(this.isNaN() || other.isNaN() || this.isFinite() != other.isFinite()) return false;
+    if(this.sign != other.sign) return false;
+    if(Math.abs(this.layer - other.layer) > 1) return false;
+    var a, b;
+    if(this.layer != other.layer) {
+      var x, y;
+      if(this.layer > other.layer) x = this, y = other;
+      else x = other, y = this;
+      if(!(x.array.length == 2 && x.array[0][0] === 0 && x.array[1][0] == 1 && x.array[1][1] == 1)) return false;
+      a = x.array[0][1];
+      if(y.array[y.array.length - 1][1] >= 10) b = Math.log10(y.array[y.array.length - 1][0] + 1);
+      else b = Math.log10(y.array[y.array.length - 1][0]);
+    } else {
+      if(Math.abs(this.array[this.array.length - 1][0] - other.array[other.array.length - 1][0]) > 1) return false;
+      for(var i = 1; Math.max(this.array.length, other.array.length) - i >= 0; ++i) {
+        var c = this.array[this.array.length - i][0];
+        var d = other.array[other.array.length - i][0];
+        var x, y, e, f;
+        if(c != d) {
+          if(c > d) x = this, y = other;
+          else x = other, y = this, c = d;
+          e = x.array[x.array.length - i][1];
+          f = 0;
+        } else {
+          x = this;
+          y = other;
+          e = x.array[x.array.length - i][1];
+          f = y.array[y.array.length - i][1];
+          if(x.array.length - i == 0) {
+            a = e;
+            b = f;
+            break;
+          }
+        }
+        if(Math.abs(e - f) > 1) return false;
+        else if(e != f) {
+          if(!(x.array.length - i < 2 || x.array.length - i == 2 && x.array[0][0] === 0 && x.array[1][0] == 1 && x.array[1][1] == 1)) return false;
+          a = x.array[0][1];
+          if(c == 1) b = Math.log10(y.operator(0));
+          else if(c == 2 && y.operator(0) >= 1e10) b = Math.log10(y.operator(1) + 2);
+          else if(y.operator(c - 2) >= 10) b = Math.log10(y.operator(c - 1) + 1);
+          else b = Math.log10(y.operator(c - 1));
+          break;
+        }
+      }
+    }
+    return Math.abs(a - b) <= tolerance * Math.max(Math.abs(a), Math.abs(b));
+  };
+  Q.equalsTo_tolerance = Q.equal_tolerance = Q.eq_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).eq_tolerance(y, tolerance);
+  };
+  P.notEqualsTo_tolerance = P.notEqual_tolerance = P.neq_tolerance = function(other, tolerance) {
+    return !this.eq_tolerance(other, tolerance);
+  };
+  Q.notEqualsTo_tolerance = Q.notEqual_tolerance = Q.neq_tolerance = function(x, y, tolerance) {
+    return new ExpantaNum(x).neq_tolerance(y, tolerance);
   };
   P.isPositive = P.ispos = function() {
     return this.gt(ExpantaNum.ZERO);
@@ -502,19 +532,19 @@ function numberToStringWithoutSeparators(t) {
     var np = n;
     l += 1 / (12 * np);
     np *= n2;
-    l += 1 / (360 * np);
+    l -= 1 / (360 * np);
     np *= np * n2;
-    l += 1 / (1260 * np);
+    l -= 1 / (1260 * np);
     np *= n2;
-    l += 1 / (1680 * np);
+    l -= 1 / (1680 * np);
     np *= n2;
-    l += 1 / (1188 * np);
+    l -= 1 / (1188 * np);
     np *= n2;
-    l += 691 / (360360 * np);
+    l -= 691 / (360360 * np);
     np *= n2;
-    l += 7 / (1092 * np);
+    l -= 7 / (1092 * np);
     np *= n2;
-    l += 3617 / (122400 * np);
+    l -= 3617 / (122400 * np);
     return Math.exp(l) / scal1;
   };
   //from HyperCalc source code
@@ -610,12 +640,6 @@ function numberToStringWithoutSeparators(t) {
   P.exponential = P.exp = function() {
     return ExpantaNum.pow(Math.E, this);
   };
-  P.cos = function() {
-    let x = this.clone()
-    if (x.isInfinite() || x.isNaN()) return E.NaN
-    if (x.eq(0)) return ExpantaNum.ONE
-    
-  }
   Q.exponential = Q.exp = function(x) {
     return ExpantaNum.pow(Math.E, x);
   };
@@ -678,68 +702,82 @@ function numberToStringWithoutSeparators(t) {
   var OMEGA = 0.56714329040978387299997; //W(1,0)
   //from https://math.stackexchange.com/a/465183
   //The evaluation can become inaccurate very close to the branch point
-  var f_lambertw = function(z, tol) {
-    if(tol === undefined) tol = 1e-10;
+  var f_lambertw=function (z,tol,principal){
+    if (tol===undefined) tol=1e-10;
+    if (principal===undefined) principal=true;
     var w;
-    var wn;
-    if(!Number.isFinite(z)) return z;
-    if(z === 0) return z;
-    if(z === 1) return OMEGA;
-    if(z < 10) w = 0;
-    else w = Math.log(z) - Math.log(Math.log(z));
-    for(var i = 0; i < 100; ++i) {
-      wn = (z * Math.exp(-w) + w * w) / (w + 1);
-      if(Math.abs(wn - w) < tol * Math.abs(wn)) return wn;
-      w = wn;
+    if (!Number.isFinite(z)) return z;
+    if (principal){
+      if (z===0) return z;
+      if (z===1) return OMEGA;
+      if (z<10) w=0;
+      else w=Math.log(z)-Math.log(Math.log(z));
+    }else{
+      if (z===0) return -Infinity;
+      if (z<=-0.1) w=-2;
+      else w=Math.log(-z)-Math.log(-Math.log(-z));
     }
-    throw Error("Iteration failed to converge: " + z);
-    //return Number.NaN;
+    for (var i=0;i<100;++i){
+      var wn=(z*Math.exp(-w)+w*w)/(w+1);
+      if (Math.abs(wn-w)<tol*Math.abs(wn)) return wn;
+      w=wn;
+    }
+    throw Error("Iteration failed to converge: "+z);
   };
   //from https://github.com/scipy/scipy/blob/8dba340293fe20e62e173bdf2c10ae208286692f/scipy/special/lambertw.pxd
   //The evaluation can become inaccurate very close to the branch point
   //at ``-1/e``. In some corner cases, `lambertw` might currently
   //fail to converge, or can end up on the wrong branch.
-  var d_lambertw = function(z, tol) {
-    if(tol === undefined) tol = 1e-10;
-    z = new ExpantaNum(z);
+  var d_lambertw=function (z,tol,principal){
+    if (tol===undefined) tol=1e-10;
+    if (principal===undefined) principal=true;
+    z=new ExpantaNum(z);
     var w;
-    var ew, wewz, wn;
-    if(!z.isFinite()) return z;
-    if(z === 0) return z;
-    if(z === 1) {
-      //Split out this case because the asymptotic series blows up
-      return OMEGA;
+    if (!z.isFinite()) return z;
+    if (principal){
+      if (z.eq(ExpantaNum.ZERO)) return z;
+      if (z.eq(ExpantaNum.ONE)) return new ExpantaNum(OMEGA);
+      w=ExpantaNum.ln(z);
+    }else{
+      if (z.eq(ExpantaNum.ZERO)) return ExpantaNum.NEGATIVE_INFINITY.clone();
+      w=ExpantaNum.ln(z.neg());
     }
-    //Get an initial guess for Halley's method
-    w = ExpantaNum.ln(z);
-    //Halley's method; see 5.9 in [1]
-    for(var i = 0; i < 100; ++i) {
-      ew = ExpantaNum.exp(-w);
-      wewz = w.sub(z.mul(ew));
-      wn = w.sub(wewz.div(w.add(ExpantaNum.ONE).sub((w.add(2)).mul(wewz).div((ExpantaNum.mul(2, w).add(2))))));
-      if(ExpantaNum.abs(wn.sub(w)).lt(ExpantaNum.abs(wn).mul(tol))) return wn;
+    for (var i=0;i<100;++i){
+      var ew=w.neg().exp();
+      var wewz=w.sub(z.mul(ew));
+      var dd=w.add(ExpantaNum.ONE).sub(w.add(2).mul(wewz).div(ExpantaNum.mul(2,w).add(2)));
+      if (dd.eq(ExpantaNum.ZERO)) return w; //Escape to fix https://github.com/Naruyoko/ExpantaNum.js/issues/25
+      var wn=w.sub(wewz.div(dd));
+      if (ExpantaNum.abs(wn.sub(w)).lt(ExpantaNum.abs(wn).mul(tol))) return wn;
       w = wn;
     }
-    throw Error("Iteration failed to converge: " + z);
-    //return Decimal.dNaN;
+    throw Error("Iteration failed to converge: "+z);
   };
   //The Lambert W function, also called the omega function or product logarithm, is the solution W(x) === x*e^x.
   //https://en.wikipedia.org/wiki/Lambert_W_function
   //Some special values, for testing: https://en.wikipedia.org/wiki/Lambert_W_function#Special_values
-  P.lambertw = function() {
-    var x = this.clone();
-    if(x.isNaN()) return x;
-    if(x.lt(-0.3678794411710499)) throw Error("lambertw is unimplemented for results less than -1, sorry!");
-    if(x.gt(ExpantaNum.TETRATED_MAX_SAFE_INTEGER)) return x;
-    if(x.gt(ExpantaNum.EE_MAX_SAFE_INTEGER)) {
-      x.operator(1, x.operator(1) - 1);
-      return x;
+  P.lambertw=function (principal){
+    if (principal===undefined) principal=true;
+    var x=this.clone();
+    if (x.isNaN()) return x;
+    if (x.lt(-0.3678794411710499)) return ExpantaNum.NaN.clone();
+    if (principal){
+      if (x.gt(ExpantaNum.TETRATED_MAX_SAFE_INTEGER)) return x;
+      if (x.gt(ExpantaNum.EE_MAX_SAFE_INTEGER)){
+        x.operator(1,x.operator(1)-1);
+        return x;
+      }
+      if (x.gt(ExpantaNum.MAX_SAFE_INTEGER)) return d_lambertw(x);
+      else return new ExpantaNum(f_lambertw(x.sign*x.operator(0)));
+    }else{
+      if (x.ispos()) return ExpantaNum.NaN.clone();
+      if (x.abs().gt(ExpantaNum.EE_MAX_SAFE_INTEGER)) return x.neg().recip().lambertw().neg();
+      if (x.abs().gt(ExpantaNum.MAX_SAFE_INTEGER)) return d_lambertw(x,1e-10,false);
+      else return new ExpantaNum(f_lambertw(x.sign*x.operator(0),1e-10,false));
     }
-    if(x.gt(ExpantaNum.MAX_SAFE_INTEGER)) return d_lambertw(x);
-    else return new ExpantaNum(f_lambertw(x.sign * x.operator(0)));
   };
-  Q.lambertw = function(x) {
-    return new ExpantaNum(x).lambertw();
+  Q.lambertw=function (x,principal){
+    return new ExpantaNum(x).lambertw(principal);
   };
   //end break_eternity.js excerpt
   //Uses linear approximations for real height
@@ -755,11 +793,11 @@ function numberToStringWithoutSeparators(t) {
     if(other.isInfinite() && other.sign > 0) {
       if(t.gte(1.4446678610091994)) return ExpantaNum.POSITIVE_INFINITY.clone();
       //Formula for infinite height power tower.
-      if (t.eq(1.444667861009196)) return ExpantaNum(2.718277846521643)
+      if(t.eq(1.444667861009196)) return ExpantaNum(2.718277846521643)
       negln = t.ln().neg();
       return negln.lambertw().div(negln);
     }
-    if(other.lte(-2)) return ExpantaNum.NaN.clone();
+    if(other.lt(-2)) return ExpantaNum.NaN.clone();
     if(t.eq(ExpantaNum.ZERO)) {
       if(other.eq(ExpantaNum.ZERO)) return ExpantaNum.NaN.clone();
       if(other.mod(2).eq(ExpantaNum.ZERO)) return ExpantaNum.ZERO.clone();
@@ -820,6 +858,37 @@ function numberToStringWithoutSeparators(t) {
   Q.tetrate = Q.tetr = function(x, y, payload) {
     return new ExpantaNum(x).tetr(y, payload);
   };
+  Q.non_linear_10tetr = function(x) {
+    x = ExpantaNum(x)
+    if(x.isNaN() || !x.isFinite()) return x
+    let intheight = x.floor()
+    let fracheight = x.sub(intheight)
+    if(fracheight.eq(0)) return E(10).tetr(x)
+    let fracheight_mul_200 = fracheight.toNumber() * 200
+    if(Number.isInteger(fracheight_mul_200)) return E(10).tetr(intheight, critical_10_tetr[fracheight_mul_200])
+    var lower = critical_10_tetr[Math.floor(fracheight_mul_200)],
+      upper = critical_10_tetr[Math.ceil(fracheight_mul_200)]
+    let frac = fracheight_mul_200 - Math.floor(fracheight_mul_200);
+    let payload = Math.pow(10, Math.log(lower) / Math.log(10) * (1 - frac) + Math.log(upper) / Math.log(10) * frac)
+    return E(10).tetr(intheight, payload)
+  }
+  P.non_linear_slog10 = function() {
+    let x = this.clone()
+    if(x.isNaN() || !x.isFinite()) return x
+    if(x.gte(E.TETRATED_MAX_SAFE_INTEGER)) return this.slog(10)
+    if(x.eq(0)) return E.ONE.neg()
+    let current = this.slog().floor().toNumber()
+    let step = 1
+    while(step >= Number.EPSILON) {
+      if(E.non_linear_10tetr(current).lt(x)) {
+        current += step
+      } else {
+        current -= step
+        step /= 2
+      }
+    }
+    return E(current)
+  }
   //Implementation of functions from break_eternity.js
   P.iteratedexp = function(other, payload) {
     return this.tetr(other, payload);
@@ -942,7 +1011,6 @@ function numberToStringWithoutSeparators(t) {
   };
   P.mlog = function() {
     var number = ExpantaNum(this);
-
     number = E(number)
     if(number.gte('10^^^^10^10')) {
       number = number
@@ -952,46 +1020,46 @@ function numberToStringWithoutSeparators(t) {
       number.array[2][1] -= 1
     } else {
       number = (function(number) {
-      number = ExpantaNum(number);
-      let a;
-      if(number.array[2] && number.array[2][1] !== undefined) {
-        a = ExpantaNum(number.array[2][1] + 2);
-      } else {
-        a = ExpantaNum(0);
-      }
-      let b = ExpantaNum(1);
-      while(true) {
-        if(number.gt(ExpantaNum(10).pent(a))) {
-          a = a.add(b);
+        number = ExpantaNum(number);
+        let a;
+        if(number.array[2] && number.array[2][1] !== undefined) {
+          a = ExpantaNum(number.array[2][1] + 2);
         } else {
-          a = a.sub(b)
-          b = b.div(10);
+          a = ExpantaNum(0);
         }
-        if(b.lt(1e-10)) {
-          break;
+        let b = ExpantaNum(1);
+        while(true) {
+          if(number.gt(ExpantaNum(10).pent(a))) {
+            a = a.add(b);
+          } else {
+            a = a.sub(b)
+            b = b.div(10);
+          }
+          if(b.lt(1e-10)) {
+            break;
+          }
         }
-      }
-      return a;
-    })(number)
+        return a;
+      })(number)
     }
     return number
   };
-  P.omegalog=function(bbase = 10) {
+  P.omegalog = function(bbase = 10) {
     let dis = this.clone()
     let base = ExpantaNum(bbase).clone()
-    if (dis.layer >= 1) {
+    if(dis.layer >= 1) {
       dis.layer -= 1
       return dis
-    } else if (dis.array[dis.array.length-1][0] >= 98) {
-      let zero=ExpantaNum(dis.array[dis.array.length-1][0])
+    } else if(dis.array[dis.array.length - 1][0] >= 98) {
+      let zero = ExpantaNum(dis.array[dis.array.length - 1][0])
       return zero
-    } else if (base.pow(2).gte(dis)) {
+    } else if(base.pow(2).gte(dis)) {
       return ExpantaNum(0)
     } else {
       let addTest = 8
       let target = 0
-      while (addTest >= 10**-10) {
-        if (ExpantaNum.arrFrac(base,target+addTest).lte(dis)) {
+      while(addTest >= 10 ** -10) {
+        if(ExpantaNum.arrFrac(base, target + addTest).lte(dis)) {
           target += addTest
         }
         addTest /= 2
@@ -999,10 +1067,10 @@ function numberToStringWithoutSeparators(t) {
       return ExpantaNum(target)
     }
   }
-  Q.arrFrac=function (bb,hh) {
+  Q.arrFrac = function(bb, hh) {
     let b = ExpantaNum(bb).clone()
     let h = ExpantaNum(hh).clone()
-    return ExpantaNum.arrow(b,h.floor().add(1),b.divide(2).pow(h.minus(h.floor())).times(2))
+    return ExpantaNum.arrow(b, h.floor().add(1), b.divide(2).pow(h.minus(h.floor())).times(2))
   }
   //end break_eternity.js excerpt
   P.pentate = P.pent = function(other) {
@@ -1222,10 +1290,9 @@ function numberToStringWithoutSeparators(t) {
     return ExpantaNum.choose(this, other);
   };
   //end break_eternity.js excerpt
-  P.sinh = function () {
-      return this.exp().sub(this.negate().exp()).div(2);
-    };
-
+  P.sinh = function() {
+    return this.exp().sub(this.negate().exp()).div(2);
+  };
   P.normalize = function() {
     var b;
     var x = this;
@@ -1375,6 +1442,11 @@ function numberToStringWithoutSeparators(t) {
     if(this.array.length >= 2 && (this.array[1][0] >= 2 || this.array[1][1] >= 2 || this.array[1][1] == 1 && this.array[0][1] > Math.log10(Number.MAX_VALUE))) return Infinity;
     if(this.array.length >= 2 && this.array[1][1] == 1) return Math.pow(10, this.array[0][1]);
     return this.array[0][1];
+  };
+  var numberToStringWithoutSeparators = function (t) {
+    if("number" != typeof t) throw new Error("Invalid input. Must be a number.");
+    let e = t.toLocaleString();
+    return e = e.replace(/,/g, "")
   };
   P.toString = function() {
     if(this.sign == -1) return "-" + this.abs();
@@ -2019,5 +2091,4 @@ function numberToStringWithoutSeparators(t) {
     globalScope.ExpantaNum = ExpantaNum;
   }
 })(this);
-
 const E = ExpantaNum
