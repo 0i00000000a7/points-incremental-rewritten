@@ -49,7 +49,7 @@ function updateDimDatas() {
     if (player.square.chals.includes(1) && i<8 && player.dims[i+1][2].gte(1024)) player.dims[i][2] = player.dims[i][2].mul(player.dims[i+1][2].logBase(2))
     if (hasAch(11) && i == 1) player.dims[i][2] = player.dims[i][2].mul(1.02)
     if (hasAch(21) && i == 1) player.dims[i][2] = player.dims[i][2].mul(1.4)
-    if (hasAch(12)) player.dims[i][2] = player.dims[i][2].mul(E(1).add(player.dims[i][2].add(1).log10().div(100)))
+    if (hasAch(14)) player.dims[i][2] = player.dims[i][2].mul(E(1).add(player.dims[i][2].add(1).log10().div(100)))
     if (hasAch(17)) player.dims[i][2] = player.dims[i][2].mul(E(1.17).pow(player.sqrt.galaxies))
   }
   player.singleDMult = E(2).add(tmp.sqrt.galaxyEffect)

@@ -190,7 +190,7 @@ const tmp = {
       return player.square.points.add(1).log10().root(3).div(3).sub(3).floor()
     },
     get gainDis() {
-      return player.sqrt.points.slog(10)
+      let sqrtgain = player.sqrt.points.slog(10)
     }
   },
   get achievementsEffDim() {

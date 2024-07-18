@@ -33,7 +33,7 @@ const achievements = [
   [
     {title: "2<sup>2</sup>点数<sup>2</sup>", goal: "达到4点数<sup>2</sup>", reward: "第一维度生产+40%" },
     {title: "悖论202：点数<sup>2</sup><点数<sup>2</sup>", goal: "让你的点数数量的平方小于点数<sup>2</sup>" },
-    {title: "模拟真实", goal: "在10秒内通关SC1"},
+    {title: "模拟真实", goal: "在10秒内通过SC1"},
     {title: "See you again", goal: "获得824个第八维度"},
     {title: "停滞不前", goal: "在SC5中获得3个√星系"},
     {title: "组成方式多样", goal: "分别进行一次因式分解、同底相乘、四次乘方"},
